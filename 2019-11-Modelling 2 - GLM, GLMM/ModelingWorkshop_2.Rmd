@@ -1,0 +1,215 @@
+---
+title: "R-Ladies Workshop - Modeling"
+author: "Divya and Elisa"
+date: "2nd October 2019"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## The Happiness Data 2016
+
+Today we look at the Happiness Data from the WHO.
+
+```{r}
+Happiness_2016 <- read.csv("Happiness_2016.csv")
+```
+
+# 1. Look at the data
+What parameters do you see? What questions can we address using these factors.
+
+Let's look at Trust in government in a bit more detail.
+
+Q - What kind of variable is this?
+Q - Can you plot to see its relation to Happiness?
+
+```{r pressure, echo=TRUE}
+plot(Happiness_2016$Happiness.Score, Happiness_2016$Trust..Government.Corruption.)
+```
+
+# 2. Let's try some models
+
+Q - Does Corruption within the government predict happiness of its citizens?
+
+Q - How can we add Freedom as a preictor to the model?
+
+Q - What is the difference between adding factors and looking at their interactions?
+
+```{r}
+## ANSWERS
+
+
+#fit our regression model
+RegressionModel <- lm(Happiness.Score ~ Trust..Government.Corruption., # regression formula
+              data=Happiness_2016) # data set
+# Summarize and print the results
+summary(RegressionModel) # show regression coefficients table
+
+
+RegressionModel2 <- lm(Happiness.Score ~ Trust..Government.Corruption. + Freedom,
+                      data=Happiness_2016) 
+summary(RegressionModel2) 
+
+
+RegressionModel3 <- lm(Happiness.Score ~ Trust..Government.Corruption. * Freedom, 
+                       data=Happiness_2016) 
+summary(RegressionModel3)
+
+```
+
+
+There are a number of different Parametric and non-parametric tests we can try in the same format. Instead of lm, we could use t.test(), aov(), wilcox.test(), kruskal.test().
+
+Is there a categorical variable we can use to run an ANOVA on?
+
+Q - How does the happiness quoatient differ based on regions?
+
+```{r}
+
+ANOVA <- aov(Happiness.Score ~ Region, 
+             data=Happiness_2016) 
+summary(ANOVA) 
+TukeyHSD(ANOVA)
+
+```
+
+# 3. Let's think about the independence of the data
+
+Q - 
+
+A) Do you think that countries in the same region tend to be more simmilar to each other? 
+If your anser is yes, then the countries are not relly independent and identically distributed data. This could be a problem with statistical models. 
+So you have three options:
+1. Ignore the prblem, or argue why you think yout data IS independent (you will no be the only one)
+2. Do not ignore it, take the average of each region and then make a model using this average. Yes, what you think is correct, you loose a lot of data!
+3. Do one linear model for each region...data costly (e.g. Australia and North America have only two data points)
+4. Try a linear mixed model
+
+B) How variable is the happiness between regions?
+
+C) How does happiness depend on other predictors such as health, economy and generosity?
+
+### Some more visualization of the data
+
+We can do some plots to see how data look like.
+In this plot we visualize how economy affects happiness in every region. We could do one plot per predictor. 
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+Happiness_2016 <- Happiness_2016 %>% group_by(Region) %>% mutate(mean.reg = mean(Happiness.Score)) %>%  ungroup()
+
+library(ggplot2)
+
+ggplot(Happiness_2016) + 
+  aes(x = Economy..GDP.per.Capita., y = Happiness.Score) + 
+  stat_smooth(method = "lm", se = FALSE) +
+  # Put the points on top of lines
+  geom_point() +
+  facet_wrap("Region") +
+  labs(x = "Economy", y = "Happyness") +
+  geom_hline(aes(yintercept = mean.reg), colour='red', lty="dotted")
+
+```
+
+ Given what we see in the data, we can try two different models: 
+ 
+```{r}
+library(lme4)
+
+happy.mixed.model <-  lmer(Happiness.Score ~ Economy..GDP.per.Capita. + Health..Life.Expectancy.+ Generosity + (1|Region), data = Happiness_2016)
+
+summary(happy.mixed.model)
+
+happy.mixed.model.2 <-  lmer(Happiness.Score ~ Economy..GDP.per.Capita. + Health..Life.Expectancy.+ Generosity + (Economy..GDP.per.Capita.|Region), data = Happiness_2016)
+
+summary(happy.mixed.model)
+
+summary(happy.mixed.model.2)
+```
+We do not have p-values here hummm!
+
+```{r}
+library(lmerTest)
+
+# Test significance of random effects
+ranova(happy.mixed.model.2)
+
+#Test significance of fixed effects
+ml.happy.mixed.model <- update(happy.mixed.model, REML = FALSE) # this changes the algorith used to fit the model
+#Finally we can test significance
+anova(as_lmerModLmerTest(ml.happy.mixed.model))
+
+
+```
+
+
+
+
+
+# 4. Recap - Ploting the data in a map
+
+```{r}
+require(rnaturalearth)
+require(rnaturalearthdata)
+
+world <- ne_countries(scale = "medium", returnclass = "sf") # this is another function to get polygons of countries. 
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data = world) +
+    theme_bw()+ 
+    geom_sf() + 
+    xlab("Longitude") + ylab("Latitude") + 
+    ggtitle("World map", subtitle = paste0("(", dim(world)[1], " countries)"))
+
+```
+
+```{r}
+
+#both df woth the same name of the varaible we will use to join
+colnames(Happiness_2016)[1] <- "name"
+
+Happiness_GEO <- left_join(world, Happiness_2016, by="name")
+
+```
+```{r}
+ggplot(data = Happiness_GEO) +
+    geom_sf(aes(fill = Happiness.Score )) +
+    scale_fill_viridis_c(option = "plasma") +  # this allows you to choose different colour scale
+    ggtitle("World Happiness Studies")
+
+```
+
+#### Where is the model working better?
+
+```{r}
+happy.predictions <- predict(happy.mixed.model)
+
+#Expected - Observed
+happy.residuasl <-  (Happiness_2016$Happiness.Score - happy.predictions) # Obaserved - predicted
+
+Happiness_2016$Model.Residuals <- happy.residuasl
+
+Happiness_GEO <- left_join(world, Happiness_2016, by="name")
+
+```
+
+```{r}
+ggplot(data = Happiness_GEO) +
+    geom_sf(aes(fill = Model.Residuals )) +
+    scale_fill_viridis_c(option = "plasma") +  # this allows you to choose different colour scale
+    ggtitle("World Happiness Studies")
+
+```
+
