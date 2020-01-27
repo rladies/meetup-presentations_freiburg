@@ -1,0 +1,49 @@
+GRID_CODE;CLC_CODE;LABEL1;LABEL2;LABEL3;RGB
+1;111;Artificial surfaces;Urban fabric;Continuous urban fabric;230-000-077
+2;112;Artificial surfaces;Urban fabric;Discontinuous urban fabric;255-000-000
+3;121;Artificial surfaces;Industrial, commercial and transport units;Industrial or commercial units;204-077-242
+4;122;Artificial surfaces;Industrial, commercial and transport units;Road and rail networks and associated land;204-000-000
+5;123;Artificial surfaces;Industrial, commercial and transport units;Port areas;230-204-204
+6;124;Artificial surfaces;Industrial, commercial and transport units;Airports;230-204-230
+7;131;Artificial surfaces;Mine, dump and construction sites;Mineral extraction sites;166-000-204
+8;132;Artificial surfaces;Mine, dump and construction sites;Dump sites;166-077-000
+9;133;Artificial surfaces;Mine, dump and construction sites;Construction sites;255-077-255
+10;141;Artificial surfaces;Artificial, non-agricultural vegetated areas;Green urban areas;255-166-255
+11;142;Artificial surfaces;Artificial, non-agricultural vegetated areas;Sport and leisure facilities;255-230-255
+12;211;Agricultural areas;Arable land;Non-irrigated arable land;255-255-168
+13;212;Agricultural areas;Arable land;Permanently irrigated land;255-255-000
+14;213;Agricultural areas;Arable land;Rice fields;230-230-000
+15;221;Agricultural areas;Permanent crops;Vineyards;230-128-000
+16;222;Agricultural areas;Permanent crops;Fruit trees and berry plantations;242-166-077
+17;223;Agricultural areas;Permanent crops;Olive groves;230-166-000
+18;231;Agricultural areas;Pastures;Pastures;230-230-077
+19;241;Agricultural areas;Heterogeneous agricultural areas;Annual crops associated with permanent crops;255-230-166
+20;242;Agricultural areas;Heterogeneous agricultural areas;Complex cultivation patterns;255-230-077
+21;243;Agricultural areas;Heterogeneous agricultural areas;Land principally occupied by agriculture, with significant areas of natural vegetation;230-204-077
+22;244;Agricultural areas;Heterogeneous agricultural areas;Agro-forestry areas;242-204-166
+23;311;Forest and semi natural areas;Forests;Broad-leaved forest;128-255-000
+24;312;Forest and semi natural areas;Forests;Coniferous forest;000-166-000
+25;313;Forest and semi natural areas;Forests;Mixed forest;077-255-000
+26;321;Forest and semi natural areas;Scrub and/or herbaceous vegetation associations;Natural grasslands;204-242-077
+27;322;Forest and semi natural areas;Scrub and/or herbaceous vegetation associations;Moors and heathland;166-255-128
+28;323;Forest and semi natural areas;Scrub and/or herbaceous vegetation associations;Sclerophyllous vegetation;166-230-077
+29;324;Forest and semi natural areas;Scrub and/or herbaceous vegetation associations;Transitional woodland-shrub;166-242-000
+30;331;Forest and semi natural areas;Open spaces with little or no vegetation;Beaches, dunes, sands;230-230-230
+31;332;Forest and semi natural areas;Open spaces with little or no vegetation;Bare rocks;204-204-204
+32;333;Forest and semi natural areas;Open spaces with little or no vegetation;Sparsely vegetated areas;204-255-204
+33;334;Forest and semi natural areas;Open spaces with little or no vegetation;Burnt areas;000-000-000
+34;335;Forest and semi natural areas;Open spaces with little or no vegetation;Glaciers and perpetual snow;166-230-204
+35;411;Wetlands;Inland wetlands;Inland marshes;166-166-255
+36;412;Wetlands;Inland wetlands;Peat bogs;077-077-255
+37;421;Wetlands;Maritime wetlands;Salt marshes;204-204-255
+38;422;Wetlands;Maritime wetlands;Salines;230-230-255
+39;423;Wetlands;Maritime wetlands;Intertidal flats;166-166-230
+40;511;Water bodies;Inland waters;Water courses;000-204-242
+41;512;Water bodies;Inland waters;Water bodies;128-242-230
+42;521;Water bodies;Marine waters;Coastal lagoons;000-255-166
+43;522;Water bodies;Marine waters;Estuaries;166-255-230
+44;523;Water bodies;Marine waters;Sea and ocean;230-242-255
+48;999;NODATA;NODATA;NODATA;
+49;990;UNCLASSIFIED;UNCLASSIFIED LAND SURFACE;UNCLASSIFIED LAND SURFACE;
+50;995;UNCLASSIFIED;UNCLASSIFIED WATER BODIES;UNCLASSIFIED WATER BODIES;230-242-255
+255;990;UNCLASSIFIED;UNCLASSIFIED;UNCLASSIFIED;

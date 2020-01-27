@@ -1,0 +1,161 @@
+,chapter,date,members,lat,lon,city,country
+1,R-Ladies Barcelona,22/10/2016 10:56,389,41.4,2.17,Barcelona,ES
+2,R-Ladies Ushuaia,09/05/2018 16:39,23,-54.79,-68.31,Ushuaia,AR
+3,R-Ladies Bilbao,27/02/2019 05:37,38,43.25,-2.93,Bilbao,ES
+4,R-Ladies Bariloche,10/05/2018 02:22,114,-41.14,-71.32,San Carlos de Bariloche,AR
+5,R-Ladies Melbourne,02/09/2016 00:31,1213,-37.81,144.96,Melbourne,AU
+6,R-Ladies Novi Sad,24/05/2019 15:14,46,45.25,19.85,Novi Sad,RS
+7,R-Ladies Porto Alegre,30/10/2017 02:47,261,-30.04,-51.22,Porto Alegre,BR
+8,R-Ladies Highland Park,09/05/2019 17:48,30,40.5,-74.43,Highland Park,US
+9,R-Ladies Canberra,10/12/2018 04:26,108,-35.31,149.13,Canberra,AU
+10,R-Ladies Guayaquil,05/04/2018 22:48,292,-2.21,-79.9,Guayaquil,EC
+11,R-Ladies Tiruchirappalli,03/03/2018 20:15,149,10.81,78.69,Tiruchchirappalli,IN
+12,R-Ladies Quito,18/07/2017 20:32,658,-0.19,-78.5,Quito,EC
+13,R-Ladies Newcastle,27/02/2019 05:20,118,55,-1.6,Newcastle Upon Tyne,GB
+14,R-Ladies Seattle,08/11/2017 17:15,528,47.61,-122.33,Seattle,US
+15,R-Ladies Waterloo,20/07/2018 16:22,47,43.47,-80.51,Waterloo,CA
+16,R-Ladies Valencia,30/10/2017 15:03,33,39.48,-0.39,Valencia,ES
+17,R-Ladies Exeter,27/02/2019 05:28,9,50.73,-3.54,Exeter,GB
+18,R-Ladies Stockholm,16/08/2018 15:54,263,59.33,18.07,Stockholm,SE
+19,R-Ladies Madrid,02/09/2016 20:29,1222,40.42,-3.71,Madrid,ES
+20,R-Ladies Johannesburg,26/02/2018 05:53,342,-26.19,28.04,Johannesburg,ZA
+21,R-Ladies Copenhagen,20/11/2017 16:38,355,55.68,12.57,Copenhagen,DK
+22,R-Ladies Xalapa,30/07/2018 21:03,151,19.53,-96.92,Xalapa,MX
+23,R-Ladies Frankfurt,27/02/2019 05:09,57,50.12,8.68,Frankfurt,DE
+24,R-Ladies Rotterdam,05/12/2017 17:20,293,51.93,4.48,Rotterdam,NL
+25,R-Ladies Lausanne,02/12/2017 19:53,270,46.52,6.62,Lausanne,CH
+26,R-Ladies Niterói,04/06/2018 23:31,360,-22.9,-43.13,Niterói,BR
+27,R-Ladies Houston,07/12/2018 18:07,59,29.72,-95.22,Houston,US
+28,R-Ladies Cincinnati,24/05/2018 04:36,68,39.11,-84.5,Cincinnati,US
+29,R-Ladies Pasadena,25/04/2018 15:49,63,34.15,-118.14,Pasadena,US
+30,R-Ladies Rabat,01/03/2018 19:15,543,34.02,-6.83,Rabat,MA
+31,R-Ladies Victoria,08/06/2018 17:04,35,48.46,-123.29,Victoria,CA
+32,R-Ladies Utrecht,10/06/2019 21:29,39,52.1,5.11,Utrecht,NL
+33,R-Ladies London,31/01/2016 16:36,1347,51.52,-0.1,London,GB
+34,R-Ladies Berlin,31/10/2016 11:45,508,52.52,13.38,Berlin,DE
+35,R-Ladies Nijmegen,05/05/2018 18:42,198,51.84,5.85,Nijmegen,NL
+36,R-Ladies Auckland,20/11/2017 17:03,461,-36.85,174.76,Auckland,NZ
+37,R-Ladies Freiburg,23/01/2019 16:33,40,47.99,7.85,Freiburg,DE
+38,R-Ladies Lavras,16/04/2019 16:08,15,-21.25,-45.01,Lavras,BR
+39,R-Ladies Edinburgh,27/07/2018 17:59,190,55.95,-3.22,Edinburgh,GB
+40,R-Ladies Lima,25/01/2018 05:04,785,-12.07,-77.05,Lima,PE
+41,R-Ladies Salvador,23/07/2018 16:07,137,-12.97,-38.5,Salvador,BR
+42,R-Ladies Tallahassee,12/03/2018 01:49,55,30.43,-84.26,Tallahassee,US
+43,R-Ladies Montgomery,10/09/2018 21:11,11,32.4,-86.33,Montgomery,US
+44,R-Ladies Louisville,18/03/2018 21:23,35,38.26,-85.75,Louisville,US
+45,R-Ladies East Lansing,09/12/2017 22:17,287,42.65,-84.49,East Lansing,US
+46,R-Ladies Iowa City,18/09/2018 21:54,66,41.66,-91.53,Iowa City,US
+47,R-Ladies Lyon,29/10/2018 22:18,55,45.76,4.83,Lyon,FR
+48,R-Ladies Linz,23/02/2018 22:26,8,48.31,14.29,Linz,AT
+49,R-Ladies Vienna,17/09/2018 17:03,186,48.22,16.37,Vienna,AT
+50,R-Ladies Belgrade,15/09/2017 16:11,311,44.83,20.5,Belgrade,RS
+51,R-Ladies Perth,23/10/2018 04:04,136,-31.96,115.84,Perth,AU
+52,R-Ladies Bucharest,09/05/2019 19:42,13,44.44,26.1,Bucharest,RO
+53,R-Ladies Kyiv,15/02/2019 21:47,29,50.44,30.52,Kyiv,UA
+54,R-Ladies Hong Kong,03/08/2018 16:15,30,22.27,114.14,Hong Kong,HK
+55,R-Ladies Beijing,30/05/2018 14:48,29,39.93,116.4,Beijing,CN
+56,R-Ladies Toronto,18/09/2018 16:24,316,43.74,-79.36,Toronto,CA
+57,R-Ladies Montpellier,17/10/2018 21:06,106,43.61,3.87,Montpellier,FR
+58,R-Ladies Columbus,04/10/2016 19:09,641,40.01,-83.02,Columbus,US
+59,R-Ladies Lancaster,12/09/2018 15:37,64,54.05,-2.8,Lancaster,GB
+60,R-Ladies Gainesville,04/07/2018 04:28,170,29.65,-82.3,Gainesville,US
+61,R-Ladies Baltimore,26/02/2018 05:38,300,39.29,-76.62,Baltimore,US
+62,R-Ladies Brisbane,10/05/2018 20:33,133,-27.46,153.02,Brisbane,AU
+63,R-Ladies Goiânia,06/05/2019 16:59,27,-16.72,-49.26,Goiania,BR
+64,R-Ladies Natal,25/09/2017 15:21,137,-5.8,-35.22,Natal,BR
+65,R-Ladies Atlanta,14/12/2017 17:18,209,33.86,-84.4,Atlanta,US
+66,R-Ladies Springfield,17/04/2018 17:54,52,37.13,-93.29,Springfield,US
+67,R-Ladies Des Moines,23/09/2018 15:41,23,41.6,-93.63,Des Moines,US
+68,R-Ladies Boulder,11/06/2018 22:01,35,40.05,-105.21,Boulder,US
+69,R-Ladies Santa Barbara,26/01/2018 18:13,276,34.42,-119.71,Santa Barbara,US
+70,R-Ladies Christchurch,04/05/2019 05:29,13,-43.53,172.64,Christchurch,NZ
+71,R-Ladies Wageningen,18/06/2018 15:53,52,51.98,5.67,Wageningen,NL
+72,R-Ladies Addis Ababa,21/03/2018 16:03,363,9.03,38.74,Addis Abeba,ET
+73,R-Ladies Oslo,26/02/2018 05:47,290,59.91,10.75,Oslo,NO
+74,R-Ladies Kathmandu,01/10/2018 17:03,53,27.71,85.31,Kathmandu,NP
+75,R-Ladies Amsterdam,10/02/2018 03:22,548,52.37,4.89,Amsterdam,NL
+76,R-Ladies Sydney,09/05/2018 16:28,549,-33.87,151.21,Sydney,AU
+77,R-Ladies Helsinki,07/09/2018 17:37,198,60.17,24.94,Helsinki,FI
+78,R-Ladies Tampa,11/03/2018 18:16,171,27.98,-82.34,Tampa,US
+79,R-Ladies Dallas,04/03/2018 20:35,239,32.79,-96.8,Dallas,US
+80,R-Ladies Memphis,11/04/2018 16:01,34,35.07,-89.96,Memphis,US
+81,R-Ladies El Paso,19/04/2019 18:25,8,31.76,-106.49,El Paso,US
+82,R-Ladies Cotonou,29/03/2018 17:05,88,6.36,2.44,Cotonou,BJ
+83,R-Ladies Remote,19/06/2018 20:31,225,37.78,-122.42,San Francisco,US
+84,R-Ladies Munich,21/03/2017 19:46,255,48.14,11.58,München,DE
+85,R-Ladies Chicago,05/07/2017 20:30,869,41.88,-87.62,Chicago,US
+86,R-Ladies Mendoza,26/02/2018 05:26,175,-32.89,-68.83,Mendoza,AR
+87,R-Ladies Córdoba,11/04/2018 15:16,100,-31.4,-64.19,Córdoba,AR
+88,R-Ladies Los Angeles,02/09/2016 23:06,365,34.07,-118.45,Los Angeles,US
+89,R-Ladies Liverpool,29/10/2017 20:00,58,53.42,-2.99,Liverpool,GB
+90,R-Ladies Leuven,30/10/2017 15:29,93,50.88,4.7,Leuven,BE
+91,R-Ladies Manchester,29/11/2016 22:43,329,53.47,-2.23,Manchester,GB
+92,"R-Ladies London, Ontario",17/01/2017 13:04,393,43.01,-81.18,London,CA
+93,R-Ladies Santa Rosa,06/04/2017 11:51,39,-36.62,-64.3,Santa Rosa,AR
+94,R-Ladies La Plata,12/03/2018 01:26,104,-34.92,-57.96,La Plata,AR
+95,R-Ladies Resistencia-Corrientes,08/06/2018 23:47,85,-27.49,-58.81,Corrientes,AR
+96,R-Ladies Boston,16/09/2016 22:44,670,42.36,-71.07,Boston,US
+97,R-Ladies Ames,25/11/2016 23:57,188,42.03,-93.64,Ames,US
+98,R-Ladies Loughborough,10/02/2018 03:36,61,52.77,-1.22,Loughborough,GB
+99,R-Ladies Philly,11/10/2017 13:36,605,40.12,-75.01,Philadelphia,US
+100,R-Ladies Montevideo,02/06/2017 11:16,198,-34.87,-56.17,Montevideo,UY
+101,R-Ladies Vancouver,06/10/2017 03:47,297,49.28,-123.04,Vancouver,CA
+102,R-Ladies Cambridge,10/11/2017 16:28,141,52.2,0.11,Cambridge,GB
+103,R-Ladies Paris,19/09/2016 15:39,517,48.86,2.34,Paris,FR
+104,R-Ladies Santa Fe,08/05/2018 15:43,158,-31.6,-60.69,Santa Fe,AR
+105,R-Ladies San Jose,09/10/2017 06:37,389,9.93,-84.08,San Jose,CR
+106,R-Ladies Tbilisi,29/11/2016 19:52,133,41.72,44.79,Tbilisi,GE
+107,R-Ladies Buenos Aires,03/01/2017 22:20,700,-34.61,-58.37,Buenos Aires,AR
+108,R-Ladies Montreal,14/09/2017 18:56,382,45.53,-73.6,Montréal,CA
+109,R-Ladies Irvine,13/03/2018 19:30,289,33.65,-117.84,Irvine,US
+110,R-Ladies La Paz,23/10/2018 03:43,80,-16.5,-68.15,La Paz,BO
+111,R-Ladies Sarasota,13/10/2017 14:18,37,27.41,-82.52,Sarasota,US
+112,R-Ladies Santiago,18/07/2017 20:23,1278,-33.46,-70.64,Santiago,CL
+113,R-Ladies Nashville,28/09/2016 19:20,442,36.17,-86.78,Nashville,US
+114,R-Ladies Dublin,12/11/2016 23:20,682,53.33,-6.25,Dublin,IE
+115,R-Ladies São Paulo,10/02/2018 21:43,431,-23.53,-46.63,São Paulo,BR
+116,R-Ladies Rio de Janeiro,27/02/2017 15:20,408,-22.91,-43.2,Rio de Janeiro,BR
+117,R-Ladies San Diego,16/06/2017 21:42,396,32.75,-117.17,San Diego,US
+118,R-Ladies Charlottesville,21/09/2017 17:25,140,38,-78.46,Charlottesville,US
+119,R-Ladies Chennai,15/10/2017 21:28,308,13.09,80.27,Chennai,IN
+120,R-Ladies Miami,03/06/2017 23:34,316,25.78,-80.2,Miami,US
+121,R-Ladies Cape Town,06/03/2017 09:24,503,-33.93,18.46,Cape Town,ZA
+122,R-Ladies Brussels,15/08/2017 11:35,216,50.83,4.33,Brussels,BE
+123,R-Ladies Orlando,05/06/2017 14:54,311,28.54,-81.37,Orlando,US
+124,R-Ladies Strasbourg,27/09/2017 12:12,46,48.58,7.75,Strasbourg,FR
+125,R-Ladies Curitiba,29/05/2018 23:14,164,-25.42,-49.29,Curitiba,BR
+126,R-Ladies San Francisco,01/10/2012 16:28,1403,37.79,-122.4,San Francisco,US
+127,R-Ladies RTP,15/08/2016 14:22,580,36,-78.9,Durham,US
+128,R-Ladies Tucson AZ,14/11/2017 18:45,186,32.22,-110.97,Tucson,US
+129,"R-Ladies Portland, Maine",15/09/2017 18:23,22,43.66,-70.26,Portland,US
+130,R-Ladies Montenegro,27/07/2017 14:24,83,42.46,18.53,HN,ME
+131,R-Ladies Washington D.C.,07/12/2016 19:48,1381,38.91,-77.02,Washington,US
+132,R-Ladies Valparaíso,18/05/2018 19:02,86,-33.04,-71.64,Valparaíso,CL
+133,R-Ladies Belo Horizonte,20/04/2018 18:04,578,-19.92,-43.94,Belo Horizonte,BR
+134,R-Ladies Bari,17/05/2018 18:02,34,41.13,16.87,Bari,IT
+135,R-Ladies Milan,29/06/2017 22:16,699,45.46,9.19,Milano,IT
+136,R-Ladies New York,23/08/2016 21:01,1377,40.75,-73.99,New York,US
+137,R-Ladies Ottawa,05/12/2018 21:47,101,45.45,-75.69,Ottawa,CA
+138,R-Ladies Buffalo,28/05/2017 21:20,22,42.9,-78.88,Buffalo,US
+139,R-Ladies CDMX,04/07/2017 03:36,1130,19.43,-99.14,México City,MX
+140,R-Ladies Lisboa,26/10/2016 14:31,502,38.72,-9.14,Lisbon,PT
+141,R-Ladies Taipei,23/10/2016 18:10,1466,25.02,121.45,Taipei,TW
+142,R-Ladies St. Louis,28/08/2017 18:24,328,38.63,-90.19,Saint Louis,US
+143,R-Ladies Americana,24/06/2017 17:20,35,-22.75,-47.33,Americana,BR
+144,R-Ladies PDX,20/07/2017 06:33,215,45.5,-122.69,Portland,US
+145,Spotkania Entuzjastów R-Warsaw RUG Meetup & R-Ladies Warsaw,06/10/2014 07:30,2069,52.26,21.02,Warsaw,PL
+146,R-Ladies Twin Cities,01/04/2015 22:43,290,44.94,-93.22,Minneapolis,US
+147,R-Ladies Connecticut,09/11/2016 23:29,73,41.79,-72.67,Hartford,US
+148,R-Ladies Istanbul,06/09/2016 12:48,1542,41.01,28.96,Istanbul,TR
+149,R-Ladies Madison,30/04/2019 13:12,33,43.07,-89.38,Madison,US
+150,R-Ladies Budapest,24/01/2017 22:50,776,47.51,19.08,Budapest,HU
+151,R-Ladies Austin,31/01/2017 16:20,566,30.22,-97.75,Austin,US
+152,R-Ladies Floripa,07/04/2019 12:41,142,-27.6,-48.54,Florianópolis,BR
+153,R-Ladies Den Bosch,23/03/2019 08:04,13,51.7,5.3,Den Bosch,NL
+154,R-Ladies Bogor,07/04/2019 12:18,145,-6.58,106.79,Bogor,ID
+155,R-Ladies Nelson,23/03/2019 08:42,9,-41.29,173.24,Nelson,NZ
+156,R-Ladies Queretaro,30/03/2019 08:33,73,20.59,-100.4,Querétaro,MX
+157,R-Ladies Concepción,16/04/2019 16:16,120,-36.83,-73.05,Concepción,CL
+158,R-Ladies Adelaide,02/02/2017 12:13,190,-34.93,138.6,Adelaide,AU
+159,R-Ladies IzmiR,09/10/2016 05:00,728,38.43,27.15,Izmir,TR
+160,R-Ladies Bogotá,22/09/2017 22:34,261,4.63,-74.09,Bogotá,CO
