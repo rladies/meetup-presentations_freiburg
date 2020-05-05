@@ -1,20 +1,9 @@
----
-title: 'Tidy Tuesdays'
-disqus: hackmd
----
 
 R-Ladies Freiburg Tidy Tuesdays
 ===
 
 Who wants to describe what we did?
 
-## Table of Contents
-
-[TOC]
-
-```{r}
-a <- c("This is a string")
-```
 
 
 ## Previous works
@@ -32,7 +21,7 @@ I upload all my TidyTuesdays with the code to my Github repo, here are a couple 
 ##### 20.01. Trees in San Fransisco 
 A bar graph showing public and private ownership of trees in the city of San Fransisco, and a possible correlation to the time point when the city trasnfered trees to private liability.
 
-![](https://i.imgur.com/WcMJQqQ.jpg =500x)
+![](https://i.imgur.com/WcMJQqQ.jpg)
 
 ##### 04.02. Football attendance in the US
 My first try at Rayshader for 3D graphs, as well as my first time working with spatial data! This graph shows the football attendance by state in the US (though be aware that some states with better attendance may also just have more teams..!)
@@ -125,7 +114,7 @@ NFL team charachteristics
 
 [Twitter Account](https://twitter.com/Ichisa5)
 
-![](https://i.imgur.com/PaDv79t.png =400x490)
+![](https://i.imgur.com/PaDv79t.png)
 
 
 
