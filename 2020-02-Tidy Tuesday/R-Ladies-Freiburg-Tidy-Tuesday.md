@@ -37,13 +37,13 @@ A bar graph showing public and private ownership of trees in the city of San Fra
 ##### 04.02. Football attendance in the US
 My first try at Rayshader for 3D graphs, as well as my first time working with spatial data! This graph shows the football attendance by state in the US (though be aware that some states with better attendance may also just have more teams..!)
 
-![](https://i.imgur.com/zdTyvvB.png =350x)
+![](https://i.imgur.com/zdTyvvB.png)
 
 
 ##### 20.02 The effect of beef consumption on global warming
 A basic dashboard showing the effect of global food consumption on CO-emissions, focussing on cows (beef and milk/cheese).
 
-![](https://i.imgur.com/kxmEKuJ.png =500x)
+![](https://i.imgur.com/kxmEKuJ.png)
 
 
 #### Manasi Mahadik
