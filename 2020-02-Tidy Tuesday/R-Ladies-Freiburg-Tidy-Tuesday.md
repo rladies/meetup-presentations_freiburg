@@ -21,12 +21,12 @@ I upload all my TidyTuesdays with the code to my Github repo, here are a couple 
 ##### 20.01. Trees in San Fransisco 
 A bar graph showing public and private ownership of trees in the city of San Fransisco, and a possible correlation to the time point when the city trasnfered trees to private liability.
 
-![](https://i.imgur.com/WcMJQqQ.jpg =550x)
+![](https://i.imgur.com/WcMJQqQ.jpg)
 
 ##### 04.02. Football attendance in the US
 My first try at Rayshader for 3D graphs, as well as my first time working with spatial data! This graph shows the football attendance by state in the US (though be aware that some states with better attendance may also just have more teams..!)
 
-![](https://i.imgur.com/zdTyvvB.png =400x)
+![](https://i.imgur.com/zdTyvvB.png)
 
 
 #### Manasi Mahadik
