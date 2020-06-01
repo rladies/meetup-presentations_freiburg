@@ -29,12 +29,6 @@ My first try at Rayshader for 3D graphs, as well as my first time working with s
 ![](https://i.imgur.com/zdTyvvB.png)
 
 
-##### 20.02 The effect of beef consumption on global warming
-A basic dashboard showing the effect of global food consumption on CO-emissions, focussing on cows (beef and milk/cheese).
-
-![](https://i.imgur.com/kxmEKuJ.png)
-
-
 #### Manasi Mahadik
 Github: https://github.com/manasi1096
 
@@ -45,9 +39,9 @@ Twitter:@Manasim1
 
 #### Alexandra Urban
 
-Github: chincchapabo
+Github: [chincchapabo](https://github.com/chincchapabo)
 
-Twitter: @konglish4u
+Twitter: [@konglish4u](https://twitter.com/konglish4u)
 
 
 
@@ -126,16 +120,16 @@ Here we could add:
 
 - Packages to visualize data that we would want to learn how to use
 
-> I would love if we can have a short session on working with time series data using latest tsibble/fable package in future[name=Vaibhav]
+> I would love if we can have a short session on working with time series data using latest tsibble/fable package in future. -- Vaibhav
 
 > I would love to do learn some Shiny & R Markdown!
 > 
 
-> I'd like to learn to make interactive dashboards with Shiny! [name=Kyla]
->> Same here, please! [name=Julia]
+> I'd like to learn to make interactive dashboards with Shiny! -- Kyla
+>> Same here, please! -- Julia
 
 - New analysis, statistics techniques we would want to learn
 
-> I would really want to learn some text analysis using R. It seems like the data set from May 5th is perfect for that. I also found a book that might help. Here is the link of [Tidy Text Mining](https://www.tidytextmining.com) free book. [name=Elisa]
+> I would really want to learn some text analysis using R. It seems like the data set from May 5th is perfect for that. I also found a book that might help. Here is the link of [Tidy Text Mining](https://www.tidytextmining.com) free book. -- Elisa
 
 
