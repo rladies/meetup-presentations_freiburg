@@ -102,7 +102,7 @@ TImeline Chart from spotify dataset
 [Twitter](https://twitter.com/DSeernani)
 [Github](https://github.com/DivyaSeernani)
 
-![](https://i.imgur.com/gIBwEWI.png =400x)![](https://i.imgur.com/WQTd1ei.jpg =400x)
+![](https://i.imgur.com/gIBwEWI.png)![](https://i.imgur.com/WQTd1ei.jpg)
 
 
 
