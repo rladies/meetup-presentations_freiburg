@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R Markdown</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Elisa Schneider and Divya Seernani" />
+    <meta name="date" content="2020-02-07" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies.css" rel="stylesheet" />
+    <link href="libs/remark-css/rladies-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R Markdown
+## A lot more than what we think!
+### Elisa Schneider and Divya Seernani
+### RLadies-Freiburg
+### 02/07/2020
+
+---
+
+background-image: url('presentation-figure/Wald-violet.jpg')
+background-size: contain
+
+# Contesnts of Today
+
+--
+
+.pull-left[
+- **Intro to  R Markdown**
+
+- **Customizing the style**
+
+  - Knitting tables
+  - Customized stiles
+  - Tabed sections
+]
+--
+
+.pull-right[
+- **Automated Reporting**
+  
+  - Embedded R code
+  - Parametrized R-Markdown and automated reports
+
+- **Making presentations**
+
+  - R presentations
+  - Xaringan presentation
+]
+
+
+
+
+???
+
+Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
+
+---
+class: inverse, center, middle
+
+# Get Started
+
+.footnote[Part of this presentation is based on the Oslo meetup on R-Markdown]
+
+---
+background-image: URL('presentation-figure/Wald-violet.jpg')
+background-size: contain
+
+# What is markdown &amp; Rmarkdown?
+
+.pull-left[
+Markdown is all in _plain text_, the documents can be read by anyone without special software.
+This makes then able to be version controlled with, for instance, git. 
+Special characters in the text indicate e.g. what is title and what is a normal paragraph. 
+]
+
+.pull-right[
+R markdown is based on markdown, which uses rich text formatting to create content. 
+R markdown is a specialized markdown type, where you can embed bits of code and you can even run R code. You can have in the output text, code and the output of your code.
+This makes R markdown an integrated way of working with text and data simultaneously.
+]
+
+---
+
+background-image: url(presentation-figure/rmd.png), url(presentation-figure/knitr.png),url(https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Markdown-mark.svg/1280px-Markdown-mark.svg.png), url(https://lh3.googleusercontent.com/-S8Fwe-PISrU/WExNwRXJHKI/AAAAAAAAAFo/tRbv1NAYBWoEBitmvDRFY_bc5xv07lnMACLcB/s1600/pandoc.png)
+background-size: 6%, 6%, 6%, 8%
+background-position: 95% 5%, 95% 30%, 95% 55%,  96% 77%
+
+## Rmarkdown pipeline
+
+Most commonly R markdown is turned into another document type using {knitr} and pandoc
+
+![](https://d33wubrfki0l68.cloudfront.net/61d189fd9cdf955058415d3e1b28dd60e1bd7c9b/9791d/images/rmarkdownflow.png)
+
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+This information is not crucial to remember, but good to know.
+
+---
+background-image: url(presentation-figure/rmarkdown.jpg)
+background-size: 60%
+background-position: 50% 95%
+
+## So it's just text?
+
+Basically, yes.
+
+While any text-editor that understands markdown (many new editors do) will render the formatted text, even without the rendering anyone with a text-editor can _read_ the text in the file. 
+
+This makes is easy to share with people who might not have access to specialized, expensive tools can still access the documents. 
+
+---
+background-image: url('presentation-figure/structure.png')
+background-size: 90%
+background-position: 50% 70%
+
+# Components of the RMarkdown file
+
+
+---
+background-image: url('presentation-figure/blackforest.png')
+background-size: contain
+# Start with a demo!
+
+---
+class: inverse, center, bottom
+background-image: url('presentation-figure/Wald-violet.jpg')
+background-size: cover
+
+## The clean environment
+
+--
+
+**Rmarkdown runs in a completely clean R environment.**  
+
+--
+
+**Nothing in your current working environment will affect compiling your document.**
+
+--
+
+**This is good because it means the document is reproducible.**
+
+--
+
+**This is frustrating _to begin with_ because it is an unfamiliar way of working to many.**
+
+--
+
+**But working like this is the best way of working, learn from it and adopt it as a general coding style.**
+
+--- 
+
+---
+
+# Adding navigation bar
+
+.pull-left[
+
+```yaml
+---
+title: "Bäumen"
+author: "Elisa Schneider"
+date: "11 Februar 2020"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+---
+      
+# Eiche
+Here some info about oak trees
+
+# Buche
+And here about beech trees
+```
+]
+
+.pull-right[
+It has to be added into the YAML metadata.
+
+You can also add section number. 
+
+There are some tools also to organize sections while you are working on R and R-Markdown. 
+
+One of the thinks I love the most since I discovered it!
+]
+
+---
+
+background-image: url('presentation-figure/style2.png'), url('presentation-figure/style.png')
+background-size: 42%, 42% 
+background-position: 15% 85%, 90% 89%
+
+# Customized styles in Rmarkdown
+
+- Valid themes include _`default`, `cerulean`, `journal`, `flatly`, `readable`, `spacelab`, `united`, `cosmo`, `lumen`, `paper`, `sandstone`, `simplex`, and `yeti`_. Pass null for no theme (in this case you can use the css parameter to add your own styles).
+
+- Highlight specifies the syntax highlighting style. Supported styles include _`default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, `breezedark`_.
+
+
+
+```yaml
+title: "Markdown Workshop"
+author: "Divya and Elisa"
+date: "23 5 2020"
+output: 
+  html_document:
+    toc: True
+    toc_float: true
+    theme: united
+    highlight: tango
+```
+
+---
+
+background-image: url('presentation-figure/tabs.png')
+background-size: 40%
+background-position: 50% 97%
+
+# Tabbed sections 
+### Adding tabs to the Markdown Document
+
+
+.pull-left[You can organize content using tabs by applying the `.tabset` class attribute to headers within a document. This will cause all sub-headers of the header with the .tabset attribute to appear within tabs rather than as standalone sections. For example:]
+
+.pull-right[
+```markdown
+## Oak - _Quercus robur_ {.tabset}
+
+### Leaves
+
+(tab content)
+
+### Flowers
+
+(tab content)
+```
+]
+
+---
+
+background-image: url('presentation-figure/codeinrmd.png')
+background-size: 90%
+background-position: 50% 80%
+
+# R outside code chunks
+
+This is very useful to insert summary stats within the text. 
+
+There are two possibilities to include code outside chunks in and `Rmd` file. 
+
+- Including code to show it. The code will not be run and will be displayed as code. 
+
+- Running the code and parsing the output as text. It might me useful to show the output fo some code as text. You have to specify that the code has to be run using r. 
+---
+
+# Automated Reporting
+
+Being able to program reports is a super power of R markdown.
+
+--
+
+The motivation is really twofold: efficiency (maximize the reusabililty of code, minimize copying and pasting errors) and reproducibility (maximize the number of people and computers that can reproduce findings).
+
+--
+
+```YAML
+---
+title: "Markdown Workshop"
+author: "Divya and Elisa"
+date: "23 5 2020"
+output: 
+  html_document:
+    toc: True
+    toc_float: true
+    theme: journal
+    highlight: tango
+params:
+  tbi_age: !r readr::read_csv('data/tbi_age.csv')
+  ```
+
+
+---
+background-image: url('presentation-figure/rpresentation.png')
+background-size: 82%
+background-position: 15% 85%
+
+# R presentations
+
+It is quite easy to use and very similar to R markdown. 
+
+`File -&gt; New File -&gt; R Presentation` 
+
+
+---
+
+# Xaringan Presentations
+
+Install the **xaringan** package from [Github](https://github.com/yihui/xaringan) or from _cran_:
+
+
+```r
+devtools::install_github("yihui/xaringan")
+
+install.packages('xaringan')
+```
+
+--
+
+You are recommended to use the [RStudio IDE](https://www.rstudio.com/products/rstudio/), but you do not have to.
+
+- Create a new R Markdown document from the menu `File -&gt; New File -&gt; R Markdown -&gt; From Template -&gt; Ninja Presentation`
+
+--
+
+- Click the `Knit` button to compile it;
+
+--
+
+---
+class: inverse
+
+# Sources 
+
+- R Studio's [Rmarkdown cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
+
+- [R Markdown: The definitive giude](https://bookdown.org/yihui/rmarkdown/)
+
+- [Automating Reports: Automating summary of surveys with rmarkdown](https://rviews.rstudio.com/2017/11/07/automating-summary-of-surveys-with-rmarkdown/)
+
+
+- [Reports to impress your boss - R-Ladies Oslo - Video](https://www.youtube.com/watch?v=Xn5AmUf7gDQ)
+
+
+- [Reports to impress your boss - R-Ladies Oslo - github](https://github.com/rladies/meetup-presentations_oslo/tree/master/2020-05-11-rmarkdown_like_a_boss)
+
+- [Definitive guide to xaringan](https://arm.rbind.io/slides/xaringan.html)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

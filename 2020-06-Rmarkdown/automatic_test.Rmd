@@ -1,0 +1,38 @@
+---
+title: "Simple Template"
+author: "Elisa"
+date: "31 May 2020"
+output: pdf_document
+params: 
+  group: !r 1
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## RMarkdown - Automated reports
+
+This is an example on how to automate reports with R markdown. 
+
+In this report we analyze group `r params$group`.
+
+```{r, include=FALSE}
+
+file <- params$group
+
+load(file = paste0("data/group_", file, ".RData"))
+
+group
+
+```
+
+
+## Summary statistics of the group: 
+
+- The mean weight in the group is `r round(mean(group$weight), digits = 2)` 
+
+- The mean age is `r round(mean(group$age), digits = 2)`
+
+The participants com from `r unique(group$city)`
