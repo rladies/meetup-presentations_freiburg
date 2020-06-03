@@ -1,0 +1,152 @@
+---
+title: "Markdown Workshop"
+author: "Divya and Elisa"
+date: "23 5 2020"
+output: 
+  html_document:
+    toc: True
+    toc_float: true
+    number_section: false
+    theme: journal
+    highlight: tango
+params:
+  tbi_age: !r readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-24/tbi_age.csv')
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Let's make a Markdown html together
+
+You now have the rendered html text, let's discuss what went into making this text, i.e. what all should your text be able to do to render this document?
+
+At the last Tidy Tuesday event, there was a discussion to make a kind of template for how we do Tidy Tuesday. In this document, I can explain to you how I went about creating my last Tidy Tuesday plot. I want to use the Tidy Tuesday data on Traumatic Brain Injury (TBI). I worked on this on our Meetup from 19.05.2020, although the data was posted earlier this year.
+
+If you have a similar dataset, you can do so for that script. If not, just use mine :)
+
+Something to help you along the way
+
+- Shortcut to convert an r script to a markdown file
+CTRL + Shift + k on windows OR Cmd + Shift + k on macOS
+
+- Shortcut to create r code chunks
+CTRL + ALT + i on windows OR Cmd + Option + I on macOS
+
+## Starting off with R Markdown
+
+You can start a new markdown file by going to file-> new file-> R Markdown. Give it a title and select HTML - you can always change these later. The document that shows up already has some information about Markdown. What does this tell us?
+
+1. KnitR
+2. Headers and Text
+3. R-chunks
+2. Echo function within chunks.
+
+## Pre-processing
+
+First I import my data. There were three datasets to choose from (or use together). I chose the one with age and number of cases of TBI in the year 2014.
+I do not need to show you the output that says the csv has been included, so here, I can use echo=False, and include=FALSE. What is the difference?
+
+```{r, echo=FALSE, include=FALSE}
+# tbi_age <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-03-24/tbi_age.csv')
+tbi_age <- params$tbi_age
+```
+
+The first thing I would do is simply look at the data. Open the table and look at it, use the str() and summary() functions. The question I ask here is - do I need to change anything to be able to plot my dataset?
+
+```{r}
+str(tbi_age)
+
+```
+
+You can already see the output here looks a bit untidy, so let's try and plot the summary in a table.
+
+```{r}
+
+summary<-summary(tbi_age)
+
+knitr::kable(summary, caption = 'Summary Table of TBI_Age')
+
+```
+
+Because you can see my output, you can also see fr yourself that age is not a factor, and is honestly arranged a bit weirdly. If I want to plot age, I need age to be a factor. I would also like it to be ordered in an ascending order that makes sense while looking at it. So I make these two changes.
+
+```{r}
+tbi_age$age_group<-as.factor(tbi_age$age_group)
+tbi_age$age_group <- ordered(tbi_age$age_group, levels = c("0-4", "5-14", "15-24", "25-34", "35-44", "45-54", "55-64", "65-74", "75+"))
+
+tbi_age<-na.omit(tbi_age)
+```
+
+## Making the Plot
+
+I want to make a simple Bar graph, but for this Tidy Tuesday, I wanted to learn how to add a background image to my ggplot. For these, I need the following ggplot2, but also ggimage, magick and cowplot. I will also be using the Game of Thrones colour palette, so I'll call this package as well.
+
+I do not need to show you how my packages run, so here, I can use _echo=False_, and _include=FALSE_.
+
+```{r, echo=FALSE, include=FALSE}
+library(ggplot2)
+library(gameofthrones)
+library(ggimage)
+library(magick)
+library(cowplot)
+```
+
+Now the plot itself took a bit of trial and error which I will not go into, but I will explain what I am doing here. 
+
+1. I make a ggplot **bar graph** with a transperent background (in theme), using the House Lannister colour scheme and changing the text size in the axis so they are visible against the background.  
+2. I **import the picture** I want to use as backgroud, the dimentions of which you see below. This is too loud and will overpower the graph.
+
+```{r}
+bar_plot<-ggplot(tbi_age, aes(x=age_group, y=number_est, fill=type)) + 
+  geom_bar(position="dodge",stat="identity", width=1) + 
+  scale_fill_got_d(option = "Lannister", direction = - 1)+
+  labs(title="Tidy Tuesdays", 
+       subtitle="Number of cases of Traumatic Brain Injury per Age-Group", 
+       caption="R-Ladies Freiburg, 19.05.2020",
+       y="Number of Cases of TBI", 
+       x="Age Group")+
+  theme(
+    panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "transparent",colour = NA),
+    plot.background = element_rect(fill = "transparent",colour = NA),
+    axis.text.x=element_text(angle=50, size=14, colour= "black", vjust=0.5),
+    axis.text.y=element_text(size=14, colour= "black"),
+    plot.title = element_text(size=20, face="bold", margin = margin(10, 0, 10, 0))
+  )
+
+
+img = image_read('presentation-figure/photo-1510698454686-1e2552e058e0.jpg')
+#image_info(img)
+
+```
+
+3. I use **filters** from then 'magick' package to change its colours and blur it.  
+1. I **remove scientific annotations** so the y-axis shows absolute values.  
+1. Finally, I **add the background image** to the bar plot.
+
+```{r}
+img2<-image_negate(img)
+img3<-image_blur(img2, 6, 5)
+
+options(scipen=999)
+
+ggdraw() +
+  draw_image(img3) +
+  draw_plot(bar_plot)  
+```
+
+So this was an easy ways for you to follow what I did and replicate my code.
+
+# References  {.tabset}
+
+## R-Ladies Oslo
+[Reports to impress your boss - R-Ladies Oslo](https://www.youtube.com/watch?v=Xn5AmUf7gDQ)  
+
+## R-Markdown definitive guide
+
+[R-Markdown the definative guide](https://bookdown.org/yihui/rmarkdown/)
+
+
