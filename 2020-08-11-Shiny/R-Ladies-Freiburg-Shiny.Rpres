@@ -1,0 +1,430 @@
+<style>
+.section .reveal h1, h2{
+    color: #88398a;
+    font-size: 350%;
+  }
+.small-code pre code {
+  font-size: 1em;
+}
+
+</style>
+
+Intro to Shiny Apps
+========================================================
+autosize: true
+author: Elisa Schneider for R-Ladies Freiburg
+date: August 11, 2020
+
+***
+<div>
+
+<img src="figures/hex-rladies.png" alt="hex shiny" width="200" height="00" style="float: right; background-color: transparent; box-shadow:none; margin-left:80px;margin-top: 100px;"/>
+<div/>
+
+<div>
+<img src="figures/hex-shiny.png" alt="hex shiny" width="170" height="170" style="float: right; background-color: transparent; box-shadow:none; margin-left:150px;margin-top: 50px;" />
+
+Shiny Gallery
+========================================================
+
+
+<center>
+[![This figure shows the shiny gallery website](figures/03.png)](https://shiny.rstudio.com/gallery/)
+
+
+</center>
+
+Architecture of a Shiny App
+========================================================
+
+Let's have a look at one (not so simple) shiny app
+
+<center>
+
+[![This figure shows an example of a shiny app](figures/02.png)](https://shiny.rstudio.com/gallery/masters.html)
+
+</center>
+
+Architecture of a Shiny App
+========================================================
+
+<br></br>
+<center>
+![This figure shows an example of a shiny app](figures/04.png)
+</center>
+
+
+App template
+========================================================
+<br></br>
+
+The simplest viable shiny app 
+
+```{r, eval = FALSE}
+
+ui <- fluidPage()
+
+server <- function(input, output) {}
+
+shinyApp(ui = ui, server = server)
+```
+
+
+Let's look at the code behind the shiny app
+========================================================
+
+<br></br>
+<center>
+[![This figure shows an example of a shiny app](figures/02.png)](https://shiny.rstudio.com/gallery/masters.html)
+</center>
+
+***
+
+All shiny apps have
+
+- **ui** function that defines how the user interface looks like and what the user can do in that interface. 
+
+- **server** function where R-Code runs and returns the utput to the **ui**. 
+
+
+Page Set Up - User Interface
+========================================================
+class: small-code
+left: 50%
+
+<br><br/>
+**00-User-interface/App.R**
+
+```{r, eval = FALSE}
+library(shiny)
+ui <- fluidPage(
+  titlePanel("title panel"),
+  sidebarLayout(
+    sidebarPanel("sidebar panel"),
+    mainPanel("main panel")
+  )  
+)
+server <- function(input, output) {
+}
+# Return a Shiny app object
+shinyApp(ui = ui, server = server)
+```
+
+<br><br/>
+[More on layouts here](https://shiny.rstudio.com/articles/layout-guide.html)
+
+***
+
+<br><br/>
+**Fluid Page View**
+
+<center>
+![This figure shows the basic render function](figures/13.png)
+</center>
+
+
+Data Flow Structure
+========================================================
+
+<center>
+![This figure shows the basic render function](figures/12.png)
+</center>
+
+
+Inputs - Structures
+========================================================
+
+Access input values with `Input$`
+<center>
+![This figure shows the basic structure of a shiny app](figures/08.png)
+</center>
+
+Inputs - Basic Widgets
+========================================================
+left: 30%
+<style>
+/* ordered and unordered list styles */
+.reveal ul, 
+.reveal ol {
+    font-size: 25px;
+    line-height: 70%;
+}
+</style>
+
+Funtions
+- `actionButton`
+- `checkboxInput`
+- `checkboxGroupInput`
+- `dateInput`	
+- `dateRangeInput`
+- `fileInput`
+- `helpText`
+- `numericInput`
+- `radioButtons`
+- `selectInput`
+- `sliderInput`
+- `textInput`
+
+*** 
+
+<center>
+![This figure shows the basic structure of a shiny app](figures/07.png)
+</center>
+
+Inputs - Simpler example
+========================================================
+class: small-code
+**01-simplest-example/App.R**
+
+```{r, eval = FALSE}
+library(shiny)
+# Global variables can go here
+n <- 200
+# Define the UI
+ui <- fluidPage(
+  titlePanel("Simplest Shiny App"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput(inputId = 'n', 
+               label = 'Number of obs', 
+               value = n)
+      ),
+    mainPanel(plotOutput("myPlot"))
+  )
+)
+# Define the server code
+server <- function(input, output) {
+}
+# Return a Shiny app object
+shinyApp(ui = ui, server = server)
+```
+
+Making the App Reactive - Outpus
+========================================================
+
+Show output values with `render`
+<center>
+![This figure shows the basic structure of a shiny app](figures/09.png)
+</center>
+
+Build Objects to display with render*()
+========================================================
+left: 25%
+Render Functions
+- `renderTable`
+- `renderPlot`
+- `renderText`
+- `renderUI`
+- `renderImage`
+
+***
+
+<center>
+![This figure shows the basic render function](figures/10.png)
+</center>
+
+
+Build Objects to display with render*()
+========================================================
+
+```{r, eval = FALSE}
+
+# Server function
+
+server <- function(input, output) {
+  
+  title <- "Normal distribution"
+  xlabel <- "Value"
+  
+  output$hist <- renderPlot({
+    hist(rnorm(input$n), main = title, xlab = xlabel)
+  })
+}
+
+```
+
+
+Showing the output in the user interface - output functions
+========================================================
+
+<center>
+![This figure shows an example of render output function](figures/14.png)
+</center>
+
+Making the App reactive - Outpus
+========================================================
+class: small-code
+**01-simplest-example/App.R**
+
+```{r, eval = FALSE}
+library(shiny)
+# Global variables can go here
+n <- 50
+# Define the UI
+ui <- fluidPage(
+  titlePanel("Simplest Shiny App"),
+  sidebarLayout(
+    sidebarPanel(
+       sliderInput(inputId = "n", 
+                   label = "Number of obs", 
+                   min = 0,
+                   max = 100,
+                   value = n),
+    mainPanel(plotOutput("hist"))
+  )
+)
+# Define the server code
+server <- function(input, output) {
+  title <- "Normal distribution"
+  xlabel <- "Value"
+  output$hist <- renderPlot({
+    hist(rnorm(input$n), main = title, xlab = xlabel)
+  })
+}
+
+# Return a Shiny app object
+shinyApp(ui = ui, server = server)
+```
+
+
+Recap
+========================================================
+
+<center>
+![This figure shows an example of render output function](figures/15.png)
+</center>
+
+Recap
+========================================================
+<center>
+![This figure shows an example of render output function](figures/16.png)
+</center>
+
+Recap
+========================================================
+<center>
+![This figure shows an example of render output function](figures/17.png)
+</center>
+
+Recap
+========================================================
+<center>
+![This figure shows an example of render output function](figures/18.png)
+</center>
+
+Recap
+========================================================
+<center>
+![This figure shows an example of render output function](figures/12.png)
+</center>
+
+Showing the output in the user interface - output functions
+========================================================
+class: small-code
+
+**03-Hello/App.R**
+```{r, eval = FALSE}
+library(shiny)
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+   # Application title
+   titlePanel("Old Faithful Geyser Data"),
+   # Sidebar with a slider input for number of bins 
+   sidebarLayout(
+      sidebarPanel(
+         textInput(inputId = "text",
+                     label = "Write what you want, you do not have to be creative",
+                     value = "")
+      ),
+      # Show a plot of the generated distribution
+      mainPanel(
+         textOutput("user_text")
+      )
+   )
+)
+# Define server logic 
+server <- function(input, output) {
+output$user_text <- renderText({ 
+  paste("This shows what you are wrinting: " , input$text)
+})
+}
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+Hands on example
+========================================================
+
+
+Share our Shiny Apps
+========================================================
+<br></br>
+
+- Use a folder that contains all what your app needs (data, images, css) plus the shiny file with the name app.R
+
+- Shinyapps.io - Server mantained by RStudio. Only loading the app into the server is required. You have to create an account. [get started here](https://shiny.rstudio.com/articles/shinyapps.html#:~:text=Go%20to%20shinyapps.io%20and,name%20for%20all%20your%20apps.)
+
+- Shiny server for your own server - Free and open source (Free except for the Pro version)
+
+What can we learn to do great shiny apps?
+========================================================
+
+<br></br>
+
+![This figure shows an example of a shiny app](figures/01.png)
+
+***
+
+<br></br>
+
+- Intro to Shiny Apps
+
+- Reactivity in shiny apps
+
+- Customize appearance
+
+Resources used for this presentation and to go on learning
+========================================================
+
+
+- [Shiny gallery](https://shiny.rstudio.com/gallery/)
+- [Intro so shiny - video (intro + reactivity + custoimzation)](https://shiny.rstudio.com/tutorial/)
+- [Written tutorials](https://shiny.rstudio.com/tutorial/written-tutorial/lesson1/)
+- [Layout](https://shiny.rstudio.com/articles/layout-guide.html)
+- [Reactivity](https://rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/)
+
+Basic customisation
+========================================================
+class: small-code
+
+**02-HTML-formating/App.R**
+
+```{r, eval = FALSE}
+library(shiny)
+ui <- fluidPage(
+  titlePanel("My Shiny App"),
+  sidebarLayout(
+    sidebarPanel(h3("The sidebar panel")),
+    mainPanel(
+      p("p creates a paragraph of text."),
+      p("A new p() command starts a new paragraph. Supply a style attribute to change the format of the entire paragraph.", style = "font-family: 'times'; font-si16pt"),
+      strong("strong() makes bold text."),
+      em("em() creates italicized (i.e, emphasized) text."),
+      br(),
+      code("code displays your text similar to computer code"),
+      div("div creates segments of text with a similar style. This division of text is all blue because I passed the argument 'style = color:blue' to div", style = "color:blue"),
+      br(),
+      p("span does the same thing as div, but it works with",
+        span("groups of words", style = "color:blue"),
+        "that appear inside a paragraph.")
+      # img(src = "RLadies.jpg)
+    )
+  )
+)
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
