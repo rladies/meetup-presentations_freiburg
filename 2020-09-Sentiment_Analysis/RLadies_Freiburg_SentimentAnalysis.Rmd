@@ -1,0 +1,665 @@
+---
+title: "Sentiment analysis"
+author: "Julia Müller & Kyla McConnell"
+date: "Oct 08, 2020"
+output: html_document
+---
+
+Main source:
+- Ch. 2 in Text Mining with R, Julia Silge & David Robinson: https://www.tidytextmining.com/
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse) #for data manipulation tasks (joins, new columns)
+library(tidytext) #for text mining
+library(stringr) #for various text operations
+library(textdata) #for afinn sentiment score dict
+library(magrittr) #for different types of pipes
+library(gutenbergr) #to download books from the gutenberg project
+library(reshape2) #for data manipulation as matrices
+library(wordcloud) #for wordclouds!
+library(sentimentr) #for sentence-based sentiment scores
+library(readtext) #for reading text files
+library(viridis) #optional
+```
+
+
+# Sentiment analysis based on single words
+
+## Animal Crossing Data
+
+Tidy Tuesday Week 19: https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-05-05/readme.md
+
+Animal Crossing is a 2020 "sandbox" game, where your character lives on an island with a variety of different animal characters and collects resources to progress and upgrade the island. It has had mixed reviews: either it is the best game ever, or boring and pointless. It has also been criticized for the fact that you can only have one save game per console ("forcing" families/couples to buy extra consoles to avoid fights over island decor..)
+
+"user_reviews" includes the date of a review posting, the user_name of the writer, the grade they give the game (0-10), and the text they wrote.
+
+```{r}
+user_reviews_raw <- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/user_reviews.tsv') #download from tidytuesday github
+
+head(user_reviews_raw)
+```
+
+## Preprocessing
+
+### Tidy text
+- One token per row, facilitates analysis
+- Token: "a meaningful unit of text, most often a word, that we are interested in using for further analysis"
+
+### unnest_tokens()
+- tidytext
+- Splits up longer segments of text into tokens
+- Can choose token size: word (default), "characters", "ngrams", "sentences", "lines", "regex", "paragraphs", and even "tweets"
+- Removes punctuation, changes to lowercase
+- Syntax: unnest_tokens(df, newcol, oldcol)
+
+```{r}
+user_reviews <- user_reviews_raw %>% 
+  unnest_tokens(word, text)
+
+head(user_reviews)
+```
+
+### Remove stop words
+- Stop words: common, "meaningless" function words like "the", "of" and "to"
+- tidytext has a built-in dataframe called stop_words for English
+
+```{r}
+head(stop_words)
+```
+- You can also add your own words for removal by simply making them a vector
+```{r}
+more_stop_words <- tibble(word = c("nintendo", "switch", "console"))
+```
+
+- Stop lists for non-English languages can be found in the package "stopwords"
+```
+library(stopwords)
+stop_german <- data.frame(word = stopwords::stopwords("de"), stringsAsFactors = FALSE)
+```
+- Once you've collected your stop words, remove these words from the analysis using anti_join: removes all words that show up in both dataframes
+- Not really necessary to remove all stop words for sentiment analysis -- if a word has no emotional/sentiment-based meaning, it will just receive no score. But can be useful for misclassified words.
+```{r}
+user_reviews <- user_reviews %>% 
+  #anti_join(stop_words) %>% 
+  anti_join(more_stop_words)
+
+head(user_reviews)
+```
+
+## Sentiment analysis by word
+- Assigns each word a score or a value based on entries in a pre-defined dictionary -- then adds up all the scores to get a score per textual unit
+- Dictionaries created by crowd-sourcing (Amazon Mechanical Turk, Twitter data) and/or by work on parts of the author(s) in collecting and analyzing the words
+- Major disadvantage: what if the text includes the phrase "not good"? Word-based scores will just see "good" and give a positive score!
+- We'll look at three different dicts, all included in the tidytext package: 
+
+- All dictionaries are called with get_sentiments()
+- Then, join with inner_join (keeps all words that are in BOTH dataframes)
+- And count or sum!
+
+### bing
+- Binary: positive/negative
+
+```{r}
+head(get_sentiments("bing"))
+```
+
+Inner join to get a sentiment for each word:
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("bing")) %>% 
+  head()
+```
+
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("bing"))%>% 
+  count(sentiment) %>% 
+  ungroup() 
+```
+
+Most common positive/negative words? Count by word and sentiment
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("bing")) %>% 
+  count(word, sentiment, sort = TRUE) %>% 
+  ungroup %>% 
+  head()
+```
+
+Each reviewer's sentiment score:
+(Note: retain "grade" in count command to keep this column for later)
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("bing")) %>% 
+  count(user_name, grade, sentiment) %>% 
+  head()
+```
+
+Create columns for negative and positive, add total_score column (& save)
+```{r}
+(user_sentiments_bing <- user_reviews %>% 
+  inner_join(get_sentiments("bing")) %>% 
+  count(user_name, grade, sentiment) %>% 
+  spread(sentiment, n, fill=0) %>% 
+  mutate(total_score = positive - negative))
+```
+
+Look at the range of the scores
+```{r}
+user_sentiments_bing %>% 
+  summarize(max(total_score), min(total_score)) 
+```
+
+Graph it:
+```{r}
+ggplot(aes(x=total_score, y=grade, group=grade), data=user_sentiments_bing) +
+    geom_violin(aes(color=grade), show.legend=FALSE)
+```
+
+### AFINN
+- Scale: -5 (very negative) to 5 (very positive)
+```{r}
+head(get_sentiments("afinn"))
+```
+
+Join to reviews and take a look
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("afinn")) %>% 
+  head()
+```
+
+Sum up one total per review (& save)
+```{r}
+(user_sentiments_afinn <- user_reviews %>% 
+  group_by(user_name, grade) %>% #retain grade for use later
+  inner_join(get_sentiments("afinn")) %>% 
+  summarize(total_score = sum(value)) %>% 
+  ungroup())
+```
+
+Look at the range of the scores
+```{r}
+user_sentiments_afinn %>% 
+  summarize(max(total_score), min(total_score)) 
+```
+
+Graph it:
+```{r}
+ggplot(aes(x=total_score, y=grade, group=grade), data = user_sentiments_afinn) +
+    geom_violin(aes(color=grade), show.legend=FALSE)
+
+#Or with overlaid boxplots
+ggplot(aes(x=total_score, y=grade, group=grade), data = user_sentiments_afinn) +
+    geom_violin(aes(color=grade), show.legend=FALSE) +
+  geom_boxplot(aes(color = grade), alpha = 0.2, width = 0.25, show.legend=FALSE) +
+  theme_light() +
+  coord_flip()
+```
+
+What's going on with the very negative sentiment scores for some positive reviews? Let's join the text back to the sentiment scores and take a look:
+```{r}
+user_sentiments_afinn <- left_join(user_sentiments_afinn, user_reviews_raw)
+
+user_sentiments_afinn %>% 
+  filter(grade > 8 & total_score < 0) %>% 
+  select(grade, total_score, text) %>% 
+  arrange(total_score)
+```
+Turns out these reviewers give 10 points to offset the (as they see it) unjustly low reviews while making fun of people who give 0 points or rate the game before it has come out.
+
+Reversely, why positive scores with low grades?
+```{r}
+user_sentiments_afinn %>% 
+  filter(grade < 3 & total_score > 20) %>% 
+  select(grade, total_score, text) %>% 
+  arrange(desc(total_score))
+```
+These reviewers tend to say that they initially liked the game until they realised that only one person could play it.
+
+Compare the two methods so far:
+```{r}
+user_sentiments_bing <- user_sentiments_bing %>% 
+  mutate(method="bing")
+
+user_sentiments_afinn <- user_sentiments_afinn %>% 
+  mutate(method="afinn")
+
+bind_rows(user_sentiments_bing, 
+          user_sentiments_afinn) %>%
+  ggplot(aes(x = user_name, y = total_score, fill = method)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~method, ncol = 1, scales = "free_y") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+```
+
+### nrc
+- Multiple emotions: positive, negative, anger, anticipation, disgust, fear, joy, sadness, surprise
+- Scale: binary: either assigned the emotion or not
+
+```{r}
+head(get_sentiments("nrc"))
+```
+
+Join sentiment scores and count, checking out informative words:
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("nrc")) %>% 
+  count(word, sentiment, sort = TRUE) %>% 
+  ungroup()
+```
+
+See: player, console -- this would be a case for our custom stop words.
+Should be done at the beginning but let's do it now: 
+```{r}
+even_more_stop_words <- tibble(word = c("player", "console"))
+
+user_reviews <- user_reviews %>% 
+  anti_join(even_more_stop_words) 
+
+user_reviews%>% 
+  inner_join(get_sentiments("nrc")) %>% 
+  count(word, sentiment, sort = TRUE) %>% 
+  ungroup()
+```
+
+Since these are binary categories, we again use count and spread:
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("nrc")) %>% 
+  count(user_name, grade, sentiment, sort = TRUE) %>% 
+  spread(sentiment, n, fill=0)
+```
+
+Graph how many words of each sentiment show up by review grade:
+Note: Same code as above, without spread() and without counting by user_name
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("nrc")) %>% 
+  count(grade, sentiment, sort = TRUE) %>% 
+  ggplot(aes(x=as.factor(grade), y=n, fill=sentiment)) +
+  geom_col(position="dodge")
+```
+
+Reviews seem pretty polarized, let's try to normalize them by total sentiments expressed
+```{r}
+user_reviews %>% 
+  inner_join(get_sentiments("nrc")) %>% 
+  count(grade, sentiment, sort = TRUE) %>% 
+  spread(sentiment, n, fill=0) %>%
+  mutate(total = anger + anticipation + disgust + fear + joy + negative + positive + sadness + surprise + trust, 
+         anger = round(anger / total, 2),
+         anticipation = round(anticipation / total, 2),
+         disgust = round(disgust / total, 2), 
+         fear = round(fear / total, 2), 
+         joy = round(joy / total, 2), 
+         negative = round(negative / total, 2), 
+         positive = round(positive / total, 2), 
+         sadness = round(sadness / total, 2), 
+         surprise = round(surprise / total, 2),
+         trust = round(trust / total, 2))
+```
+
+
+## Comparison clouds
+
+Comparison clouds are extensions of word clouds. Instead of plotting the most frequent words in a text, with more frequent words in a bigger font, comparison clouds show word frequencies across documents. This means you can compare the vocabulary of texts, but we can also use it to look at the most frequent word per emotion, for example.
+The input format for a comparison cloud needs to be a matrix, with the words in rows and one document per column. We can use the acast function from reshape2 to achieve this format.
+
+In the comparison.cloud call, we can specify arguments such as the colours, the maximum number of words that should be plotted, how many of them should be rotated, etc. See ?comparison.cloud for more details.
+
+```{r, warning=FALSE, message=FALSE}
+user_reviews %>% 
+  inner_join(get_sentiments("bing")) %>%
+  count(word, sentiment, sort = TRUE)%>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(colors = c("#CA5336", "#009D93"),
+                   max.words = 100,
+                   title.size = 2, match.colors = TRUE)
+
+user_reviews %>% 
+  inner_join(get_sentiments("nrc")) %>%
+  count(word, sentiment, sort = TRUE) %>%
+  acast(word ~ sentiment, value.var = "n", fill = 0) %>%
+  comparison.cloud(max.words = 100,
+                   title.size = 1, match.colors = TRUE)
+```
+
+## Recap
+- Three options for sentiment dictionaries by word (bing, afinn, nrc)
+- Word-based sentiment analysis doesn't consider negation, etc.
+- Remove any incorrectly labeled or overly influential words with a custom stop word list
+- Equalize scores based on number of words, reviews, sentiments
+- Larger sample size = more likely to even out to 0
+- Good for basic overview, but prone to many different types of errors -- always look closely at your data, both as a summary table and plot!
+
+
+## Practice
+
+Two recent Tidy Tuesday datasets containing song lyrics are great for practicing sentiment analysis. Take your own direction with exploring the data and see what you find!
+```{r, message=FALSE}
+beyonce_lyrics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/beyonce_lyrics.csv')
+taylor_swift_lyrics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/taylor_swift_lyrics.csv')
+```
+
+If you need some suggestions, try this:
+
+- Choose either Beyonce or Taylor Swift to focus on
+- Transform the data into "tidy" format
+- Select your sentiment dictionary
+- Join the dictionary to the lyrics
+- Look at which words show up the most times in each sentiment
+- Make a custom stop words list and remove any words that you think might be misinterpreted
+- Visualize common words by sentiment in a comparison cloud
+- Divide the lyrics based on song or album
+- Count or sum up the sentiments by section 
+- Create a visualization of what you've found (bar chart, violin plot, etc.)
+
+You can also compare these results to the sales and chart status of the songs:
+```
+sales <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/sales.csv')
+charts <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/charts.csv')
+````
+
+
+# Sentiment analysis for sentences
+
+So far, we've used a dictionary lookup to add sentiments for each individual word. This approach can run into problems. For example, "happy" would always receive a positive score, even though depending on the context (e.g. "not happy at all") that might not be appropriate.
+Next, we'll calculate sentiment scores by sentence, using the [sentimentr package](https://cran.r-project.org/web/packages/sentimentr/readme/README.html). This package also considers things like negation ("not happy") and amplifiers ("really happy" is more positive than just "happy") as well as deamplifiers (e.g. "barely") and adversative conjunctions (e.g. "but") when calculating sentiment scores.
+
+You can run these lines of code to see the items that are considered negators, amplifiers, deamplifiers, and adversative conjunctions.
+```{r}
+lexicon::hash_valence_shifters[y==1] # negators 
+lexicon::hash_valence_shifters[y==2] # amplifiers 
+lexicon::hash_valence_shifters[y==3] # deamplifiers 
+lexicon::hash_valence_shifters[y==4] # adversative conjunctions 
+```
+
+Let's look at a simple example to compare the two approaches:
+```{r}
+examples <- data.frame(
+  id = c("1", "2"),
+  text = c("I was very happy.", "She was not happy.")
+)
+
+sentiment(get_sentences(examples$text))
+
+examples %>% 
+  unnest_tokens(word, text) %>% 
+  inner_join(get_sentiments("bing"))
+```
+
+
+## Polarity
+Let's read in the data using the readtext package. It's saved in txt files in a folder called "Shakespeare txts" on my computer (**please note that this data is not available on github. There's a reproducible example in the next section**). Each play is saved in one file and, when read in, is represented in one line. The doc_id variable is the file name (the second line in the code below gets rid of the .txt in the play titles).
+```{r}
+shakes <- readtext(paste0("Shakespeare txts/*"))
+
+shakes$doc_id <- sub(".txt", "", shakes$doc_id)
+```
+
+### ...by entire texts
+First, we'll calculate an average sentiment score for each of the texts (i.e. entire plays) in our Shakespeare data.
+Be warned - since this is a lot of data, this will take a little while...
+```{r}
+shakes_sentiments <- shakes %>%
+    mutate(sents = get_sentences(text)) %$% 
+    sentiment_by(sents, doc_id)
+```
+
+#### Plotting
+The first line of code creates a graph in which the plays are sorted alphabetically (because when we read in the data, the files were sorted alphabetically) while the second command sorts the plays from highest to lowest sentiment score (removing the - will sort from lowest to highest).
+```{r}
+ggplot(shakes_sentiments) + 
+  aes(x = doc_id, y = ave_sentiment) + 
+  geom_point()
+
+ggplot(shakes_sentiments) + 
+  aes(x = reorder(doc_id, -ave_sentiment), y = ave_sentiment) + 
+  geom_point()
+
+ggplot(shakes_sentiments) + 
+  aes(x = reorder(doc_id, -ave_sentiment), y = ave_sentiment) + 
+  geom_point() + 
+  labs(x = "Shakespeare play", y = "average sentiment score") +
+  theme_minimal()
+```
+
+Adding information on the kinds of plays and creating a lollipop plot:
+```{r}
+shakes_sentiments <- shakes_sentiments %>% 
+  mutate(type_of_play = if_else(doc_id %in% c("Midsummer", "Tempest", "Merchant of Venice", "As You Like It", "Shrew"), "comedy",
+                                if_else(doc_id %in% c("King Lear", "Romeo and Juliet", "Macbeth", "Hamlet", "Julius Caesar", "Othello"), "tragedy", "history play")))
+
+ggplot(shakes_sentiments) + 
+  aes(x = reorder(doc_id, -ave_sentiment), y = ave_sentiment) + 
+  geom_point(aes(colour = type_of_play), size = 4) +
+  geom_segment(aes(x = doc_id, xend = doc_id, 
+                   y = 0.05, yend = ave_sentiment,
+                   colour = type_of_play), 
+               size = 1, alpha = 0.6) +
+  theme_minimal() +
+  coord_flip() +
+  labs(x = "Shakespeare play", 
+       y = "average sentiment score",
+       title = "Average sentiment scores by Shakespeare plays",
+       subtitle = "Sentiment scores can distinguish tragedies from comedies")
+```
+So we can see that the sentiment scores accurately distinguish the comedies and tragedies, with the comedies receiving higher sentiment scores.
+
+
+### ...by sentence
+We'll break the texts up into individual sentences and calculate the sentiment score for each individual sentence.
+```{r}
+shakes_sentences <- shakes %>% 
+  get_sentences() %>% 
+  sentiment()
+```
+
+#### Plotting
+Now, we'll plot the sentiment scores per sentence.
+The first line of code does this for all plays, but since we can expect differences in sentiment scores for tragedies and comedies (and, in fact, have already seen that that's the case in the previous plot), it's better to plot this separately for each play.
+The second line of code adds in the facet_wrap command which tells R to create separate plots for each doc_id, i.e. play. The scales = "free_x" command automatically adjusts the x-axis to the number of sentences per play. The y-axis, however, isn't adjusted so that it's easier to compare the sentiment scores of the plays to each other.
+```{r}
+ggplot(shakes_sentences) + 
+  aes(sentence_id, sentiment) + 
+  geom_smooth()
+
+ggplot(shakes_sentences) + 
+  aes(sentence_id, sentiment) + 
+  geom_smooth() + 
+  facet_wrap(~doc_id)
+
+ggplot(shakes_sentences) + 
+  aes(sentence_id, sentiment) + 
+  geom_smooth() + 
+  facet_wrap(~doc_id, scales = "free_x")
+```
+
+Let's colour-code the plots by type of play:
+```{r}
+shakes_sentences <- shakes_sentences %>% 
+  mutate(type_of_play = if_else(doc_id %in% c("Midsummer", "Tempest", "Merchant of Venice", "As You Like It", "Shrew"), "comedy",
+                                if_else(doc_id %in% c("King Lear", "Romeo and Juliet", "Macbeth", "Hamlet", "Julius Caesar", "Othello"), "tragedy", "history play")))
+
+ggplot(shakes_sentences) + 
+  aes(sentence_id, sentiment, fill = type_of_play, color = type_of_play) + 
+  scale_fill_viridis(discrete=TRUE) +
+  scale_color_viridis(discrete = TRUE) +
+  geom_smooth() + 
+  facet_wrap(~doc_id, scales = "free_x") + 
+  labs(x = "sentence", y = "average sentiment score",
+       title = "Sentiment scores in Shakespeare plays") + 
+  theme_minimal()
+```
+
+Plots like these can help trace sentiments throughout a text. 
+
+
+### ...by chapter and sentences
+
+For this next part, we'll use *Alice's Adventures in Wonderland* which we'll download from Project Gutenberg using the gutenbergr package.
+To find the id of a book (some have multiple copies), use:
+```{r}
+gutenberg_metadata %>%
+  filter(title == "Alice's Adventures in Wonderland")
+```
+
+To download, use:
+```{r}
+alice_raw <- gutenberg_download(11, mirror = "http://mirrors.xmission.com/gutenberg/")
+```
+
+With this code, we use str_detect in combination with a regular expression to find "chapter" followed by a Roman numeral. The cumsum command counts up by one every time this regular expression is matched.
+We then remove the Gutenberg ID and "chapter 0" (i.e. the title and publisher).
+```{r}
+alice <- alice_raw %>% 
+  mutate(chapter = cumsum(str_detect(text, regex("^chapter [\\divclx]", ignore_case = TRUE)))) %>%
+  select(-gutenberg_id) %>% 
+  filter(chapter != 0)
+
+alice$chapter <- as_factor(alice$chapter)
+```
+
+Since the gutenbergr package preserves the line structure of the original text, we need to first paste the lines to form a coherent text. Otherwise, the get_sentences function won't work properly. 
+```{r}
+alice <- alice %>% 
+  group_by(chapter) %>% 
+  summarise(text_complete = paste(text, collapse=" ")) %>% 
+  ungroup()
+```
+
+#### Plotting
+
+Now, we can add sentiment scores for each chapter using the same code as before, except switching "play" for "chapter", and then plot the results.
+```{r}
+alice_sentiments <- alice %>% 
+    mutate(sents = get_sentences(text_complete)) %$% 
+    sentiment_by(sents, chapter)
+
+ggplot(alice_sentiments) + 
+  aes(chapter, ave_sentiment) +
+  geom_point() + 
+  labs(x = "chapter", y = "average sentiment score",
+       title = "Sentiment scores in Alice in Wonderland chapters") + 
+  theme_minimal()
+
+ggplot(alice_sentiments) + 
+  aes(chapter, ave_sentiment) +
+  geom_point(aes(colour = ave_sentiment), size = 4) +
+  geom_segment(aes(x = chapter, xend = chapter, 
+                   y = 0, yend = ave_sentiment,
+                   colour = ave_sentiment), 
+               size = 1, alpha = 0.5) +
+  theme_minimal() + theme(legend.position = "none") +
+  labs(x = "chapter", 
+       y = "average sentiment score",
+       title = "Sentiment scores in Alice in Wonderland chapters")
+```
+
+At first glance, there seem to be massive differences between the average sentiment scores per chapter! The sentiment_by output also includes the standard deviations for each of these averages. Let's see what changes when we put this information into the plot using geom_errorbar:
+```{r}
+ggplot(alice_sentiments) + 
+  aes(chapter, ave_sentiment) +
+  geom_point() + 
+  geom_errorbar(aes(ymin=ave_sentiment-sd, ymax=ave_sentiment+sd)) +
+  labs(x = "chapter", y = "average sentiment score",
+       title = "Sentiment scores in Alice in Wonderland chapters") + 
+  theme_minimal()
+```
+
+Let's now get sentiment scores for each sentence:
+```{r}
+alice_sentences <- alice %>% 
+  get_sentences() %>% 
+  sentiment()
+```
+
+...and plot their development per chapter:
+```{r}
+ggplot(alice_sentences) + 
+  aes(sentence_id, sentiment) + 
+  geom_smooth() + 
+  facet_wrap(~chapter, scales = "free_x") + 
+  geom_hline(yintercept=0, color = "red") +
+  labs(x = "sentence", y = "average sentiment score",
+       title = "Sentiment scores in Alice in Wonderland chapters") + 
+  theme_minimal()
+```
+
+Instead of using sentiment_by to get sentiment scores by chapter, we could also work with the sentence scores and use group_by and summarise:
+```{r}
+alice_sentences %>% 
+  group_by(chapter) %>% 
+  summarise(sentiment_ch = mean(sentiment), sentiment_sd = sd(sentiment))
+```
+
+Finally, let's take a closer look at which sentences are more positive and which ones are more negative using highlight():
+```{r}
+alice %>% 
+  filter(chapter %in% c("1", "11")) %>% 
+  mutate(sents = get_sentences(text_complete)) %$% 
+    sentiment_by(sents, chapter) %>% 
+  highlight()
+```
+
+
+## Emotions
+
+So far, we've focused on polarity (positive - negative) per sentences, but the sentimentr package also provides many other interesting functions. Here are some we won't have time to go into today:  
+- find and count instances of profanity
+- replace emojis and internet slang/abbreviations with their text equivalents
+- create your own sentiment dictionary
+
+It's also possible to calculate ratings for the detailed emotions we discussed before. Instead of sentiment(_by), we use emotion(_by), e.g.
+```{r}
+alice_emotions <- alice %>% 
+  get_sentences() %>% 
+  emotion()
+
+head(alice_emotions, 16) %>% select(emotion_type, emotion_count, emotion)
+```
+
+As an example, let's plot
+```{r}
+alice_emotions %>% 
+  filter(emotion_type %in% c("fear", "sadness")) %>% 
+  ggplot() + aes(sentence_id, emotion, fill = emotion_type, colour = emotion_type) +
+  geom_smooth() + 
+  facet_wrap(~chapter, scales = "free_x") + 
+  labs(x = "sentence", y = "average sentiment score",
+       title = "Sentiment scores in Alice in Wonderland chapters") + 
+  theme_minimal()
+```
+
+
+## Practice
+
+Try to use sentimentr, for example go back to the song lyrics data:
+- To get sentence-based sentiment or emotion scores (or look for profanity)
+- Compare Beyoncé and Taylor Swift lyrics in terms of their sentiments/emotions etc.
+- Visualise your results
+
+Alternatively, you can download a book or play from Project Gutenberg or read in any other text data. The sentimentr package also contains several datasets you could play around with (see documentation here: https://cran.r-project.org/web/packages/sentimentr/sentimentr.pdf)
+
+Take care to choose a dataset that has a manageable size because otherwise, it'll take a while for the analysis to finish running.
+
+Alternatively, you can look at sentence-based sentiment scores for the Animal Crossing review data:  
+- Use the sentimentr package to get sentiment scores for each user_name (don't drop the grade column!)
+- Compare your results to those of the word-based analysis. Do sentiment scores based on sentences better reflect the grades the users gave?
+
+Since running sentimentr can take a while, you can use sample_n to take a random sample of rows to run the analysis on.
+
+```{r}
+user_reviews_raw <- readr::read_tsv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-05-05/user_reviews.tsv') #download from tidytuesday github
+
+user_reviews_small <- sample_n(user_reviews_raw, 600)
+```
+
+
+# Takeaway message
+Keep in mind that no automated analysis can be perfect. Sentiment analysis has difficulties dealing with non-standard language such as informal spoken or historical registers. Always take a close look at your data!
+
+Thorough data cleaning and annotation (e.g. finding a word's base form or 'lemma', in a process called 'lemmatisation') can improve its accuracy.
