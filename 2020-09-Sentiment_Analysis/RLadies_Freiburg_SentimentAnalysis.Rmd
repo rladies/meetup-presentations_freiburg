@@ -68,7 +68,7 @@ head(stop_words)
 ```
 - You can also add your own words for removal by simply making them a vector
 ```{r}
-more_stop_words <- tibble(word = c("nintendo", "switch", "console"))
+more_stop_words <- tibble(word = c("nintendo", "switch"))
 ```
 
 - Stop lists for non-English languages can be found in the package "stopwords"
@@ -113,8 +113,7 @@ user_reviews %>%
 ```{r}
 user_reviews %>% 
   inner_join(get_sentiments("bing"))%>% 
-  count(sentiment) %>% 
-  ungroup() 
+  count(sentiment)
 ```
 
 Most common positive/negative words? Count by word and sentiment
@@ -122,7 +121,6 @@ Most common positive/negative words? Count by word and sentiment
 user_reviews %>% 
   inner_join(get_sentiments("bing")) %>% 
   count(word, sentiment, sort = TRUE) %>% 
-  ungroup %>% 
   head()
 ```
 
@@ -269,7 +267,7 @@ Since these are binary categories, we again use count and spread:
 ```{r}
 user_reviews %>% 
   inner_join(get_sentiments("nrc")) %>% 
-  count(user_name, grade, sentiment, sort = TRUE) %>% 
+  count(user_name, grade, sentiment, sort = TRUE)%>% 
   spread(sentiment, n, fill=0)
 ```
 
