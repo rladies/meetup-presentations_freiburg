@@ -1,0 +1,133 @@
+---
+title: "Adding images to ggplot with ggdraw and cowplot"
+author: "Kyla McConnell"
+date: "11/30/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(cowplot) #contains ggdraw
+```
+
+# Load data
+
+- Tidy Tuesday animal crossing data -- customer reviews of 2020 released video game (fictional island with animal characters, from different species and personality types)
+- character_reviews: all reviews that contain a character name, incl. character species and personality type
+
+```{r, message=FALSE, warning=FALSE}
+character_reviews <- read_csv("character_reviews.csv")
+```
+
+# Example 1: Add basic logo
+
+Bar plot showing average grade by character. Color-coded (custom hex codes used here) to show personality types. Ordered in by descending average review score.
+
+Make sure to save to a variable! 
+
+```{r, message=FALSE, warning=FALSE}
+(names_plot <- ggplot(data=character_grades, aes(x=reorder(name, -average_grade), y=average_grade, fill=personality)) +
+  geom_col(show.legend=FALSE)+ 
+  scale_fill_manual(values=c("#99d6ff", "#BFC2C6", "#C4E5C5", "#FFC9BF", "#95E3DF", "#F6F4CB", "#fac998", "#d6b2ab"))+
+  xlab("Villager name") +
+  ylab("Average review (out of 10)") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, family="serif"), panel.background=element_blank(), plot.title = element_text(family = "serif"), axis.text.y = element_text(family="serif"), axis.title=element_text(family="serif")))
+```
+Add image:
+
+1. Find image URL (i.e. on Google)
+2. Set up a ggdraw() object 
+3. draw_plot(plot_name)
+4. draw_image(url, x=, y=, scale=)
+  - x and y co-ordinates from the axes, 0 is the middle, might need a bit of trial and error
+  - scale to change the original size of the picture to make it fit the graph
+  
+```{r, message=FALSE, warning=FALSE}
+ggdraw() +
+  draw_plot(names_plot) +
+  draw_image("https://vignette.wikia.nocookie.net/siivagunner/images/9/99/Animal_Crossing-_New_Horizons.jpg/revision/latest?cb=20190913005933", scale = .2) #Try x = 0.5, x = -0.5
+```
+
+```{r, message=FALSE, warning=FALSE}
+ggdraw() +
+  draw_plot(names_plot) +
+  draw_image("https://vignette.wikia.nocookie.net/siivagunner/images/9/99/Animal_Crossing-_New_Horizons.jpg/revision/latest?cb=20190913005933", x=0.33, y=0.2, scale=.2)
+```
+
+# Example 2: Add headers to bar plots
+
+Basic plot:
+
+First, a little wrangling to produce a summary table with average ratings for each personality type (based on that character's name appearing in the review).
+
+Bar chart showing the average for each personality type (again, custom hex codes for colors, a few changes to the font siyes, re-sizing axes and othher cosmetic changes)
+
+Save to a variable!
+```{r}
+(species_plot <- character_reviews %>% 
+  group_by(personality) %>% 
+  summarize(average_grade = mean(average_grade)) %>%
+  ggplot(aes(x=personality, y=average_grade, fill=personality))+
+  geom_col(show.legend=FALSE)+ 
+  xlab("Villager personality") +
+  ylab("Average review (out of 10)")+
+  ggtitle("How do villager's personalities affect user reviews in Animal Crossing?")+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, family="serif"), panel.background=element_blank(), plot.title = element_text(family = "serif", face="bold"), axis.text.y = element_text(family="serif"), axis.title=element_text(family="serif")) + 
+  scale_fill_manual(values=c("#99d6ff", "#BFC2C6", "#C4E5C5", "#FFC9BF", "#95E3DF", "#F6F4CB", "#fac998", "#d6b2ab")) +
+  scale_y_discrete(limits=c(0, 2, 4, 6, 8, 10))+
+  ylim(0,10))
+```
+Add image toppers to each bar
+
+1. Find image URLs (i.e. on Google) -> works best if they have transparent backgrounds or you remove the background first
+2. Set up a ggdraw() object 
+3. draw_plot(plot_name)
+4. draw_image(url, x=, y=, scale=)
+
+```{r}
+ggdraw() +
+  draw_plot(species_plot) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/robin.e227ada.png", scale=.5) #Try scaling down even further
+```
+
+  
+```{r}
+ggdraw() +
+  draw_plot(species_plot) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/robin.e227ada.png", x = 0.31, y = 0.15, scale = .2) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/marshal.20eb375.png", x = 0.2, y = -0.05, scale = .2)+
+  draw_image("https://villagerdb.com/images/villagers/thumb/flora.b45e15f.png", x = 0.09, y = 0.07, scale = .2)+
+  draw_image("https://villagerdb.com/images/villagers/thumb/merengue.6609ed1.png", x = -0.03, y = 0.12, scale = .2) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/pashmina.8916368.png", x = 0.42, y = 0.08, scale = .2) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/beau.b905798.png", x = -0.12, y = 0.15, scale = .2) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/sterling.fef732a.png", x = -0.24, y = 0, scale = .2) +
+  draw_image("https://villagerdb.com/images/villagers/thumb/del.5f28b25.png", x = -0.36, y = 0.1, scale = .2)
+```
+# Add a second plot as an inset
+
+1. Save both plots as variables
+2. Call ggdraw on the larger/main plot
+3. draw_plot(other_plot, x=, y=, width=, height=)
+  - where other_plot is your plot variable name
+  - x and y are coordinnates, width/height for resizing
+  
+```{r}
+#First I remove the old eader and y-axis label for clarity
+species_plot <- species_plot + 
+  ylab("")+
+  ggtitle("")
+  
+ggdraw(names_plot) +
+  draw_plot(species_plot, x = .52, y = .6, width = .4, height = .4)
+```
+
+And you can even add images to multiple plot layouts too!
+```{r}
+ggdraw(names_plot) +
+   draw_plot(species_plot, x = .6, y = .55, width = .4, height = .4) +
+  draw_image("https://vignette.wikia.nocookie.net/siivagunner/images/9/99/Animal_Crossing-_New_Horizons.jpg/revision/latest?cb=20190913005933", x= 0.02, y=0.3, scale=.2) +
+  draw_image("https://villagerdb.com/images/villagers/medium/mitzi.7ed5f5f.png", x = 0.4, y = -0.18, scale = .25)
+```
+
+More info here:
+https://wilkelab.org/cowplot/articles/drawing_with_on_plots.html
