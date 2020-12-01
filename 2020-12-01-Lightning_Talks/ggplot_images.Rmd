@@ -26,7 +26,12 @@ Bar plot showing average grade by character. Color-coded (custom hex codes used 
 Make sure to save to a variable! 
 
 ```{r, message=FALSE, warning=FALSE}
-(names_plot <- ggplot(data=character_grades, aes(x=reorder(name, -average_grade), y=average_grade, fill=personality)) +
+names_reviews <- character_reviews %>% 
+  group_by(name, personality) %>% 
+  summarize(average_grade = mean(grade)) %>% 
+  ungroup()
+
+(names_plot <- ggplot(data=names_reviews, aes(x=reorder(name, -average_grade), y=average_grade, fill=personality)) +
   geom_col(show.legend=FALSE)+ 
   scale_fill_manual(values=c("#99d6ff", "#BFC2C6", "#C4E5C5", "#FFC9BF", "#95E3DF", "#F6F4CB", "#fac998", "#d6b2ab"))+
   xlab("Villager name") +
@@ -87,7 +92,7 @@ Add image toppers to each bar
 ```{r}
 ggdraw() +
   draw_plot(species_plot) +
-  draw_image("https://villagerdb.com/images/villagers/thumb/robin.e227ada.png", scale=.5) #Try scaling down even further
+  draw_image("https://villagerdb.com/images/villagers/thumb/robin.e227ada.png", scale=.3) #Try scaling down even further
 ```
 
   
@@ -125,7 +130,7 @@ And you can even add images to multiple plot layouts too!
 ```{r}
 ggdraw(names_plot) +
    draw_plot(species_plot, x = .6, y = .55, width = .4, height = .4) +
-  draw_image("https://vignette.wikia.nocookie.net/siivagunner/images/9/99/Animal_Crossing-_New_Horizons.jpg/revision/latest?cb=20190913005933", x= 0.02, y=0.3, scale=.2) +
+  draw_image("https://vignette.wikia.nocookie.net/siivagunner/images/9/99/Animal_Crossing-_New_Horizons.jpg/revision/latest?cb=20190913005933", x= -0.025, y=0.3, scale=.2) +
   draw_image("https://villagerdb.com/images/villagers/medium/mitzi.7ed5f5f.png", x = 0.4, y = -0.18, scale = .25)
 ```
 
