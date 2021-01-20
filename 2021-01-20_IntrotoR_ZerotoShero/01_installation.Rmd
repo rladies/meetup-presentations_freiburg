@@ -1,0 +1,98 @@
+---
+title: "How to install and use R-Studio"
+author: "Kyla McConnell & Julia Mueller"
+output: html_document
+---
+
+## If you're installing R for the first time
+
+R is a programming language that can be written directly into your computer's console/terminal. However, almost all users of R pair it with the program R-Studio, an integrated development environment (IDE) that offers a ton of features that will make your life much easier! 
+
+Download R here (if in Germany): https://ftp.gwdg.de/pub/misc/cran/
+Or select a closer location ("mirror") here to optimize performance: https://ftp.gwdg.de/pub/misc/cran/
+
+Then download R-Studio (Desktop) here: https://rstudio.com/products/rstudio/download/
+
+More installation info here if you have trouble: https://rstudio-education.github.io/hopr/starting.html
+
+Windows users -- you might be prompted to download a program called RTools to use the package panel in R Studio. You can do this directly from the RStudio/CRAN webpage here: https://cran.rstudio.com/bin/windows/Rtools/
+
+Mac users -- a program called XQuartz is needed for viewing some plots. This might not come up as a problem for you until later, but to be safe, you can also go ahead and install it now: https://www.xquartz.org/
+
+Note: You must install both R AND R-Studio in order to use R-Studio for the rest of this tutorial. 
+
+## If you need to update R and R-Studio
+If you want to update R, you can simply download the newest version using the link above. Note, however, that you will likely have to reinstall all packages. This is still worth doing every so often so that you don't get too far behind, because new packages might not work on old R versions (but old packages might not work on new R versions). 
+
+You can also update R Studio by redownloading it with the link above.
+
+If you're on Windows, you can also use the installr package, here is some more info: https://www.r-statistics.com/2013/03/updating-r-from-r-on-windows-using-the-installr-package/
+
+For Mac users, the 
+
+## About R-Studio
+
+R-Studio can make your R journey much easier! With R-Studio, you go from a programming language of text-only to a whole program, not too unlike Microsoft Word in comparison to text files. 
+
+In general, you have four panels: 
+
+Top-left: your scripting panel, in which you can write and save code. This may only open when you open a new file (File -> New File -> R Script / R-Markdown, we'll talk about the difference below)
+
+Bottom-left: the console panel, for input/output that won't be saved.
+
+Top-right: the environment panel, which generally can show you dataframes you are working with as well as other information you've saved to variables (and sometimes has other features too, depending on what you're working with)
+
+Bottom-right: install and update packages, preview plots, read help files, and some other features
+
+![R-Studio](img/rstudio_panels.png)
+Image from https://ourcodingclub.github.io/tutorials/intro-to-r/
+
+## R scripts vs. R-Markdowns
+
+There are two types of file that you can use with R-Studio: a simple script, and a more feature rich R-Markdown document like this one. 
+
+Both of these file types allow you to save code to continue working on t, re-run it later, or have as a record of your analysis steps.
+
+### R script (.R)
+
+R scripts are the most simple files for saving your R code. They consist only of code.
+
+To open a new script, select File -> New File -> R Script 
+
+In this type of file, you write lines of code in the order they are meant to be run, and can run each line by clicking that line and pressing Control + R (on Windows) or Cmd + Enter (on Mac)
+
+You can try out this type of script by typing some mathematical operations in the script and running those lines. The output will show below, in your console panel. 
+
+All text in an R script is read as code. To leave comments for yourself or to indicate that a certain line shouldn't be run as code, use a hashtag (#) at the beginning of that line.
+
+### R-Markdown file (.Rmd)
+
+R-Markdown files are more complex files, that contain both code and text. They can also include images and some basic formatting.
+
+To open a new R-Markdown file, select File -> New File -> R Markdown
+This will open a pop-up where you can give your file a title (you can also change this later).
+
+When you open a new R-Markdown file, you will be shown a basic template. You can see a header at the top, called the YAML information for that file. 
+
+For example: 
+
+  ---
+  title: "Intro to R"
+  author: "Kyla McConnell"
+  date: "12/21/2020"
+  output: html_document
+  ---
+
+Changing this information will change what is displayed if you save the file to a final format, which is denoted in the "output" line. It's not super important for basic applications of R-Markdown but can be customized more for more advanced uses.
+
+If you type into general whitespace in a normal R-file, this will be interpreted as code. In R-Markdown, however, text in whitespace is interpreted as plain text. You can use this to keep notes for yourself when learning something, or leave a record of your decisions in an analysis. 
+
+To add code to R-Markdown, you use code chunks that you can either type out (three backticks and {r} at the beginning and three backticks at the end) or add by clicking the "Insert" button in the top bar and selecting R.
+
+```{r}
+
+```
+
+To run code in these blocks, click the green arrow at the top right corner of the box. The arrow with the green line under it will run all code blocks above the current one, but will not run the current block itself. 
+
+The output of the code block will show directly below it (not in the console, like in a standard R script.) Often, this output will be proceeded by a number in brackets -- this just helps you keep track of how many numbers are output if they are on more than one line. Most of the time, you can safely ignore this.
