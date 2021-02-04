@@ -1,0 +1,417 @@
+---
+title: "The grammar(G) of tables(T)"
+output:
+  html_document: default
+  word_document: default
+  pdf_document: 
+    latex_engine: xelatex
+latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Motivation for the gt package
+
+  The gt package joins a burgeoning collection of packages for display table generation. Why another? We feel that there is enough room in this space to innovate further. Here are some of the ways that gt contributes to this ecosystem:
+
+* the interface is high-level and declarative (general instructions versus very specific)
+the formatting options are ‘batteries included’ (scientific notation, uncertainty, ranges, percentages, suffixes, localized currency, dates/times + much more)
+*  there is excellent, pain-free support for footnotes
+* the output is ‘camera-ready’
+* it will eventually support multiple output formats (including LaTeX) with the same declarative interface
+the API closely follows tidyverse conventions by adhering to the tidyverse style guide
+a focus on making the package documentation and examples the best they can be
+rigorous 
+* QA/QC measures: high test coverage for automated tests, and thorough manual testing by QA engineers (with every proposed code change)
+
+
+Source - <https://gt.rstudio.com/>.
+
+![The structure](/Users/manasimahadik/Documents/Screenshot 2021-01-30 at 1.35.48 AM.png)
+
+knitr — kableExtra — formattable — DT — pander — huxtable— reactable — flextable  — ftextra  — pixiedust — tangram  — ztable — condformat — stargazer — xtable 
+
+  The parts (roughly from top to bottom) are:
+
+* the Table Header (optional; with a title and possibly a subtitle)
+* the Stub and the Stub Head (optional; contains row labels, optionally within row groups having row group labels and possibly summary labels when a summary is present)
+* the Column Labels (contains column labels, optionally under spanner column labels)
+* the Table Body (contains columns and rows of cells)
+* the Table Footer (optional; possibly with footnotes and source notes)
+
+
+## Loading libraries
+
+
+```{r message=FALSE}
+library(plyr)
+library(dplyr)
+library(gt)
+library(paletteer)
+library(countrycode)
+library(purrr)
+library(tidyr)
+library(ggplot2)
+library(ggthemes)
+```
+
+## Reading & Preprocessing data
+
+  There are six data sets included in gt: country pops, sza, gtcars, sp500, pizzaplace, and exibble. All of them are useful for experimenting with gt’s functions.
+
+  Let’s make a display table using the gtcars data set. We all know mtcars… what is gtcars? It’s basically a modernized mtcars for the gt age. It’s part of the gt package, and here is a preview of the tibble:
+
+```{r p1}
+dplyr::glimpse(gtcars)
+
+```
+  Filtering for a single year and including only top manufacturers
+```{r p2}
+gtcars_sub = gtcars %>% 
+    filter(year == 2016 & mfr %in% c("Aston Martin", "Audi", "Mercedes-Benz", "Maserati", "BMW"))%>%
+    select(-year) %>% 
+    group_by(model,mfr,bdy_style,trsmn) %>% 
+    summarise_if(is.numeric, sum, na.rm = TRUE) %>% 
+    dplyr::arrange(desc(msrp)) %>% 
+    data.frame() 
+
+list = unique(gtcars_sub$mfr)
+
+df = data.frame()
+
+for (i in unique(gtcars_sub$mfr)){
+  a = gtcars_sub %>% filter(mfr == i) %>% arrange(msrp,hp) %>% head(2)
+  df = rbind(a, df)
+}
+
+gtcars_sub$mfr = as.factor(gtcars_sub$mfr)
+
+```
+
+## Creating a basic GT table
+
+  Creating a basic gt table with manufacturers arranged into row groups. As seen, the name of the selected manufacturers is displayed prominently above
+
+
+```{r p3}
+ tab =  df %>% 
+  gt(rowname_col = "row", groupname_col = "mfr") 
+
+tab
+
+```
+
+## Adding Flags for Country origin
+
+  Adding the home country flag of each manufacturer. 
+  A separate data frame is first created with each manufacturer and the corresponding flag. This is then joined to the earlier data frame by a unique manufacturer key and the table is finally remade.
+
+``` {r p4}
+Countries <- c('United Kingdom', 'Germany', 'Germany', 'Germany', 'Italy')
+Flags <- countrycode(Countries, 'country.name', 'unicode.symbol')
+mfr = c("Aston Martin", "BMW", "Mercedes-Benz", "Audi", "Maserati")
+mfr_flag = data.frame()
+mfr_flag = data_frame(mfr, Flags) %>% data.frame()
+glimpse(mfr_flag)
+df = join(df, mfr_flag, by = "mfr")
+df = df %>% mutate(mfr = paste(mfr, Flags))
+df$Flags = NULL
+
+
+tab =  df %>% 
+  gt(rowname_col = "row", groupname_col = "mfr") 
+
+tab
+
+```
+
+## Spanning, Merging & changing column names
+
+  Occasionally we’d like to combine the data from two columns into a single column. 
+The cols_merge() function lets us to do this, we just need to detail how the data should be combined. For our table, let’s merge together the following pairs of columns:
+
+* mpg_c and mpg_h (miles per gallon in city and highway driving modes)
+* hp and hp_rpm (horsepower and associated RPM)
+* trq and trq_rpm (torque and associated RPM)
+
+```{r p5}
+ tab= tab %>% 
+   tab_spanner(
+    label = "Performance",
+    columns = vars(mpg_c, mpg_h, hp, hp_rpm, trq, trq_rpm)
+  )%>%
+  cols_merge(
+    vars(mpg_c, mpg_h),
+    hide_columns = vars(mpg_h),
+    pattern = "{1}c<br>{2}h"
+    ) %>%
+  cols_merge(
+    vars(hp, hp_rpm),
+    hide_columns = vars(hp_rpm),
+    pattern = "{1}<br>@{2}rpm"
+  ) %>%
+  cols_merge(
+    vars(trq, trq_rpm),
+    hide_columns = vars(trq_rpm),
+    pattern = "{1}<br>@{2}rpm"
+  ) %>%
+  cols_label(
+    mpg_c = "MPG",
+    hp = "HP",
+    trq = "Torque",
+    trsmn = "Transmission",
+    msrp = "MSRP",
+    bdy_style = "Body Style",
+    model = "Model"
+  )
+tab
+```
+
+
+##  Formatting units
+
+  There are a number of formatter() functions, thankfully all share the general naming convention fmt*(). 
+  The various formatters are convenient for applying formats to numeric or character values in the table’s field. Here, we will simply use fmt_currency() on the msrp column (we still refer to columns by their original names) to get USD currency will no decimal places. We’re not supplying anything for the rows argument and this means we want to apply the formatting to the entire column of data.
+
+```{r p7}
+ tab = tab %>%
+  fmt_currency(
+    columns = vars(msrp),
+    currency = "USD",
+    decimals = 0
+  )
+tab
+
+```
+
+
+## Column Alignment and Style Changes
+
+  It’s sometimes useful to modify the default styles of table cells. We can do this in a targeted way with the tab_style() function. That function require two key pieces of information: a style definition, and one or more locations (which cells should the styles be applied to?). The style argument commonly uses the cells_styles() helper function, which contains arguments for all the styles that are supported (use ?cells_styles for more information on this). Here we will use a text size of 12px in our targeted cells—both px(12) and "12px" work equally well here. We also use helper functions with the locations argument and these are the cells_*() functions. We would like to target the data cells in all columns except year and msrp so we need to use cells_body and then supply our target columns to the columns argument.
+
+
+
+```{r p8}
+tab <- 
+  tab %>%
+  cols_align(
+    align = "center",
+    columns = vars(mpg_c, hp, trq)
+  ) %>%
+  tab_style(
+    style = cell_text(size = px(12)),
+    locations = cells_body(
+      columns = vars( trsmn, mpg_c, hp, trq))
+  )
+tab
+```
+
+## Text Transformations
+
+  A text transform via the text_transform() function is a great way to further manipulate text in data cells (even after they’ve been formatted with the fmt*() function). After targeting data cells with the cells_body() location helper function, we supply a function to the fn argument that processes a vector of text. If we intend to render as an HTML table, we can directly apply HTML tags in the transformation function. The function we provide here will build strings that read better in a display table.
+
+```{r p9}
+
+tab <- 
+  tab %>%
+  text_transform(
+    locations = cells_body(columns = vars(trsmn)),
+    fn = function(x) {
+      
+      speed <- substr(x, 1, 1)
+      
+    
+      type <-
+        dplyr::case_when(
+          substr(x, 2, 3) == "am" ~ "Automatic/Manual",
+          substr(x, 2, 2) == "m" ~ "Manual",
+          substr(x, 2, 2) == "a" ~ "Automatic",
+          substr(x, 2, 3) == "dd" ~ "Direct Drive"
+        )
+  
+      paste(speed, " Speed<br><em>", type, "</em>")
+    }
+  )
+
+tab
+```
+
+
+
+## Adding Title and Subtitle
+
+  We can add a table header to the gt table with a title and even a subtitle. A table header is an optional table part that is positioned above the column labels. We have the flexibility to use Markdown formatting for the header's title and subtitle. Furthermore, if the table is intended for HTML output, we can use HTML in either of the title or subtitle.
+
+
+
+```{r p10}
+tab <- 
+  tab %>%
+  tab_header(
+    title = md(paste0( "The Cars of **gtcars**" )),
+    subtitle = "These are some fine automobiles"
+  ) 
+# Show the table
+tab
+  
+```
+## Adding Custom Column Color Scales
+
+  It's possible to add color to data cells according to their values. The data_color() function colors all rows of any columns supplied. There are two ways to define how cells are colored: (1) through the use of a supplied color palette, and (2) through use of a color mapping function available from the scales package. The first method colorizes cell data according to whether values are character or numeric. The second method provides more control over how cells are colored since we provide an explicit color function and thus other requirements such as bin counts, cut points, or a numeric domain. Finally, we can choose whether to apply the cell-specific colors to either the cell background or the cell text.
+
+```{r p11}
+tab = tab %>% 
+data_color(
+    columns = vars(mpg_c, mpg_h, hp, hp_rpm, trq, trq_rpm, msrp),
+    colors = scales::col_numeric(
+     palette = paletteer::paletteer_d(
+            palette = "ggsci::amber_material"
+        ) %>% as.character(),
+        domain = NULL
+    ))
+tab
+```
+
+
+## Adding borders to the table
+
+  The cell_borders() helper function is to be used with the tab_style() function, which itself allows for the setting of custom styles to one or more cells. Specifically, the call to cell_borders() should be bound to the styles argument of tab_style(). The selection argument is where we define which borders should be modified (e.g., "left", "right", etc.). With that selection, the color, style, and weight of the selected borders can then be modified.
+
+
+```{r p12}
+
+tab = tab %>%  tab_style(
+    style = list(
+      cell_borders(
+        sides = "left",
+        color = "black",
+        weight = px(3)
+      )
+    ),
+    locations = list(
+      cells_body(
+        columns = vars(msrp)
+      )
+    )
+  )
+
+tab
+```
+
+
+## Adding footnote and source note
+
+
+  The tab_footnote() function can make it a painless process to add a footnote to a gt table. There are two components to a footnote: (1) a footnote mark that is attached to the targeted cell text, and (2) the footnote text (that starts with the corresponding footnote mark) that is placed in the table's footer area.
+
+  A source note is useful for citing the data included in the table. Several can be added to the footer, simply use multiple calls of tab_source_note() and they will be inserted in the order provided. We can use Markdown formatting for the note, or, if the table is intended for HTML output, we can include HTML formatting.
+
+
+```{r p13}
+
+best_gas_mileage_city <- 
+  df %>% 
+  arrange(desc(mpg_c)) %>%
+  slice(1) %>%
+  pull(model)
+
+
+ tab = tab %>%  tab_source_note(
+    source_note = md(
+      "Source: Various pages within the Edmonds website.")
+  ) %>% tab_footnote(
+    footnote = "All prices in U.S. dollars (USD).",
+    locations = cells_column_labels(columns = vars(msrp))
+  ) 
+
+ tab
+
+```
+
+
+## The intricate table options
+
+  Modify the options available in a table. These options are named by the components, the subcomponents, and the element that can adjusted.
+
+``` {r p14}
+
+
+tab = tab %>% tab_options(
+    heading.background.color = "#ECD9BA",
+    row_group.background.color = "#FFFAF1",
+    column_labels.background.color = "#F4F0DB",
+    stub.background.color = "#edf8fb",
+    table.font.color = "#323232",
+    table_body.hlines.color = "#989898",
+    table_body.border.top.color = "#989898",
+    heading.border.bottom.color = "#989898",
+    row_group.border.top.color = "#989898",
+    row_group.border.bottom.style = "none",
+    stub.border.style = "dashed",
+    stub.border.color = "#989898",
+    stub.border.width = "1px",
+    table.width = "60%",
+    footnotes.background.color = "#FFFAF1",
+    source_notes.background.color = "#ECD9BA",
+    source_notes.font.size = "8px",
+    footnotes.font.size = "9px"
+  ) 
+
+tab
+
+```
+
+## Adding ggplot plot inside the gt
+
+  We can add a ggplot2 plot inside of a table with the help of the ggplot_image() function. The function provides a convenient way to generate an HTML fragment with a ggplot object.
+
+``` {r p15}
+
+
+# make a plot of each row
+tibble_plot <- df %>%
+  group_by(mfr) %>%
+  nest() %>%
+  mutate(plot = map(data, ~ggplot(., aes(hp, trq, size = msrp)) + 
+                      geom_point() +
+                      geom_point(color = "blue") +
+                      theme_economist())) %>%
+  select(-data) 
+
+tab = tab %>%
+  text_transform(
+    locations = cells_body(vars(mpg_c)),
+    fn = function(x) {
+      map(tibble_plot$plot, ggplot_image, height = px(200))
+    }
+  ) %>% cols_width(vars(mpg_c)~px(250),  everything() ~ px(80))
+
+tab
+
+```
+
+
+
+## Refrences and go to Articles
+
+
+* The mockup blog - <https://themockup.blog/posts/2020-05-16-gt-a-grammer-of-tables/>.
+* 10 table rules in r - <https://themockup.blog/posts/2020-09-04-10-table-rules-in-r/>
+* Exploring the gt package in r - <https://towardsdatascience.com/exploring-the-gt-grammar-of-tables-package-in-r-7fff9d0b40cd>
+* Introduction to Creating gt Tables - <https://gt.rstudio.com/articles/intro-creating-gt-tables.html>
+* Refrence Manual - <https://cran.r-project.org/web/packages/gt/gt.pdf>
+
+
+
+## Next Steps
+
+  Congratulations! We have now successfully explored the gtcars dataset, we have 5 more inbuilt datasets to explore - sp500, pizzaplace, and exibble! Pick one of them and 
+
+* Create a basic gt table
+* Add a title, subtitle
+* Add Column Spanners
+* Format Decimal place of the columns
+* Add a footnote & source note
+* Color, Color, Color!
