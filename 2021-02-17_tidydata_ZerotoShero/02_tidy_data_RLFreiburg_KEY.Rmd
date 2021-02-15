@@ -1,0 +1,740 @@
+---
+title: "Tidy data"
+author: "Kyla McConnell & Julia Müller"
+output:
+  html_document:
+    theme: cosmo
+    highlight: tango
+    toc: true
+    toc_float: true
+---
+
+# Topics we'll cover today
+- Quick recap from first workshop  
+- What does tidy data look like?  
+- What's the pipe?  
+- Renaming variables, rearranging data
+- Subsetting data
+- Merge and split columns  
+
+Unless indicated, artwork is by the wonderful @allison_horst - find her on [github](https://github.com/allisonhorst/stats-illustrations).
+
+
+# (0) Recap
+
+## R-Studio
+...is an integrated development environment (IDE) for R which adds lots of useful features
+
+### Layout
+Top-left: scripting panel -- write and save code  
+Bottom-left: console panel  
+Top-right: environment panel -- shows dataframes, variables...  
+Bottom-right: install and update packages, preview plots, read help files  
+
+## R-Markdown
+file extension: .Rmd  
+- text interpreted as plain text  
+- code needs to be in a code chunk such as this one:  
+```{r}
+
+```
+- add by either typing or by clicking on "Insert" at the top of this pane, then choose R
+- run a line using the Run button at the top or Ctrl/Cmd + Enter
+- run an entire chunk by clicking on the green triangle on its right  
+- add a hashtag do designate something as a comment: R will ignore any line that starts with #
+```{r}
+2 + 7
+# don't do anything
+1 - 9
+```
+
+
+## Variables
+Assign value(s) to a label, e.g.
+```{r}
+num_cats <- 8
+fav_numbers <- c(8, 14, 2)
+```
+The `c()` syntax is necessary for the second example because we have multiple items, so they need to be inside a vector.
+
+We can now work with these variables. Mathematical operations are "broadcast", i.e. applied, to each item in a vector.
+```{r}
+fav_numbers - num_cats
+```
+
+## Data types
+- *numeric*: numbers (can include decimals)  
+- *integer*: whole numbers, without decimals
+- *character*: text (needs to be in quotation marks)
+- *logical*: can only be TRUE or FALSE (useful for comparing data)
+- *factor*: category labels  
+
+Check which data type something is by using `class`:  
+```{r}
+class(3)
+class("hi there")
+class(TRUE)
+```
+
+Data types can be changed, e.g.  
+```{r}
+as.integer(4.8)
+```
+
+## Packages
+Packages extend base-R functionality by adding more specialised commands.
+The first time you use a new package, you need to install it using `install.packages("packagename")`. Afterwards, it needs to be loaded - with `library(packagename)` - every time you open RStudio.
+If you didn't last time, install the `cowsay` package (remove the hashtag to uncomment the line before running them) and load it:
+```{r}
+#install.packages("cowsay")
+
+library(cowsay)
+```
+
+## Reading in data
+Reading in data tends to follow this pattern (note that these commands require the tidyverse packages to be installed and loaded):
+```{r eval=FALSE}
+name_of_data_in_R <- read_csv("data_file.csv") # equivalent to
+name_of_data_in_R <- read_delim("data_file.csv", delim = ",")
+
+name_of_data_in_R <- read_csv2("data_file.csv") # equivalent to
+name_of_data_in_R <- read_delim("data_file.csv", delim = ";")
+
+name_of_data_in_R <- read_tsv("data_file.txt") # tab-separated file
+```
+This works as long as the data file is saved in the same location as this file! You can add e.g. "data/" before the file name if it is located in a subfolder.
+
+
+## Communicating with R
+
+### Understanding warnings and errors
+R will often "talk" to you when you're running code. For example, when you install a package, it'll tell you e.g. where it is downloading a package from, and when it's done. Similarly, when you loaded the tidyverse collection of packages, R listed them all. That's nothing to worry about!
+
+When there's a mistake in the code (e.g. misspelling a variable name, forgetting to close quotation marks or brackets), R will give an *error* and be unable to run the line. The error message will give you important information about what went wrong.
+```{r}
+hello <- "hi"
+#Hello
+```
+
+In contrast, *warnings* are shown when R thinks there could be an issue with your code or input, but it still runs the line. R is generally just telling you that you MIGHT be making a logical error, not that the code is impossible.
+
+```{r}
+c(1, 2, 3) + c(1, 2)
+```
+
+It's normal that you'll encounter both warnings and errors while coding! This debugging (= finding and fixing errors in code) bingo gives a few suggestions of what might have gone wrong.
+
+![Debugging bingo, by Dr Ji Son, @cogscimom on Twitter](img/debugging_bingo.jpg)
+
+
+### Reading function documentation
+We'll get to know a number of R *functions* today. These functions can take one or more `arguments`. As an example, let's try out the `say()` function from the cowsay package.
+
+First, (install and) load the cowsay package:
+```{r}
+# install.packages("cowsay")
+library(cowsay)
+```
+
+Try the following code:
+```{r}
+say(
+  what = "Good luck learning about the tidyverse!", 
+  by = "rabbit")
+```
+
+We can see that this function has the `what` argument (what should be said?) and the `by` argument (which animal should say it?). But what other options are there for this command - which other animals, for example, or can you change the colour? To see the documentation for the `say` command, you can either run this line of code:
+```{r}
+?say
+```
+...or type in `say` in the Help tab on the bottom right.
+
+This will show you the documentation for the command.
+
+- *Usage* shows an overview of the function arguments and their defaults (e.g. if you typed in `say()` without any arguments in the brackets, you'd get the defaults, i.e. a cat saying "Hello world!")
+```{r}
+say()
+```
+
+- *Arguments* provides more information on each argument. 
+Arguments are the options you can use within a function.
+- what
+- by 
+- type
+- what_color
+etc. 
+Each of these can be fed the `say()` function to slightly alter what it does.
+
+- *Examples* at the bottom of the help page lists a few examples you can copy-paste into your code to better understand how a function works.
+
+Don't worry if you don't understand everything in the documentation when you're first starting out. Just try to get an idea for which arguments there are and which options for those arguments. It's good practice to look at help documents often -- this will also help you get more efficient at extracting the info you need from them.
+
+
+# (1) Welcome to the tidyverse
+
+Welcome to the tidyverse! Tidyverse is a package -- really, a whole collection of packages -- that include a LOT of useful functions for all sorts of data analyzing, cleaning and "wrangling". They all share "an underlying design philosophy, grammar, and data structures", according to the [tidyverse website](https://www.tidyverse.org/). In other words, its commands/functions all have a similar structure and descriptive names to make them easier to remember and use.
+
+![The tidyverse](img/tidyverse_celestial.png)
+
+To start, make sure you have tidyverse installed. You can do this either through the panel at the lower left hand corner (Packages tab) or by typing into the Console `install.packages("tidyverse")`. Then, call the tidyverse with a `library()` call and let's get started!
+
+```{r}
+library(tidyverse)
+```
+
+Tidyverse loads multiple key packages:
+- dplyr -> for all sorts of data transformation and wrangling
+- ggplot2 -> the best plotting package in R (and ever??)
+- readr & tibble -> for reading in files to tibble format (improvements over R base data.frames)
+- stringr -> for text transformations (removing trailing whitespaces, etc.)
+- magrittr -> for pipes, more on this below
+
+It also loads purr (for vectorized programming), forcats (improvements to factors), readxl (for reading Excel documents), lubridate (for working with dates/times) and more.
+
+
+## Tidy data
+
+**Characteristics of tidy data:**  
+
+![What does tidy data look like?](img/tidydata_1.jpg){width=50%}
+
+**Why this format?**  
+- a lot of wrangling commands are based on the assumption that your data is tidy 
+- the format is expected for many statistical models
+- tidy data works best for plotting 
+- "Tidy datasets are all alike, but every messy dataset is messy in its own way" (Hadley Wickham)
+
+![Why use tidy data?](img/tidydata_3.jpg){width=50%}
+
+# (2) The pipe %>% 
+
+- One of the most noticeable features of the tidyverse: the pipe %>% (keyboard shortcut: Ctr/Cmd + Shift + M) 
+
+- Takes the item before it and feeds it to the following command as the first argument
+  - All tidyverse (and some non-tidyverse) functions take the dataframe as the first function
+  - Can be used to string commands
+
+Load in the following dataset, which contains IKEA furniture items in Saudi Arabia and their prices (in Saudi Riyals)
+```{r}
+ikea <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-11-03/ikea.csv')
+```
+
+This dataset has some NAs so we'll quickly remove them with `drop_na`.
+Note: This is an online dataset, where the NAs are meaningless, and we're not preparing any sophisticated analysis. If this were your own data, you should think about what the NAs represent and if you can replace them in another way. `drop_na()` will drop the WHOLE ROW if there is an NA in any of the columns.
+```{r}
+ikea <- drop_na(ikea)
+```
+
+First, take a look at the dataset. You can do this with `head(ikea)` or try out using the pipe. 
+```{r}
+head(ikea)
+# is equivalent to:
+ikea %>% 
+  head()
+```
+
+You see that this produces the exact same output as `head(ikea)`. Why would this be useful?
+
+Compare the following lines of pseudocode (courtesy of @andrewheiss), which would produce the same output:
+![Pipe as explained by Andrew Heiss](img/pipe_andrewheiss.jpg)
+  
+You can see that the version with the pipe is easier to read when more than one function is called on the same dataframe! In a chain of commands like this one, you can think of the pipe as meaning "and then". 
+
+Maybe @hadleywickham's version of a typical morning speaks more to your own experience (it certainly does for us):
+I %>% 
+  tumble(out_of = "bed") %>% 
+  stumble(to = "the kitchen") %>% 
+  pour(who = "myself", unit = "cup", what = "ambition") %>% 
+  yawn() %>% 
+  stretch() %>% 
+  try(come_to_live())
+
+As you can see in the examples, pipes work with additional arguments. Here's how it looks for our actual data:
+```{r}
+head(ikea, n = 2)
+# is equivalent to:
+ikea %>% 
+  head(n = 2)
+```
+
+### Try it out
+
+We'll use data on three species of penguins observed near Palmer Station, Antarctica. 
+![Penguins](img/penguins.png)
+
+Load this data:
+```{r}
+penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv')
+```
+
+To remind yourself of the data exploration commands we tried last workshop, try to run the following commands on the dataframe - first, in the way we showed you last time, and then using the pipe.
+- `summary()`  
+- `colnames()` 
+- `tail()` - also try the `n =` argument 
+
+![Bills, explained](img/penguins_bill.png)
+
+
+# (3) Renaming and rearranging data
+
+## rename()
+
+You can rename columns with the `rename()` function. The syntax is new_name = old_name.
+
+```{r}
+ikea %>% 
+  rename(price_sar = price)
+```
+
+You can also rename multiple columns at once (no need for an array here):
+```{r}
+ikea %>% 
+  rename(price_sar = price, 
+         description = short_description)
+```
+
+### Preview vs. saving
+
+In the first code block in this section, we've first previewed how changing variable names works. If you look at the ikea dataframe, for example in the Environment panel on the upper-right, the dataframe hasn't changed. To save your changes, assign your call back to the variable name, i.e.
+df <- df %>% 
+  some operations here
+This is what we're doing in the second code block, where we permanently change "price" to "price_sar" and "short description" to "description".
+
+There is also a trick to show a preview and save it to the variable -- wrapping the whole call in parentheses -- use with caution!
+
+```{r}
+(ikea <- ikea %>% 
+  rename(price_sar = price, 
+         description = short_description))
+```
+
+If you make a mistake: arrow with a line under it in the code block of R-Markdown, runs all blocks above (but not the current one). A good workflow is to try commands without saving the changes first, then, once you're happy with the output, save the changes and overwrite the dataframe.
+
+
+## relocate()
+
+![Relocate](img/dplyr_relocate.png){width=50%}
+
+The `relocate` function lets you change the order of variables in the data. The following command moves the category and name columns to the beginning: 
+```{r}
+ikea %>% 
+  relocate(category, name)
+```
+
+You can also specify that a variable should be placed before or after another variable:
+```{r}
+ikea %>% 
+  relocate(item_id, .after = name)
+```
+
+Another option is to sort by data type using `where()`:
+```{r}
+ikea %>% 
+  relocate(where(is.character))
+
+ikea %>% 
+  relocate(where(is.numeric))
+```
+
+Reordering variables is particularly useful if you have large datasets with lots of variables.
+
+
+## arrange()
+
+Let's say we want to sort the items by price quickly, to get an idea for the most and least expensive items. For this, we can use `arrange()`
+
+By default, this shows the items from lowest to highest:
+```{r}
+ikea %>% 
+  arrange(price_sar)
+```
+
+But you can also arrange the prices from highest to lowest by wrapping the column name in `desc()`
+```{r}
+ikea %>% 
+  arrange(desc(price_sar))
+```
+
+Or in alphabetical order if the column is a character type:
+```{r}
+ikea %>% 
+  arrange(name)
+```
+
+Wrapping `desc()` around character or category variable reverses the sorting:
+```{r}
+ikea %>% 
+  arrange(desc(name))
+```
+
+It's also possible to sort by several variables:
+```{r}
+ikea %>% 
+  arrange(height, width, depth)
+```
+
+### Try it out 
+
+Use the penguins data for the exercises. Don't save your changes, i.e. don't overwrite the dataframe!
+
+1a. Move the columns around so that "island" is the first column.
+1b. Sort the columns so that all numeric ones are shown first.
+
+2a. Show the penguins ordered by weight - first in ascending, then in descending order.
+2b. Reorder the data by the island the penguins live on.
+
+3. How could you rename "bill_length_mm" to "beak_length" and "bill_depth_mm" to "beak_depth"?
+
+```{r}
+penguins %>% 
+  relocate(island)
+
+penguins %>% 
+  relocate(where(is.numeric))
+
+penguins %>% 
+  arrange(body_mass_g)
+penguins %>% 
+  arrange(desc(body_mass_g))
+
+penguins %>% 
+  arrange(island)
+
+penguins %>% 
+  rename(
+    beak_length = bill_length_mm,
+    beak_depth = bill_depth_mm
+  )
+```
+
+
+# (4) select()
+
+## Select one column
+
+Before we move on, let's convert "category" into a factor:
+```{r}
+ikea$category <- as_factor(ikea$category)
+```
+We'll show you a more elegant way of doing this next time!
+
+The traditional syntax for dealing with columns is `dataframe$column`. A useful step in using pipes and tidyverse calls is the ability to *select* specific columns. That is, instead of writing `ikea$category` we can write:
+```{r}
+ikea %>% 
+  select(category) 
+```
+
+We can then use this column for further calculations, like piping it on to the summary call. This will provide the same result as `summary(ikea$price)`
+```{r}
+ikea %>% 
+  select(price_sar) %>% 
+  summary()
+```
+
+We could, for example, look at the tallest item:
+```{r}
+ikea %>% 
+  select(height) %>% 
+  max()
+```
+
+Or the thinnest:
+```{r}
+ikea %>% 
+  select(width) %>% 
+  min()
+```
+
+## Select multiple columns 
+You can also use `select()` to take multiple columns. 
+```{r}
+ikea %>% 
+  select(name, price_sar, category)
+```
+
+You can see that these columns are presented in the order you gave them to the select call, too:
+```{r}
+ikea %>% 
+  select(category, price_sar, name)
+```
+
+
+## Remove columns with select
+
+You can also remove columns using select if you use the minus sign. For example, here, we have the first column ("X1") which is a sort of row numbering. If you don't want this column, you can drop it with select:
+
+```{r}
+ikea %>% 
+  select(-X1)
+```
+
+You can also remove multiple columns at once by writing them in an array `c()`. 
+```{r}
+ikea %>% 
+  select(-c(X1, old_price))
+```
+
+Once your preview looks the way you want it --just make sure to save your results by committing it to a variable (over the old one is fine).
+```{r}
+(ikea <- ikea %>% 
+  select(-X1))
+```
+
+
+## Leveling up select()
+
+Until now, we've used `select()` in combination with the full column name, but there are helper functions that let you select columns based on other criteria.
+
+For example, here's how we can select all columns that end with "e" - by specifying `ends_with("e")` in the `select()` call:
+```{r}
+ikea %>% 
+  select(ends_with("e"))
+```
+
+The opposite is also possible, e.g. to return all columns that start with "des":
+```{r}
+ikea %>% 
+  select(starts_with("des"))
+```
+
+`contains` is another helper function. Here, we're using it to show all columns that contain an underscore:
+```{r}
+ikea %>% 
+  select(contains("_"))
+```
+
+We can also select a range of  variables using a colon. This works both with variables and (a range of) numbers:
+```{r}
+ikea %>% 
+  select(name:category)
+
+ikea %>% 
+  select(1:3) # first three columns
+```
+Here, the order of the columns matters!
+
+Other helper functions are:
+- matches: similar to contains, but can use regular expressions
+- num_range: in a dataset with the variables X1, X2, X3, X4, Y1, and Y2, select(num_range("X", 1:3)) returns X1, X2, and X3
+
+#### Try it out
+
+1. In the penguins data, only show the species and bill length columns (preview only!).
+```{r}
+penguins %>% 
+  select(species, bill_length_mm)
+```
+
+2. Remove the year column. This time, make sure to save the change.
+```{r}
+(penguins <- penguins %>% 
+  select(-year))
+```
+
+Select all columns that 
+  3. end with "_mm"
+  4. contain "length"
+  5. start with "bill"
+
+6. Select the columns from bill length to flipper length.
+
+```{r}
+penguins %>% 
+  select(ends_with("_mm"))
+
+penguins %>% 
+  select(contains("length"))
+
+penguins %>% 
+  select(starts_with("bill"))
+
+penguins %>% 
+  select(bill_length_mm:flipper_length_mm)
+```
+
+
+# (5) filter()
+
+![Filter](img/dplyr_filter.jpg){width=50%}
+Use *filter* to select rows that meet a condition.
+
+You can use:
+- equals to: ==
+- not equal to: !=
+- greater than: > 
+- greater than or equal to: >=
+- less than: <
+- less than or equal to: <=
+- in (i.e. in an array): %in%
+
+```{r}
+ikea %>% 
+  filter(price_sar > 8500)
+```
+
+You can also select items with a specific price:
+```{r}
+ikea %>% 
+  filter(price_sar == 265)
+```
+
+Or you can use it to select all items in a given category. Notice here that category is a factor column, so you have to use quotation marks (same applies for characters).
+
+Look at the error below:
+```{r}
+# ikea %>% 
+#   filter(category == Beds)
+```
+
+The correct syntax is: (because you're matching to a string)
+```{r}
+ikea %>% 
+  filter(category == "Beds")
+```
+Make sure to spell this exactly as it is spelled in the data, i.e. with a capital B!
+
+To use %in%, give an array of options (formatted in the correct way based on whether the column is a character or numeric):
+```{r}
+ikea %>% 
+  filter(name %in% c("BRIMNES", "BILLY", "KALLAX"))
+```
+Note that filter is case-sensitive, so capitals matter.
+
+
+### Leveling up filter()
+
+You can use `filter()` to match rows by as many criteria as you like using logical operators:
+- & "and"
+- | "or"
+
+For example, to see beds which are available in other colours:
+```{r}
+ikea %>% 
+  filter(category == "Beds" & other_colors == "Yes")
+```
+
+...or tables, desks, and chairs  (again, taking care to match the spelling of the data frame exactly) that each cost less than 1000 rials:
+```{r}
+ikea %>% 
+  filter(category %in% c("Chairs", "Tables & desks") & price_sar < 1000)
+```
+
+One additional option for `filter` is to find NAs (`is.na()`) or exclude NAs (`!is.na()`). We've already removed all NAs from the ikea data but we can show this with the penguins data. Let's say we'd like to select body mass, then call `min()` to see the smallest value:
+```{r}
+penguins %>% 
+  select(body_mass_g) %>% 
+  min()
+```
+This gives us an NA because some penguins apparently refused to be weighed =) We can first remove NAs from this column and then try the command again:
+```{r}
+penguins %>% 
+  filter(!is.na(body_mass_g)) %>% 
+  select(body_mass_g) %>% 
+  min()
+```
+
+
+#### Try it out
+(1) How many items in this dataset were designed by Carina Bengs? How many of them are cupboards or cabinets?
+```{r}
+ikea %>% 
+  filter(designer == "Carina Bengs")
+
+ikea %>% 
+  filter(category == "Cabinets & cupboards" & designer == "Carina Bengs")
+```
+
+(2) Find all wardrobes, trolleys, and chairs.
+```{r}
+ikea %>% 
+  filter(category == "Wardrobes" | category == "Trolleys" | category == "Chairs")
+
+ikea %>% 
+  filter(category %in% c("Wardrobes", "Trolleys", "Chairs"))
+```
+
+(3) Show only items that are smaller than 50 cm in depth, height, and width. How could you figure out which categories they belong to?
+```{r}
+ikea %>% 
+  filter(depth < 50 & height < 50 & width < 50) %>% 
+  summary()
+```
+
+
+# (6) Separate
+
+Read in the ikea_raw file. This is how the data was first entered by an intern who doesn't know about tidy data because this data is not tidy. Have a look at the data and try to figure out why not.
+Hint: there are two problematic columns. Compare this data to the data we've been working with so far to find them.
+```{r}
+ikea_raw <- read_csv("data/ikea_raw.csv")
+
+head(ikea_raw)
+```
+
+The issues are that, instead of two separate columns for id and item name, we have "id_name", and instead of three separate columns per dimension there's one column called "dimensions". So the data is not tidy because not every variable is stored in its own column. We can fix that using `separate()`.
+It takes the following arguments:
+- data: our dataframe, we'll pipe it
+- col: which column needs to be separated
+- into: a vector that contains the names of the new columns
+- sep: which symbol separates the values
+- remove (optional): by default, the original column will be deleted. Set `remove` to FALSE to keep it.
+
+To do that for the dimensions columns, we need to specify the column that should be changed ("dimension"), list the three columns we want the data to be separated into, and tell R which symbol is used to separate the values. Here, it's an "x".
+```{r}
+(ikea_raw <- ikea_raw %>% 
+  separate(col = dimensions,
+           into = c("depth", "height", "width"),
+           sep = "x"))
+```
+
+
+### Try it out
+Fix the "id_name" column: Separate it into "item_id" and "name".
+```{r}
+(ikea_raw <- ikea_raw %>% 
+  separate(col = id_name,
+           into = c("item_id", "name"),
+           sep = "_"))
+```
+
+# (7) Unite
+
+The opposite of `separate()`. This lets you glue columns together. 
+- col is the name of the new column
+- the next argument, a vector, lists the columns that should be united
+- sep, as above, lets you specify how the values should be separated.
+- remove (optional): by default, the original column will be deleted. Set `remove` to FALSE to keep it.
+
+This is useful if one variable is spread across two or more columns. For example, if year is spread out into two columns, century and decade (e.g. 19 in one column, 64 in another), you could use `unite()` to glue these values together into one "year" column.
+
+Here, let's use `unite()` to expand on the descriptions. Specifically, we'll want a column that contains the item name followed by a colon and a space and then the description. This new column should be called "long_description" and contain the name and description columns, separated by ": ".
+```{r}
+ikea %>% 
+  unite(col = long_description,
+        c("name", "description"),
+        sep = ": ")
+```
+
+
+### Try it out
+Expand the code above so the format is: name: description. Designed by designer.
+Hint: Copy the code from above, then pipe it into a new `unite()` statement.
+
+```{r}
+ikea %>% 
+  unite(col = long_description,
+        c("name", "description"),
+        sep = ": ") %>% 
+  unite(col = longer_description,
+        c("long_description", "designer"),
+        sep = ". Designed by ")
+```
+
+
+# Next time
+
+-   Creating new columns and changing existing ones
+    -   ...based on conditions (if-else statements)
+-   Creating summary tables (by groups)
+-   Joining dataframes
+
