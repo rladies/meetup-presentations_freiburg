@@ -1,0 +1,638 @@
+---
+title: "Tidy data"
+author: "Kyla McConnell & Julia Müller"
+output: html_document
+---
+
+# Recap
+
+Let's load our favourite package and some data!
+
+The first dataset is the ikea data we used last time, the movies dataset is new for you to explore in the exercises:
+```{r}
+library(tidyverse)
+
+ikea <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-11-03/ikea.csv')
+
+movies <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/movies.csv')
+```
+
+
+## Tidy data and pipes
+
+![What does tidy data look like?](img/tidydata_1.jpg){width=50%}
+
+This is the expected format for a lot of wrangling, visualisation, and statistical modelling commands.
+
+
+**The pipe %>% **
+
+Keyboard shortcut: Ctr/Cmd + Shift + M
+
+- Takes the item before it and feeds it to the following command as the first argument  
+- All tidyverse (and some non-tidyverse) functions take the dataframe as the first function  
+- Can be used to string commands  
+
+For example:
+```{r}
+head(ikea, n = 3)
+# equivalent to
+ikea %>% 
+  head(n = 3)
+```
+
+## Renaming columns
+`rename()` lets you rename columns (new_name = old_name).
+```{r}
+ikea %>% 
+  rename(price_sar = price, 
+         description = short_description)
+```
+
+## Moving columns around
+`relocate()` moves columns in the data. 
+```{r}
+ikea %>% 
+  relocate(category, name)
+```
+Additional options:
+- `.after` and `.before` other columns
+- `where()` in combination with a data type (`is.character` etc.)
+
+## Moving rows around
+`arrange()` sorts the dataframe by rows - lowest to highest for numeric variables, alphabetically for characters or factors. Wrapping the variable in `desc()` reverses the order. It's possible to sort by several variables.
+```{r}
+ikea %>% 
+  arrange(name)
+
+ikea %>% 
+  arrange(desc(price))
+
+ikea %>% 
+  arrange(category, name)
+```
+
+## Subsets
+### Columns
+`select()` calls specific columns - either to look at the data, or to then pipe into another operation.
+```{r}
+ikea %>% 
+  select(category, price)
+
+ikea %>% 
+  select(price) %>% 
+  min()
+```
+
+It also lets us remove one or several columns:
+```{r}
+ikea %>% 
+  select(-c(X1, old_price))
+```
+
+Helper functions:
+- `starts_with()`
+- `ends_with()`
+- `contains()`
+- range, e.g. 1:4 or x:y
+- `num_range()`
+- `matches()` allows regular expressions
+
+```{r}
+ikea %>% 
+  select(contains("_"))
+```
+
+### Rows
+`filter()` picks out rows that fulfill conditions.
+Options:
+- equals to: ==
+- not equal to: !=
+- greater than: > 
+- greater than or equal to: >=
+- less than: <
+- less than or equal to: <=
+- in (i.e. in an array): %in%
+- is.na()
+```{r}
+ikea %>% 
+  filter(category == "Beds")
+
+ikea %>% 
+  filter(price > 8500)
+
+ikea %>% 
+  filter(name %in% c("BRIMNES", "BILLY", "KALLAX"))
+```
+
+Several conditions can be applied by using the logical operators & "and" as well as | "or"
+```{r}
+ikea %>% 
+  filter(category %in% c("Chairs", "Tables & desks") & price < 1000)
+```
+
+## Separate and unite
+`separate` tidies data when one column contains two variables.
+Arguments:
+- data
+- col: which column needs to be separated
+- into: a vector that contains the names of the new columns
+- sep: which symbol separates the values
+- remove (optional): by default, the original column will be deleted. Set `remove` to FALSE to keep it.
+```{r}
+movies <- movies %>%  
+  separate(col = genre,
+           into = c("genre1", "genre2", "genre3"),
+           sep = ",")
+```
+
+The opposite, `unite()`, glues columns together. This can tidy data if one variable is spread across several columns. In this example, however, we can create a (non-tidy) column that contains both the item name and the description associated with it:
+```{r}
+ikea %>% 
+  unite(col = long_description,
+        c("name", "short_description"),
+        sep = ": ")
+```
+
+### Try it out!
+
+1. We're using a new dataset for the exercises this time. Take a look at the first few rows. What kind of information does the dataset have? What are the column names?
+If you need a bit more context for some of the columns, check the data dictionary on the Tidy Tuesday Github here: https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-03-09/readme.md
+
+2. The column "binary" codes a binary response (pass/fail) to the Bechdel test, a well-known assessment of the representation of women in film: a film passes the test ("there are at least two named women in the picture, they have a conversation with each other at some point, and that conversation isn’t about a male character"). Similarly, "test" encodes the bechdel test in long format, and "clean_test" is a reduced version of this column that is cleaned up. 
+Rename the binary column to "binary_bechdel", test to "test_bechdel", and clean_test to "clean_bechdel" so that it's clearer what it encodes. (Bonus: do this all within one command) 
+Make sure to save your results back to the movies dataframe to use them later in this session.
+
+3. Relocate the "title" and "imbd" columns so that you first see the IMBD (Internet Movie Database) identifier, then the title, then all other columns in the dataframe.
+
+4. Which movie had the highest budget? Use arrange to find out! Select only the title, year, and budget for a simplified view.
+
+5. Filter the movies dataset to show how many movies with a budget over 200 million (200000000) pass the Bechdel test. 
+
+
+# (1) Creating and changing columns with mutate()
+
+With the `mutate()` function, you can change existing columns and add new ones. 
+
+The syntax is:
+  mutate(data, col_name = some_operation)
+or, with the pipe: 
+  data %>% 
+    mutate(col_name = some_operation).
+
+
+![Mutate](img/dplyr_mutate.png){width=50%}
+
+Let's try to make a column where the prices are in euro. We can call this column price_eur. When I checked, 1 Saudi Riyal was equal to 0.22 euro. So we can multiply the price_sar column by 0.22
+
+```{r}
+(ikea <- ikea %>% 
+  mutate(price_eur = price * 0.22))
+```
+Now, there's a new column called price_eur (it's at the very end by default).
+
+We can directly access that new column and work with it:
+```{r}
+ikea %>% 
+  mutate(price_eur = price * 0.22) %>% 
+  select(price_eur) %>% 
+  summary()
+```
+
+You can also save the new column with the same name, and this will update all the items in that column (see below, where I add 100 to every price, but note that I don't save the output)
+
+```{r}
+ikea %>% 
+  mutate(price = price + 100)
+```
+
+You can also do operations to character columns - for example: 
+```{r}
+ikea %>% 
+    mutate(name = tolower(name))
+```
+
+We can also easily calculate the length of each word (as number of characters):
+```{r}
+ikea %>% 
+    mutate(name_length = nchar(name))
+```
+
+We can change and create as many new columns as we like:
+```{r}
+ikea %>% 
+  mutate(price_eur = price * 0.22,
+         name = tolower(name),
+         name_length = nchar(name)
+         )
+```
+
+Note that all other columns are preserved, nothing is deleted. If you'd like to only keep newly created or changed columns, use `transmute()`.
+```{r}
+ikea %>% 
+  transmute(price_eur = price * 0.22,
+         name = tolower(name),
+         name_length = nchar(name)
+         )
+```
+
+
+## Change data type in a column
+
+We can also change data types using `mutate()`. Instead of the clunkier code we've used so far to convert character variables to factors, we could write: 
+```{r}
+(ikea <- ikea %>% 
+    mutate(category = as_factor(category),
+           other_colors = as_factor(other_colors)))
+```
+Of course, this works the same for other data type conversions.
+
+
+## Relabel factors
+The category names in this dataset tend to be very lengthy. We can have a look with `distinct()`, which shows us the unique factor levels:
+```{r}
+ikea %>% 
+  distinct(category)
+```
+
+We can use `recode()` in a `mutate()` call to change the factor labels. The format for this is "old label" = "new label".
+```{r}
+ikea <- ikea %>% 
+    mutate(category = recode(category,
+                             "Chests of drawers & drawer units" = "Drawers", 
+                             "Bookcases & shelving units" = "Bookcases & shelves"))
+```
+
+If we take another look at the factor levels now, they show our new, simplified labels:
+```{r}
+ikea %>% 
+  distinct(category)
+```
+
+This is also incredibly useful if your factor labels are represented by numbers (as is often the case when downloading questionnaire data). Because these numbers should be treated as characters, we need to put them in quotation marks!
+
+## Collapsing factors
+You can also use this to condense the groups in a certain column and then save it over that column. For example, say we want to combine the categories "Beds", "Wardrobes", and "Chests of drawers & drawer units" into one category, "Bedroom", and "Children's furniture" and "Nursery furniture" into "Children's room":
+```{r}
+ikea %>% 
+  mutate(category = fct_collapse(category,
+                                 "Bedroom" = c("Beds", "Wardrobes","Chests of drawers & drawer units"),
+                                 "Children's room" = c("Children's furniture", "Nursery furniture")
+                                 )) 
+```
+
+### Try it out!
+
+1. Using the movies dataset, convert the "genre1", "genre2" and "genre3" columns to factor. Be sure to save the result over the original dataframe.
+
+2. Let's make a new columnn that recode the column "bechdel_clean" (or just "clean" if you didn"t rename it in the exercises above) to a numeric scale. Recode "nowomen" to 0, "notalk" to 1, "men" (they only talk about men) to 2 and "ok" to 3. Call your new column numeric_bechdel
+
+3. The genre columns contain a lot of levels (17-20). Let's combine a few related genres at least for the "genre1" column: Call "Family" and "Animation" - "Kids", and "Action", "Western", "Crime" - "Intense", and "Horror" and "Thriller" - "Scary".
+
+
+## If-else-statements
+
+Now for something fancy. You can also make new columns based on "if" conditions using the call `if_else()`. Its syntax is: 
+if_else(this_is_true, this_happens, else_this_happens). 
+
+For example:
+```{r}
+ikea %>% 
+  mutate(price_categorical = if_else(price > 2000, "expensive", "not expensive")) %>% 
+  select(name, price, price_categorical)
+```
+This creates a variable that contains "expensive" if the item costs more than 2000 and "not expensive" in all other cases.
+
+You can also use `if_else()` on categorical / character columns. For example, we're creating a column that says "available" if an item is sold online and in other colours, and "not available" if it either isn't available online or not offered in other colours. 
+```{r}
+ikea %>% 
+  mutate(colors_online = if_else(sellable_online == TRUE & other_colors == "Yes", "available", "not available"),
+         colors_online = as_factor(colors_online)) %>%
+  select(sellable_online, other_colors, colors_online)
+```
+
+If-else logic can be a bit tricky, but it is also extremely useful, so it is worth taking the time to get used to.
+
+## Several conditions: case_when()
+What if you have several conditions? While it's possible to chain several `if_else()` statements, it gets confusing and hard to read. Instead, we should use `case_when()`.
+
+![Case when: an extension of if-else](img/dplyr_case_when.png){width=50%}
+
+The syntax within `case_when()` is:
+condition ~ what to do if it is true (can be used as often as you want and can even refer to different variables!),
+TRUE ~ what to do in all other cases.
+```{r}
+ikea %>% 
+  mutate(price_cat = case_when(
+    price <= 100 ~ "super cheap",
+    price > 100 & price < 500 ~ "cheap",
+    price >= 1000 & price <= 1400 ~ "pretty expensive",
+    price > 1400 ~ "expensive",
+    TRUE ~ "average"
+  ),
+  price_cat = as_factor(price_cat)) %>% 
+  select(price_cat) %>% 
+  summary()
+```
+Here, we're sorting the items into different categories by price. You can think of the TRUE part as "else". It determines what should happen in all cases that are not covered by the conditions before. If you don't include it, the command will not fail, but R will assign NAs:
+```{r}
+ikea %>% 
+  mutate(price_cat = case_when(
+    price <= 100 ~ "super cheap",
+    price > 100 & price < 500 ~ "cheap",
+    price >= 1000 & price <= 1400 ~ "pretty expensive",
+    price > 1400 ~ "expensive"
+  ),
+  price_cat = as_factor(price_cat)) %>% 
+  select(price_cat) %>% 
+  summary()
+```
+
+Another example: Here, we're checking which of the three dimensions is the largest - depth, height, or width?
+```{r}
+ikea %>% 
+  mutate(biggest_dimension = case_when(
+    depth > height & depth > width ~ "depth",
+    height > depth & height > width ~ "height",
+    width > depth & width > height ~ "width",
+    TRUE ~ "unclear"
+  ),
+  biggest_dimension = as_factor(biggest_dimension)) %>% 
+  select(depth, height, width, biggest_dimension)
+```
+
+
+## Try it out!
+
+1. Make a column called "budget_cat" (for categorical) that reads "high" if the budget column is greater than 100000000 and "not_high" if it's below that. Use `ifelse()` to do this.
+
+2. Let's improve that. Use case_when() to make a more fine-grained categorization: "high" if the budget is greater than 100000000, low if it's below 12000000 and "average" if it's anything else and assign this onto the budget_cat column.
+
+
+# (2) (Grouped) summaries
+
+## summarize()
+  
+Let's extract some information on the price in our IKEA data. If we want to do this the tidy way, we can use `summarise(operation(variable))`.
+
+You can use multiple different operations in the summarize part, including:
+- mean(col_name)
+- median(col_name)
+- max(col_name)
+- min(col_name)
+
+```{r}
+ikea %>% 
+  summarise(mean(price))
+
+ikea %>% 
+  summarise(median(price))
+
+ikea %>% 
+  summarise(min(price))
+
+ikea %>% 
+  summarise(max(price))
+```
+
+Let's try to find the average height:
+```{r}
+ikea %>% 
+  summarise(mean(height))
+```
+
+This doesn't work! The reason for that is that this column contains missing values (NAs). We need to drop them before piping into the summary or add the argument `na.rm = TRUE` which removes NAs.
+
+```{r}
+ikea %>% 
+  drop_na(height) %>% 
+  summarise(mean(height))
+```
+
+```{r}
+ikea %>% 
+  summarise(mean(height, na.rm = TRUE))
+```
+
+The column is labeled automatically. We can set our own names, though:
+```{r}
+ikea %>% 
+  summarise(average_height = mean(height, na.rm = TRUE))
+```
+
+
+## group_by() 
+
+Summarise on its own is not more useful than the base-R `summary()`, but it gets incredibly convenient when we want summary statistics for specific groups in the data. To look at summary statistics for specific groupings, we have to use a two- (more like three-) step process. 
+
+![Group and ungroup](img/group_by_ungroup.png){width=50%}
+
+First, group by your grouping variable using `group_by()`
+Then, summarize, which creates a column based on a transformation to another column, using `summarize()` or `summarise()`
+Finally, ungroup (so that R forgets that this is a grouping and carries on as normal, with `ungroup()`. While we're using `group_by()` with `summarise()`, this is not necessary, strictly speaking, but if we're continuing to work with this dataframe, ungrouping is important.
+
+For example, to return the average price in each category:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  summarize(mean(price)) %>% 
+  ungroup()
+```
+
+You can also give a name to your new summary column, and round the output: 
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  summarize(avg_price = round(mean(price))) %>% 
+  ungroup()
+```
+
+We can also do further calculations. Here, we're converting the price to €:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  summarize(average_price_euro = mean(price) * 0.22) %>% 
+  ungroup()
+```
+
+We can continue working with these summary statistics - for example, sorting the categories from lowest to highest average price:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  summarize(average_price_euro = mean(price) * 0.22) %>% 
+  ungroup() %>% 
+  arrange(average_price_euro)
+```
+
+You're not limited to one summary statistic, either - here's how to see both the mean and the standard deviation (and you could add more arguments here):
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  summarize(average_price = mean(price), sd_price = sd(price)) %>% 
+  ungroup()
+```
+
+You can also group by more than one column. Here, we're looking at average price per category depending on whether the item is available in other colours or not.
+```{r}
+ikea %>% 
+  group_by(category, other_colors) %>% 
+  summarise(mean(price)) %>% 
+  ungroup()
+```
+
+
+## count()
+For categorical columns, you can also count how many rows are in each category using `count()` instead of `summarize()`
+
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  count() %>% 
+  ungroup()
+```
+
+This is sorted alphabetically, but we can pipe it into an `arrange()` call to sort by frequency, in descending order.
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  count() %>% 
+  ungroup() %>% 
+  arrange(desc(n))
+```
+
+And again, we can group by several variables, e.g.:
+```{r}
+ikea %>% 
+  group_by(category, other_colors) %>% 
+  count() %>% 
+  ungroup()
+```
+
+Similarly, you can use distinct() to return the unique items in the category, for example:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  distinct(name)
+```
+You can call `distinct()` without an argument, which will make sure that all columns have only unique items, or you can call it on a specific column, which will return only that column and all the unique items in it.
+
+
+### Levelling up summarise()
+
+Measures of spread: 
+- standard deviation `sd(x)`
+- interquartile range (contains 50% of the data) `IQR(x)`
+- median absolute deviation `mad(x)`
+(the latter two options are recommended when lots of outliers are present)
+
+Measures of rank: 
+- smallest value: `min(x)`
+- quantiles, e.g. `quantile(x, 0.25)` would show the number that 25% of the values are below
+- highest value: `max(x)`
+
+Measures of position: 
+- `first(x)`
+- `nth(x, 2)`
+- `last(x)`
+
+Counts: 
+- `sum(!is.na(x))` counts the number of non-missing values
+- `n_distinct(x)` counts the number of distinct (unique) values
+
+
+## Try it out!
+
+1. How many films per year are included in this data?
+
+2. How many films per genre (use the genre1 variable) pass the Bechdel test? Use the binary or categorical variable.
+
+3. Repeat this analysis using the numeric Bechdel score instead of the categories. Calculate the average and standard deviations for each genre.
+
+4. Group by director, calculate the average numeric Bechdel score, and arrange to see which director has the best representation according to the Bechdel test.
+
+5. Filter to include only films that pass the Bechdel test (use the binary variable) and group by year, then count how many distinct titles are left to see in which year the most films passed.
+
+
+# (3) Using group_by() with mutate() and filter()
+`group_by()` is mostly used with `summarise()` but it's possible to combine it with other commands.
+
+## group_by() and filter()
+For example, we can look at the five most expensive items per group:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  filter(rank(desc(price)) <= 5) %>% 
+  select(category, price) %>% 
+  ungroup()
+```
+
+It's also possible to filter by summarised information. For example, here, we're reducing the data so it only contains categories that have at least 400 entries:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  filter(n() > 400) %>% 
+  ungroup()
+```
+
+Let's take a look at what happens when we forget to use `ungroup()` and then try to drop the column we grouped by:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  filter(n() > 400) %>% 
+  select(-category)
+```
+
+R won't let us! If we add `ungroup()`, it works:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  filter(n() > 400) %>% 
+  ungroup() %>% 
+  select(-category)
+```
+
+
+## group_by() and mutate()
+
+We can use `mutate()` to express the price of each furniture piece as a deviation from the average price (roughly 237€):
+```{r}
+ikea %>% 
+  mutate(price_c = price_eur - mean(price_eur)) %>% 
+  select(price_eur, price_c)
+```
+This is called "centering" a variable. Negative values mean that it's below the mean, positive that it's higher than the mean.
+
+Now that we've done this for the entire dataset, we can also center the price separately for each category by adding a `group_by()` before the `mutate()`call:
+```{r}
+ikea %>% 
+  group_by(category) %>% 
+  mutate(price_c = price_eur - mean(price_eur)) %>% 
+  ungroup() %>% 
+  select(category, name, price_eur, price_c) %>% 
+  arrange(price_c)
+```
+Now, the price_c variable expresses deviations from the means *of each category* so we can see which wardrobes, sofas, armchairs etc. are cheaper or more expensive than the average wardrobe, sofa, or armchair.
+
+
+### Try it out!
+
+1. Going back to the average Bechdel ratings per director, add a filter so that only directors who worked on more than three films are included.
+
+2. Create a variable called "budget_c" that contains deviations from the average budget for each film per year.
+
+
+# Next time
+
+**Part 4, April 21:**
+Beautiful visualizations with ggplot!
+
+**Part 5, May 19:**
+- Advanced ggplot tricks
+- Reshaping data (`pivot_longer()`, `pivot_wider()`)
+- Joining dataframes
+
+
+### Reading
+
+For reading on these topics, check out Chapter 5 of R for Data Science, found here: https://r4ds.had.co.nz/transform.html
+
