@@ -1,0 +1,571 @@
+---
+title: "Introduction to ggplot"
+author: "Julia Müller & Kyla McConnell"
+date: "25 1 2021"
+output: html_document
+---
+
+# Visualisations with ggplot
+
+ggplot2, part of the tidyverse collection of packages, lets us create beautiful and easily customisable visualisations of data.
+
+First, let's load the tidyverse and read in the penguin data.
+```{r}
+library(tidyverse)
+
+penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv')
+
+#for the exercises
+movies <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/movies.csv') %>% 
+  filter(rated %in% c("G", "PG", "PG-13", "R"))
+
+```
+
+
+![Penguins!]("img/penguins.png")
+
+When working with ggplot, whether a column is a factor or a character is important. Let's make sure the columns that should be factors are correctly identified.
+```{r}
+str(penguins)
+
+penguins <- penguins %>% 
+  mutate(species = as.factor(species),
+         sex = as.factor(sex),
+         island = as.factor(island))
+```
+
+# (1) The layered grammar of graphics
+ggplot follows the grammar of graphics. It starts with a blank graph that is fed a specific dataset, i.e. ggplot(data=DATASET). At this point, the graph doesn't have any idea of which of the many variables in the dataset you'd like to use, which will go on the x- or y- axis or what type of graph you're trying to produce.
+
+You can see, at this stage we have, well... nothing!
+```{r}
+ggplot(data = penguins)
+```
+
+Then, you add layers to this graph. These layers include an *aesthetic mapping* which defines how data is matched to the graphics (e.g. which variable is shown on the x-axis, which one is shown on the y-axis).
+Similarly, you can change the shape, size, and color of some or all points/lines/bars. 
+
+ggplot uses + to continue a line of code; this has to come at the END of the previous line, not at the beginning of the next line. These line breaks are optional, but make it a lot easier to read and understand the code.
+
+When we tell ggplot how we want the aesthetics mapped, it can already start to set up the axes. However, it doesn't yet know what type of graph we're building:
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) 
+```
+
+Finally, we add a *geom* which defines the type of plot we're making. This may be a bar chart, a line graph, a scatterplot, or many more options we'll explore below!
+
+As a first example, let's just put a point or dot on each data point using the axes above:
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_point()
+```
+
+## Basic template
+So now you see the basic parts of a ggplot:
+
+1) the data
+2) the aes mappings (the axes, colors, etc.)
+3) the geom (the shape/type of the plot)
+
+Basic code is:
+```{r ggplot2 template, eval=FALSE}
+ggplot(data = <DATA>) + 
+ aes(<MAPPINGS, i.e. x = variable, y = other_variable>) +
+  geom_<SOME_GEOM>()
+```
+
+Notes about syntax:
+No quotations needed around the axes mappings, because we are dealing with established columns, not just text strings! 
+
+### Try it out -- penguins
+1. Using the example code, change bill_length_mm to flipper_length_mm:
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_point()
+```
+
+2. Then put bill_depth_mm on the x-axis and bill_length_mm on the y-axis.
+
+3. Try changing the original code from geom_point() to geom_smooth(). How does the plot look now?
+
+
+# (2) Plots by common variables and variable combinations
+To create informative graphs, we need to know what kind of data we're dealing with:  
+
+- discrete/categorical variable = can only take certain values, like group labels (ex: participant ID, native language)
+vs:
+- continuous variable = numeric variables, can take any value on a certain scale (ex: 43, 43.1, or 433)
+
+In this dataset:
+- discrete variables = species, island, sex (basically, the ones we made into factors)
+- continuous variables = bill_length, bill_depth, etc. (the numeric ones)
+
+Let's go through common variables/combinations of variables and get to know useful geoms for each variable and combination!
+
+## 1 Discrete variable
+Visualizing only one discrete (categorical) variable usually involves looking at how many data points are in each category. For example, does most of our data come from one species or is it equally represented across species?
+
+Let's look at the number of penguins per species. A bar plot is useful for this. The `aes()` only needs an argument for the x-axis, i.e. the category it should visualise. R then helpfully counts how many data points there are for each category, i.e. how many penguins per species.
+
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species) +
+  geom_bar()
+```
+
+If we change the aesthetic mapping, we can visualize how much data we have from each island in the same way:
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = island) +
+  geom_bar()
+```
+
+## 1 Continuous variable
+To show the distribution of one continuous variable, a histogram is useful. Histograms take a continuous variable and divide it into *bins*. These bins divide the data into equally sized containers or ranges, and then show how many data points fall inside of these ranges. This shows you if the data comes from a smooth range or if more are coming from a certain part of the distribution. 
+
+With most datasets, histograms tend to peak in the middle (more data points are closer to the average that ones that are extreme). If you see a lot of extreme values on one side or the other, this is an important insight into your data. It might mean the collection is imbalanced or that there are some unrealistic values. It also affects the kinds of statistical analyses you can do.
+
+Like bar plots, you only need to specify one variable and R does the counting for you.
+```{r histogram}
+ggplot(data = penguins) +
+  aes(x = bill_depth_mm) +
+  geom_histogram()
+```
+Here, we can see that very low and very high values are rare (the bars for e.g. 13 and 25 mm are very small) while values that are close to the mean (17.15) and median (17.3) are very frequent (e.g. 16).
+
+You also see that R throws a warning about the bin size. By default, R will try to pick a reasonable amount of bins to check your data on. However, you can change this and see how it changes your idea of the distribution. Change this with the argument `bins=` inside of the geom_histogram()
+
+```{r histogram}
+ggplot(data = penguins) +
+  aes(x = bill_depth_mm) +
+  geom_histogram(bins = 10)
+```
+
+```{r histogram}
+ggplot(data = penguins) +
+  aes(x = bill_depth_mm) +
+  geom_histogram(bins = 50)
+```
+
+Density plots are a variation of histograms where a smooth line instead of separate bars is drawn. This can be useful for a larger number of data points but can also hide some observations, so for this data, wouldn't be advisable.
+```{r density plot}
+ggplot(data = penguins) +
+  aes(x = bill_depth_mm) +
+  geom_density()
+```
+
+As with bar charts, you can easily change the aes mappings to show a different variable.
+```{r histogram}
+ggplot(data = penguins) +
+  aes(x = body_mass_g) +
+  geom_histogram()
+```
+
+### Try it out -- movies
+
+1. In the first code block of this document, you loaded in the movies dataset, which has info about movies from 1970-2013. As a first step, convert the rated, clean_test and genre columns to factors.
+```{r}
+
+```
+
+2. The column clean_test shows if the film passes the Bechdel test on three levels: 
+"One of the most enduring tools to measure Hollywood’s gender bias is a test originally promoted by cartoonist Alison Bechdel in a 1985 strip from her “Dykes To Watch Out For” series. Bechdel said that if a movie can satisfy three criteria — there are at least two named women in the picture, they have a conversation with each other at some point, and that conversation isn’t about a male character" (TidyTuesday)
+Make a bar chart showing how many movies pass each level of the Bechdel test.
+```{r}
+
+```
+
+3. The imdb_rating column shows the rating the film got by the Internet Movie Database from 0 to 10. Use a histogram to see the distribution of ratings and play around with the amount of bins to see what seems to give you the most informative view.
+```{r}
+
+```
+
+
+## 2 Continuous variables
+
+For two continuous variables, we can use a scatterplot with `geom_point()` to show one dot per data point, defined against two continuous axes, like we saw in the example.
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_point() 
+```
+
+We can also use a (smoothed) line to represent the same data:
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_smooth() 
+```
+
+Compare the scatterplot and smoothed line version of the following variables:
+```{r}
+ggplot(data = penguins) +
+  aes(x = body_mass_g, y = bill_length_mm) +
+  geom_point() 
+```
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = body_mass_g, y = bill_length_mm) +
+  geom_smooth() 
+```
+
+Here comes the cool part about ggplot.. you can also do both at the same time! Simply add both geoms to the same plot:
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = body_mass_g, y = bill_length_mm) +
+  geom_point() + 
+  geom_smooth() 
+```
+
+
+### Try it out -- penguins
+
+1. Add a smoothed line to the scatterplot example of bill_length and bill_depth. Try adding method="lm" to the geom_smooth() call and see how this changes your output. Does this simplify the picture or is it misleading?
+
+2. Represent the relationship between bill_length and flipper_length with a scatterplot and an overlaid trend line.
+
+
+## 1 Discrete, 1 Continuous variable
+
+Boxplots show the distribution of a continuous variable across different groupings. It represents similar info to the summary call but divided across groups:
+```{r}
+summary(penguins$bill_depth_mm)
+```
+
+In the histrogram below, the thick line in the middle is the median, the bottom of the box is the 1st Quartile and the lines reach up to the minimum and maximum values (shown as dots if they are extreme, i.e. they are outside of 1.5x the range from 1st to 3rd quartile: the interquartile range).
+
+In this way, boxplots show you where the data is located, and how this differs between groups.
+
+```{r boxplot}
+ggplot(data = penguins) +
+  aes(x = species, y = bill_depth_mm) +
+  geom_boxplot()
+```
+For example, here we can see that though a few Gentoos have wider beaks than Chinstraps, in general, they have much thinner bills. Adelie and Chinstrap penguins, though, can likely not be identified based on bill depth alone.
+
+Another option is the violin plot, which which is like a density plot turned 90° and mirrored. This gives an idea of where most of the data points are located (the fatter parts of the plot)
+```{r violin plot}
+ggplot(data = penguins) +
+  aes(x = species, y = bill_depth_mm) +
+  geom_violin() 
+```
+
+Adding both of these to a plot really shows a lot of information about how the data is distributed across groups:
+```{r violin plot}
+ggplot(data = penguins) +
+  aes(x = species, y = bill_depth_mm) +
+  geom_violin() +
+  geom_boxplot()
+```
+For example, we can see here that the Chinstrap species is pretty evenly spread from shorter to wider billed individuals. Adelie penguins, however, tend much more towards the median, with fewer individuals showing extreme values.
+
+#### Try it out -- movies
+
+1. Look at the distribution of ratings by Bechdel test result (clean_test). Do movies that pass usually get a better or worse rating? Use a boxplot, adding a violin plot optional.
+```{r}
+
+```
+
+2. Make similar boxplots but look at budget (budget_2013) by rated, which shows the ranking system from G (for all kids), PG, PG-13, to R (adults only). What type of movie usually has the highest budget? Which has the greatest outliers?
+```{r}
+
+```
+
+
+# (3) Adding more information
+
+## Fill vs. color
+
+ggplot distinguishes between `fill=` and `color=`. Both have to do with colors, but the difference is pretty intuitive. Fill is used for filling in larger spaced like entire bars. Color is used for smaller sections like dots or lines. In general, if your fill/color argument doesn't work, try switching it to the other option and see if that fixes it!
+
+## colour
+Let's return to one of the first plots we made. Here, we can add a color argument to the *geom* call that calls a normal color (*in quotes*). This will make all the points this color. 
+Note: if you know what hex codes are (or just use a hex code finder online), you can use all sorts of custom colors.
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_point(color = "blue") 
+```
+
+However, we can also use the color argument to introduce a third variable into the picture. If we are calling a variable/column, we do *not* need quotes AND we need to put it in the *aes* part of the call, becuase it is a -mapping- not a simple color.
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
+  geom_point() 
+```
+
+Here's what happens if you try to put a plain color inside of the aes mapping... R doesn't find this variable, so it just randomly creates it..
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = "blue") +
+  geom_point() 
+```
+
+The same idea works regardless of the type of plot, as long as it is one that takes color and not fill:
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
+  geom_smooth()
+```
+
+So you see that adding a mapping to color (that is related to a categorical variable) always makes the assigned groups visible in the plot. In a way, it's like adding a third variable to the plot.
+
+Anything in the `aes()` mappings is applied to ALL following geoms: (It's "inherited' by all the geoms below it)
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
+  geom_point() +
+  geom_smooth()
+```
+
+The example above showed a *categorical/discrete* variable applied to color. However, you can also do it with a *numeric* variable, in which case the colors will range from light to dark blue.
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = body_mass_g) +
+  geom_point() 
+```
+
+Again for emphasis: if you put a color call *inside aes() with no quotes*, R will look for a column under this name and communicate that information on an appropriate color scale. If you put a color call *inside the geom call with quotation marks* then R will look for this color and apply it to all points. 
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_point(color="pink") 
+```
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_smooth(color="pink") 
+```
+
+## fill
+Bar charts and other charts with pretty large open spaces usually need fill. Fill works the same as color in that it can either go *inside aes() as a mapping* or *inside the geom, with quotes, as a plain color*.
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species) +
+  geom_bar(fill = "pink")
+```
+
+Here, we can use the variable "species" to color code the bars by species. This is a *mapping to a variable*, but it is the same variable that the x-axis is showing:
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species, fill = species) +
+  geom_bar()
+```
+
+
+Similarly to color, you can also use fill to add an additional variable to your plot. This will change the type of the plot to a stacked bar chart, which can handle the additional variable.
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species, fill= sex) +
+  geom_bar()
+```
+
+Bar plots can actually also take color, but this affects the color of the lines only:
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species, color= species) +
+  geom_bar()
+```
+
+Both fill and color can be placed *within* a geom if you want to provide a color that is NOT a mapping:
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species) +
+  geom_bar(fill = "pink", color = "purple")
+```
+
+You can even mix and match:
+```{r bar plot}
+ggplot(data = penguins) +
+  aes(x = species, fill= species) +
+  geom_bar(color = "purple")
+```
+
+Boxplots and violinplots also take both fill and color to represent the main area of the plot vs. the line:
+```{r}
+ggplot(data = penguins) +
+  aes(x = species, y = bill_depth_mm, fill = sex) +
+  geom_boxplot() 
+```
+
+```{r}
+ggplot(data = penguins) +
+  aes(x = species, y = bill_depth_mm, color = sex) +
+  geom_boxplot() 
+```
+
+### Try it out -- movies
+
+1. Using the bar chart of number of movies by clean_test you made in part (2), map fill to clean_test.
+
+
+2. Using the same graph as the question above, map fill to rated. How does this change the information shown in the plot? Try also adding position = "dodge" as an argument to geom_bar() i.e. (geom_bar(position = "dodge"))
+
+Bonus: on the graphs above, try adding + theme_minimal() Remember, the + has to go on the line above. How does this change the look?
+
+# (4) Labels and themes
+To change the x- and y-axis labels, legend title, and to use (sub)titles and captions, add `labs()`:
+```{r}
+ggplot(penguins) +
+  aes(bill_length_mm, bill_depth_mm, colour = species) +
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  labs(x = "Bill length (in mm)", 
+       y = "Bill depth (in mm)",
+       colour = "Species", # this works the same way for fill
+       title = "Bill lengths and depths of penguin species",
+       subtitle = "Longer bills often go along with deeper bills, but only if we analyse the species separately!",
+       caption = "Data source: Palmerpenguins R package")
+```
+To remove x- or y-axis labels, use x = NULL or y = NULL.
+
+An easy trick to make the plot immediately look fancier is to add a theme. This changes the background colour and grid. Start typing `theme_` and try out the options R suggests.
+```{r}
+ggplot(penguins) +
+  aes(bill_length_mm, bill_depth_mm, colour = species) +
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  labs(x = "Bill length (in mm)", 
+       y = "Bill depth (in mm)",
+       colour = "Species",
+       title = "Bill lengths and depths of penguin species",
+       caption = "Data source: Palmerpenguins R package") +
+  theme_light()
+```
+
+# (5) Code variations
+
+## aes() placement
+Instead of putting aes() outside of the geom, we can also add it to each geom instead:
+```{r}
+ggplot(data = penguins) +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm, colour = species)) +
+  geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm, colour = species),
+              method = "lm")
+```
+
+This gives you more control over what each geom shows. For example, we can have a geom that shows the overall trendline which doesn't take into account the different species:
+```{r}
+ggplot(data = penguins) +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm, colour = species)) +
+  geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm),
+              method = "lm")
+```
+
+We can also change the colour of each element for decorative purposes by specifying a colour *outside* of the `aes()` brackets. The colour of the trendline is a little too similar to the dots. Let's change it to yellow:
+```{r}
+ggplot(data = penguins) +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm, colour = species)) +
+  geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm),
+              method = "lm", colour = "yellow")
+```
+
+We can change the colour of the dots in the same way, by putting colour = outside of the `aes()`. brackets:
+```{r}
+ggplot(data = penguins) +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm), colour = "darkgreen") +
+  geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm),
+              method = "lm", colour = "yellow")
+```
+
+Have a look at what happens if you put this argument in the wrong place. Here, colour = "darkgreen" is correct, outside of `aes()`, but colour = "yellow" is wrong. R doesn't throw an error or a warning but the output is not what we want:
+```{r}
+ggplot(data = penguins) +
+  geom_point(aes(x = bill_length_mm, y = bill_depth_mm), colour = "darkgreen") +
+  geom_smooth(aes(x = bill_length_mm, y = bill_depth_mm, colour = "yellow"),
+              method = "lm")
+```
+
+
+## Piping into a ggplot call
+Instead of writing `ggplot(data)`, we can use the pipe: `data %>% ggplot()`. The following two pieces of code are equivalent:
+```{r}
+ggplot(penguins) +
+  aes(bill_length_mm, bill_depth_mm) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+
+penguins %>% 
+  ggplot() + # brackets are empty because we're piping the data argument in
+  aes(bill_length_mm, bill_depth_mm) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+One of the many benefits of using the pipe is that you can immediately visualise newly changed or created variables. 
+
+### ...with filter()
+Similarly, you can take a subset of your data using `filter()` and pipe it into a ggplot call. Here, we're only looking at the penguins who live on the "Dream" island.
+```{r}
+penguins %>% 
+  filter(island == "Dream") %>% 
+  ggplot() +
+  aes(bill_length_mm, bill_depth_mm, colour = species) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+```
+
+### ...to remove NAs
+Or you can remove NAs (without actually deleting them from the data!) by using `drop_na()`, then pipe the result into the ggplot call:
+```{r}
+penguins %>% 
+  drop_na(sex) %>% 
+  ggplot() +
+  aes(x = species, y = bill_depth_mm, fill = sex) +
+  geom_violin() +
+  geom_boxplot() +
+  geom_jitter()
+```
+
+# (6) Saving plots
+
+You can save plots to a variable, then print them by calling the variable:
+```{r}
+penguin_plot <- ggplot(penguins) +
+  aes(bill_length_mm, bill_depth_mm, colour = species) +
+  geom_point() + 
+  geom_smooth(method = "lm")
+
+penguin_plot
+```
+
+You can also add to a plot that you saved in that way. For example, the plot we just saved doesn't have labels, so let's add them in the next step, and change the theme:
+```{r}
+penguin_plot  +
+  labs(x = "Bill length (in mm)", 
+       y = "Bill depth (in mm)",
+       colour = "Species",
+       title = "Bill lengths and depths of penguin species",
+       caption = "Data source: Palmerpenguins R package") +
+  theme_light()
+```
+
+And you can save the plot to disk with `ggsave()`. Read the documentation for more info about how to save an image at a certain size.
+```{r}
+ggsave("penguin_plot.jpg", penguin_plot)
+```
+
+### Additional info
+
+ggplot is a HUGE topic. You can make graphs of any type, with almost any look. If you want to read up more on ggplot, here are some useful resources:
+
+https://psyteachr.github.io/ug1-practical/intro-to-data-viz.html
+
+https://r4ds.had.co.nz/data-visualisation.html
+
+https://www.r-graph-gallery.com
+
+
+#### Exercises
+
+- To practice what you've learned here (and for another look at the same info, with some variations), check out Dale Barr's materials below. Make sure to do the exercises! 
+https://psyteachr.github.io/hack-your-data/quant-data-vis.html
