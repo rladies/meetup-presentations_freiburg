@@ -1,0 +1,388 @@
+---
+title: "Advanced data wrangling"
+author: "Julia Müller & Kyla McConnell"
+date: "19 May 2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+raw_bechdel <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/raw_bechdel.csv')
+
+movies <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/movies.csv')
+
+plastics <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-01-26/plastics.csv') %>% 
+  select(country, year, parent_company, o, pet, pp, ps, pvc, hdpe, ldpe) %>%
+  filter(parent_company != "Grand Total")
+
+brazil <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-04-06/brazil_loss.csv') %>% 
+  select(-c(entity, code))
+```
+
+
+# Column-wise operations: across()
+
+`across()` is a helper for `mutate()` and `summarise`. It lets you easily apply a change or create a summary for several variables because you can use `select()` helpers (`starts_with()`, `ends_with()`, `contains()`, etc.) with `across()`.
+
+`across()` takes two arguments:
+- the first argument selects the relevant columns that should be changed or summarised
+- the second argument specifies what should be done with these variables
+
+![Across](img/dplyr_across.png)
+
+Here's an example of `across()` in a `mutate()` function. In the movies dataset, a lot of the variables that contain info on a movie's gross are treated as characters even though they should be numeric. 
+```{r}
+movies %>% 
+  select(contains("gross")) %>% 
+  str()
+```
+
+We could change them one by one, but `across()` lets us do all of them at once: 
+```{r}
+movies <- movies %>% 
+  mutate(across(contains("gross"), as.numeric))
+```
+
+Checking if it worked:
+```{r}
+movies %>% 
+  select(contains("gross")) %>% 
+  str()
+```
+
+This also lets you easily convert from one data type to another - for example, all character variables into factors. Because we're referring to data types, we need to use `where()`:
+```{r}
+movies %>% 
+  mutate(across(where(is.character), as.factor))
+```
+
+Another powerful use of `across()` is with `summarise()`. For example, instead of changing all variables that contain "gross", we could calculate their means:
+```{r}
+movies %>% 
+  summarise(across(contains("gross"), mean, na.rm = TRUE))
+```
+Here, we need to explicitly exclude the missing values (NAs) so that the averages can be calculated.
+
+Another example - there's information on budget and gross for 2013 specifically. The variables all end with "_2013", so we can use that to see averages of those variables:
+```{r}
+movies %>% 
+  summarise(across(ends_with("_2013"), mean, na.rm = T))
+```
+
+`starts_with()` works the same way:
+```{r}
+movies %>% 
+  summarise(across(starts_with("budget"), mean, na.rm = T))
+```
+
+It's also possible to calculate the mean of every variable with `everything()` as the first argument in `across()`. For this data, R will complain quite a lot because `summarise()` doesn't make sense for non-numeric variables:
+```{r}
+movies %>% 
+  summarise(across(everything(), mean, na.rm = T))
+```
+
+Variables can also be selected by position, or listed in a vector:
+```{r}
+movies %>% 
+  summarise(across(budget:intgross, mean, na.rm = T))
+
+movies %>% 
+  summarise(across(c(domgross, intgross), mean, na.rm = T))
+```
+
+It's also really useful to combine this with a `group_by()` call before. Here, we're looking at averages for all numeric variables separately for whether they pass or fail the Bechdel test.
+```{r}
+movies %>% 
+  group_by(binary) %>% 
+  summarise(across(where(is.numeric), mean, na.rm = T))
+```
+
+This also works with a list of functions, e.g. the mean and the standard deviation:
+```{r}
+movies %>% 
+  group_by(binary) %>% 
+  summarise(across(where(is.numeric), c(mean, sd), na.rm = T))
+```
+
+Instead of `summarise()`, you can also use `count()`:
+```{r}
+movies %>% 
+  count(across(contains("test")))
+```
+This counts how often each unique combination of the selected variables is found in the data.
+
+More information on `across()` in the vignette:
+https://dplyr.tidyverse.org/articles/colwise.html
+
+
+# Row-wise operations: rowwise()
+
+Let's create a small example dataframe:
+```{r}
+df <- tibble(var1 = c(2, 4), var2 = c(8, 4))
+df
+```
+
+We'd now like to calculate the means of these variables, so (2+8)/2 = 5 and (4+4)/2 = 4. Those means should be in a new column. Our first attempt might look something like:
+```{r}
+df %>% 
+  mutate(mean_vars = mean(c(var1, var2)))
+```
+R does create a new variable called "mean_vars" but it contains 4.5 - so R calculates the average across all variables: (2+8+4+4)/4 = 4.5. 
+
+To get the result we actually wanted, we need to first add the `rowwise()` command. This works similarly to `group_by()` - it tells R that the following operations should be done separately for each row. Each row is treated as a separate group after `rowwise()`:
+```{r}
+df %>% 
+  rowwise() %>% 
+  mutate(mean_vars = mean(c(var1, var2))) %>% 
+  ungroup()
+```
+If we want to continue as normal afterwards (so operations should **not** be done separately for each group/row anymore) we need `ungroup()`.
+
+Here's an example with more realistic data. The "brazil" dataframe contains causes of deforestation in Brazil for several years, with one row per year:
+```{r}
+head(brazil)
+```
+
+We'd like to calculate the total amount of deforestation for each year, so for each row separately:
+```{r}
+brazil %>% 
+  rowwise() %>% 
+  mutate(total_deforestation = sum(c(commercial_crops, flooding_due_to_dams, natural_disturbances, pasture, selective_logging, fire, mining, other_infrastructure, roads, tree_plantations_including_palm, small_scale_clearing))) %>% 
+  ungroup()
+```
+That works - but it's also a lot to type with this many variable names! Luckily, we can use `c_across()` to use `select()` syntax just like we did before, so we can rewrite this command in several ways.
+
+For example:
+```{r}
+brazil %>% 
+  rowwise() %>% 
+  mutate(total_deforestation = sum(c_across(commercial_crops:small_scale_clearing))) # matching by position
+
+brazil %>% 
+  rowwise() %>% 
+  mutate(total_deforestation = sum(c_across(-year))) # calculate the sum of everything except year
+```
+...and the same holds true for `summarise()`!
+
+
+More information in the vignette:
+https://dplyr.tidyverse.org/articles/rowwise.html
+
+
+### Try it out!
+
+Have a look at the "plastics" dataset. It contains data on different kinds of plastic waste that was collected in 2019 and 2020 in various countries. 
+```{r}
+head(plastics)
+```
+
+Convert all character variables into factors using `across()`.
+```{r}
+(plastics <- plastics %>% 
+  mutate(across(where(is.character), as.factor)))
+```
+
+Calculate the mean of columns that end with "dpe".
+```{r}
+plastics %>% 
+  summarise(across(ends_with("dpe"), mean, na.rm = TRUE))
+```
+
+Calculate the total amount of plastic waste per row.
+```{r}
+plastics %>% 
+  rowwise() %>% 
+  mutate(total_plastics = sum(c_across(o:ldpe))) %>% 
+  ungroup()
+```
+
+
+# Reshaping data 
+
+Now, let's look into how to change the shape of your data. There are two options here:
+- making your data "longer", i.e. increase the number of rows and decrease the number of columns
+  - useful for tidying data, especially common with "wild-caught" data
+  - command: `pivot_longer()`
+- making your data "wider", i.e. decrease the number of rows and increase the number of columns
+  - not (as) common for tidying but for creating summary tables
+  - command: `pivot_wider()`
+
+
+## pivot_longer()
+
+To discuss `pivot_longer()`, we'll use a Tidy Tuesday dataset on plastic waste that was collected in different countries in 2019 and 2020:
+```{r}
+str(plastics)
+```
+
+The columns "hdpe" to "pvc" contain the amounts of plastic collected of that kind of plastic. This isn't tidy, and if we tried to create e.g. a graph of the different amounts, we'd run into issues. What we need instead is one column that contains the kind of plastic (hdpe, pvc, etc.) and another column that contains the amount. In other words: The data needs to be longer -> we need 'pivot_longer()'.
+
+The basic `pivot_longer` arguments are:
+- cols: which columns should be reshaped?
+- names_to: the name of the variable that the original column names ("hdpe", "ldpe", "pet", etc.) should be stored in as values
+- values_to: the name of the variable that the contents of the variables (here, the amount of plastic collected) should be stored in
+
+```{r}
+(plastics_long <- plastics %>% 
+  pivot_longer(
+    cols = c(o, pet, pp, ps, pvc, hdpe, ldpe), 
+    names_to = "plastic_type", 
+    values_to = "plastic_count"))
+```
+
+Instead of listing all the columns that should be pivoted, we can also exclude columns that should **not** be pivoted - like so:
+```{r}
+plastics %>% 
+  pivot_longer(
+    cols = -c(country, year, parent_company), 
+    names_to = "plastic_type", 
+    values_to = "plastic_count")
+```
+
+
+## pivot_wider()
+While `pivot_longer()` is often used to tidy data, its opposite `pivot_wider()` is more common when creating and reformatting summary tables.
+
+For example, let's first count how often each kind of plastic was found per year:
+```{r}
+plastics_long %>% 
+  drop_na(plastic_count) %>% 
+  group_by(year, plastic_type) %>% 
+  summarise(plastic_sum = sum(plastic_count)) %>% 
+  ungroup()
+```
+
+That works, but the resulting table isn't easy to read - for example, the years are repeated. We'd like to reformat this summary so the plastic types are row labels and there are two columns, one for each year.
+
+We can use `pivot_wider()` to achieve this. Its main arguments are:
+- names_from: where should the new column names come from?
+- values_from: where should the corresponding values come from?
+```{r}
+plastics_long %>% 
+  drop_na(plastic_count) %>% 
+  group_by(year, plastic_type) %>% 
+  summarise(plastic_sum = sum(plastic_count)) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    names_from = year, 
+    values_from = plastic_sum)
+```
+
+More information in the vignette:
+https://tidyr.tidyverse.org/articles/pivot.html
+
+
+### Try it out!
+
+Return to the "brazil" dataset and try to recreate the steps we've taken with the plastics data, so:
+First, make the data longer by creating a column that contains the reason for deforestation and a column that contains the amount. Ignore the "year" column. Once you're happy with the output, save this data as "brazil_long".
+
+Here's a preview of what this "brazil_long" dataframe should look like:
+![The "Brazil" data as a long dataframe](img/brazil_long.png)
+
+```{r}
+(brazil_long <- brazil %>%
+  pivot_longer(
+    cols = -year, 
+    names_to = "reason", 
+    values_to = "amount"
+    )
+ )
+```
+
+Next, take that dataset you just created and calculate the total amount of deforestation per year using `group_by()` and `summarise()`.
+Then, make that summary table wider: each column should be a year, and there should be one row that shows the amounts of deforestation for that year.
+
+This wide summary table should look like this:
+![The "Brazil" data as a wide summary table](img/brazil_wide.png)
+
+```{r}
+brazil_long %>% 
+  group_by(year) %>% 
+  summarise(sum_deforestation = sum(amount)) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    names_from = year,
+    values_from = sum_deforestation
+  )
+```
+
+
+# Joining several data sets
+
+Let's return to a Tidy Tuesday on the Bechdel test. There are actually two data files here - one that contains data on film titles and their test result ("raw_bechdel"), and another one ("movies") with fewer films but additional information on their budget, gross, etc.
+
+```{r}
+head(raw_bechdel)
+head(movies)
+```
+
+We'd like to combine these two datasets into one - to "join" them. There are several join commands, which differ in how they match up datasets and which cases are kept or discarded. 
+Their syntax is:
+xxxx_join(dataframe1, dataframe2, by = "column that is present in both dfs")
+
+![Join options, from the data wrangling cheat sheet](img/dplyr-joins.png)
+
+Let's first try a `full_join()`:
+```{r}
+full_join(movies, raw_bechdel)
+```
+There are several columns present in both dataframes: the film title and the IMDB id as well as the year. R automatically realises that these variable names are the same and matches the dataframes by these columns - we don't have to specify anything in the "by = " argument. This can be very useful when the columns actually contain the same information, but double-check if they really do.
+
+When joining, it's often a good idea to create a new dataframe instead of overwriting anything, so let's save the joined data as "movies_full":
+```{r}
+movies_full <- full_join(movies, raw_bechdel)
+```
+Because we specified that we want a full join, no rows are removed, so films that only appear in one dataset but not the other are **not** removed. Instead, the missing columns are filled in with NAs. For example, the film "The Phantom" only exists in the "raw_bechdel" data, so let's take a look at it in the joined data frame:
+```{r}
+movies_full %>% 
+  filter(title == "The Phantom")
+```
+
+Let's compare that with a few other kinds of joining operations.
+
+With a `left_join()`, all rows that are in the first dataset are retained:
+```{r}
+movies_left <- left_join(movies, raw_bechdel)
+```
+
+With a `right_join()`, the opposite happens - all rows in the second dataset are kept:
+```{r}
+movies_right <- right_join(movies, raw_bechdel)
+```
+
+In both cases, if information isn't available, the cells are filled in with an NA.
+
+In contrast, an `inner_join()` only keeps rows that are in **both** dataframes. If there are several matches, they are all kept.
+```{r}
+movies_inner <- inner_join(movies, raw_bechdel)
+```
+
+So if we try to find "The Phantom", a film that only exists in the "raw_bechdel" data, it doesn't exist in the "movies_inner" dataframe:
+```{r}
+movies_inner %>% 
+  filter(title == "The Phantom")
+```
+
+So far, we didn't need to specify anything in the "by = " argument because the data frames contained columns with the same names. If that's not the case, we can write something like:
+```{r eval=FALSE}
+full_join(df1, df2, by = c("var_in_df1", "var_in_df2"))
+```
+That way, R knows that these two columns contain the same data and should be used to match up the dataframes.
+
+
+**Other options: **
+- semi_join: basically an inner_join, but rows in the first dataframe won't be duplicated
+- anti_join: removes data from the first df if it's present in the second df. E.g. used in text analysis to remove stopwords such as the, a, in...
+
+- bind_rows: adds rows to a dataframe, e.g. to combine data that has been collected at different points in time into one dataframe
+- bind_cols: adds colums to a dataframe
+
+Careful - binding rows or columns matches only by position and doesn't check if that makes sense, so your data needs to have the exact same structure. Always double-check when joining if everything worked as expected...
+
+
+For more information on joining data, check the documentation:
+https://dplyr.tidyverse.org/articles/two-table.html
+
