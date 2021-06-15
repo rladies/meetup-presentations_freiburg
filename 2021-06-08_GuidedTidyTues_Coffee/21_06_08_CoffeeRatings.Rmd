@@ -1,0 +1,384 @@
+---
+title: "Guided Tidy Tuesday: Coffee ratings"
+author: "Julia Müller"
+date: "08 06 2021"
+output: html_document
+---
+
+Welcome!
+
+We'll work with a Tidy Tuesday dataset that contains coffee ratings.
+
+Data source: https://github.com/rfordatascience/tidytuesday/blob/2e9bd5a67e09b14d01f616b00f7f7e0931515d24/data/2020/2020-07-07/readme.md
+
+
+# Exploring and preparing the data
+
+## Reading in the data
+
+Follow the link to the Tidy Tuesday github repository and read in the data. There are several options to do this but they have a `read_csv()` command to copy and paste that we recommend.
+
+```{r}
+coffee <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv')
+```
+
+It's possible to read a file straight from the internet, it doesn't have to be saved on your computer!
+
+readr:: means that the next command comes from the readr package. Useful for
+(1) you have several packages that have functions with the same name (happens e.g. with `select` which exists in both the tidyverse and the stats packages)
+(2) you want to just use one or two functions from a specific package without loading the entire package
+
+Note that we can use a tidyverse command (read_csv) **before** having read in the package.
+
+
+## Loading packages
+
+We'll start by loading the tidyverse. If we need any other packages later on, we'll add them here.
+
+```{r}
+library(tidyverse)
+```
+
+
+## Exploring the data
+
+How could you get a first impression of the dataset?
+Several options/commands - or click on name of the dataframe in the Environment (top right)
+```{r}
+summary(coffee)
+
+names(coffee)
+
+str(coffee)
+
+head(coffee)
+
+skimr::skim(coffee) # need to install skimr package first if you haven't already
+```
+
+What do you pay attention to when you start working with new data?
+Refer back to the codebook on the Tidy Tuesday github page if any variable names are unclear - sometimes, variable names don't immediately tell you what they contain.
+
+What does each variable mean? What kind of information does one row contain? Are there variables that need to be cleaned up if you wanted to work with them? Do we need to change the shape of the data (make it longer or wider)? Pay close attention to the data types!
+
+**First impressions:**
+- lots of data, lots of variables
+- some missing
+- will need narrowing down for many plots
+- one row = either a kind of coffee bean or a separate tasting
+- some variables measured using different units, e.g. bag weight measured in kg, lbs, or unit missing completely 
+```{r}
+coffee %>% 
+  select(bag_weight) %>% 
+  distinct() # this lets us see unique values of bag weight
+```
+- data types: 
+  - characters that need to be factors (species, country_of_origin...)
+  - characters that need to be numeric (altitude, bag_weight)
+  - characters that need to be dates (harvest_year, grading_date, expiry_date)
+
+
+## Fixing data types
+
+Convert species and country of origin from character to factor variables:
+```{r}
+coffee <- coffee %>% 
+  mutate(species = as_factor(species),
+         country_of_origin = as_factor(country_of_origin))
+
+# is equivalent to:
+coffee <- coffee %>% 
+  mutate(across(c(country_of_origin, species), as_factor))
+# but this version with across is especially handy if you want to convert many variables
+
+# checking it worked
+str(coffee)
+
+class(coffee$species)
+class(coffee$country_of_origin)
+```
+
+
+# Plots
+
+## Cup points by altitude
+
+Does coffee grown in higher/lower regions taste better?
+
+Scatterplot (geom_point)
+x-axis: altitude_mean_meters
+y-axis: total_cup_points
+
+```{r}
+coffee %>% 
+  filter(altitude_mean_meters < 5000 & total_cup_points > 50) %>% # filter to "zoom in" and not see few extreme values
+  ggplot() +
+  aes(x = altitude_mean_meters, y = total_cup_points,
+      colour = species) + # see points colour-coded by species - Arabica or Robusta
+  geom_point() +
+  geom_smooth(method = "lm") + # add regression line. The method = "lm" part creates a straight line
+  theme_minimal() + # removes the gray background
+  labs(x = "average altitude in metres", # labeling axes, adding title, subtitle, caption
+       y = "total cup points",
+       title = "Total cup points by altitude and coffee species",
+       subtitle = 'I <3 coffee',
+       caption = "Data source: Tidy Tuesday")
+```
+
+
+## Cup points by country
+
+Same plot as before, but colour-coded for country instead of species
+
+```{r}
+coffee %>% 
+  filter(altitude_mean_meters < 5000 & total_cup_points > 50) %>% 
+  ggplot() +
+  aes(x = altitude_mean_meters, y = total_cup_points,
+      colour = country_of_origin) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_minimal() +
+  labs(x = "average altitude in metres",
+       y = "total cup points",
+       title = "Total cup points by altitude and country of origin",
+       subtitle = 'I <3 coffee',
+       caption = "Data source: Tidy Tuesday")
+```
+Well, this is a mess! There are a lot of countries in this dataset.
+
+Ideas for how we could reduce this:
+- facets, i.e. one plot per country (but we'd still have an overwhelming amount of countries, plus some of them have few data points)
+- look at continents instead of countries
+- could use `fct_lump()` to create one "other" category for the less frequent countries - this code puts all countries with fewer than 70 data points into the "other" category:
+```{r}
+coffee %>% 
+  mutate(country_of_origin = fct_lump_min(country_of_origin, min = 70)) %>% 
+  count(country_of_origin)
+```
+
+For now, we'll try to find out what the most frequent countries in the data are and focus on visualising these.
+
+Let's find the most common countries:
+```{r}
+summary(coffee$country_of_origin)
+
+# to see how often each country appears in the data, sorted in descending order:
+coffee %>% 
+  count(country_of_origin) %>% 
+  arrange(desc(n))
+```
+
+We could simply list them - %in% checks the country is in the following short list of countries.
+```{r}
+coffee %>% 
+  filter(country_of_origin %in% c("Mexico", "Colombia", "Guatemala", "Brazil")) %>% 
+  filter(altitude_mean_meters < 5000 & total_cup_points > 50) %>% 
+  ggplot() +
+  aes(x = altitude_mean_meters, y = total_cup_points,
+      colour = country_of_origin) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_minimal() +
+  labs(x = "average altitude in metres",
+       y = "total cup points",
+       title = "Total cup points by altitude and country of origin",
+       subtitle = 'I <3 coffee',
+       caption = "Data source: Tidy Tuesday",
+       colour = "country of origin")
+```
+
+This is not very flexible, however. What we could do instead is add a variable that contains the count. The command `add_count()` achieves this. In contrast to `count()`, which creates a summary table that only contains country and n, `add_count()` adds a variable to the original data that we can then use to filter:
+```{r}
+coffee %>% 
+  add_count(country_of_origin, name = "country_n") %>% 
+  filter(country_n > 100 & altitude_mean_meters < 5000 & total_cup_points > 50) %>% 
+  ggplot() +
+  aes(x = altitude_mean_meters, y = total_cup_points,
+      colour = country_of_origin) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_minimal() +
+  labs(x = "average altitude in metres",
+       y = "total cup points",
+       title = "Total cup points by altitude and country of origin",
+       subtitle = 'I <3 coffee',
+       caption = "Data source: Tidy Tuesday",
+       colour = "country of origin") 
+```
+
+Comments:
+- If you've saved a summary table as a separate data frame, you can also filter by that
+```{r}
+top_4_countries <- coffee %>% 
+  count(country_of_origin) %>% 
+  filter(n > 100)
+
+top_4_countries
+
+coffee %>% 
+  filter(country_of_origin %in% top_4_countries$country_of_origin) %>% 
+  count(country_of_origin)
+```
+
+- Filtering by rank is also an option, e.g. to find the four most frequent countries:
+```{r}
+coffee %>% 
+  add_count(country_of_origin, name = "country_n") %>% 
+  filter(dense_rank(desc(country_n)) <= 4) %>% 
+  count(country_of_origin)
+```
+
+
+## Histograms/density plots
+
+Let's look at the distribution of aroma (but this would work the same for the other ratings such as sweetness, acidity, aftertaste...) in a density plot:
+```{r}
+coffee %>% 
+  ggplot() +
+  aes(x = aroma, colour = species, fill = species) + # separate curves for Arabica and Robusta coffee to see if/how they differ
+  geom_density(alpha = 0.3) + # alpha makes the colour more transparent so we can see both density curves. alpha = 0 is completely transparent, alpha = 1 is not transparent at all
+  theme_light() +
+  labs(title = "Aroma by coffee species") +
+  scale_fill_manual(values = c("seagreen", "steelblue")) +
+  scale_colour_manual(values = c("seagreen", "steelblue"))
+```
+`fill =` is used for larger areas, `colour =` is for smaller elements - points or lines. We can manually chance the colour for both fill and colour separately. Here, we're using R's inbuilt colours - see a list of them here:
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+You could also redo this plot with `geom_histogram()` instead of `geom_density()`.
+
+
+## Boxplot + violin + geom_jitter
+
+Finally, let's make a boxplot of sweetness ratings by coffee species and then add to it by adding a violin plot and the single data points.
+
+R builds up the plot layer by layer in the order specified in the code, so it's important to draw the violin plot first, the boxplot and then the points on top of it so everything is visible.
+```{r}
+ggplot(coffee) +
+  aes(x = species, y = sweetness,
+      colour = species) +
+  geom_violin() + # a mirrored density plot that is rotated by 90°
+  geom_boxplot(width = 0.3) + # makes the boxplot thinner so the violin plot is visible
+  geom_jitter(alpha = 0.4) + # instead of geom_point to avoid overplotting and make sure every data point is visible
+  theme_light() +
+  theme(legend.position = "bottom") # moves the legend to the bottom of the graph. Use legend.position = "none" to remove it entirely
+```
+
+
+# Additional challenges
+
+## (1) Boxplots of different ratings
+What if we'd like a boxplot of the different ratings, so the category on the x-axis and the corresponding ratings on the y-axis? For that, we need to transform the data with `pivot_longer()`. Fill in the code fragment below to create the datafame `coffee_long` with three columns: The country of origin, the category (aroma, flavor, aftertaste, etc.), and the rating for each of these categories. 
+
+```{r eval=FALSE}
+coffee_long <- coffee %>% 
+  add_count(country_of_origin, name = "country_n") %>% 
+  filter(country_n > 100) %>% # again, only keeping the most frequent countries
+  select(country_of_origin, aroma, flavor, aftertaste, acidity, body, balance, uniformity, clean_cup, sweetness) %>% # reduce variables to only country and the ratings so we have less to type =)
+  pivot_longer(cols = ______, 
+               names_to = ______, 
+               values_to = ______)
+```
+
+Scroll further down for the answer...
+
+...
+
+
+...
+
+
+Here's the answer:
+```{r}
+coffee_long <- coffee %>% 
+  add_count(country_of_origin, name = "country_n") %>% 
+  filter(country_n > 100) %>% # again, only keeping the most frequent countries
+  select(country_of_origin, aroma, flavor, aftertaste, acidity, body, balance, uniformity, clean_cup, sweetness) %>% # reduce variables to only country and the ratings so we have less to type =)
+  pivot_longer(cols = -country_of_origin, 
+               names_to = "category", 
+               values_to = "rating")
+```
+
+Now you can create a boxplot! Put the category variable on the x-axis and the rating on the x-axis.
+
+Scroll further down for the code...
+
+...
+
+
+...
+
+
+Here it is:
+```{r}
+coffee_long %>% 
+  ggplot() +
+  aes(x = category, y = rating) +
+  geom_boxplot()
+```
+
+Additional challenges - keep working on this plot and:
+- change the theme
+- add a title
+- change "clean_cup" to "clean cup"
+- colour-code the country of origin
+- change the colours
+- flip the coordinate system
+- facet by country of origin (and remove the legend)
+
+Scroll further down for the answer...
+
+...
+
+
+...
+
+Here's code that does all this:
+```{r}
+coffee_long %>% 
+  mutate(category = fct_recode(category, "clean cup" = "clean_cup")) %>%
+  ggplot() +
+  aes(x = category, y = rating, colour = country_of_origin) +
+  geom_boxplot() +
+  facet_wrap(~ country_of_origin) +
+  coord_flip() +
+  theme_light() + 
+  theme(legend.position = "none") +
+  labs(title = "Coffee is delicious!",
+       x = NULL, y = NULL) +
+  scale_colour_manual(values = c("orange2", "royalblue4", "deepskyblue3", "gold1"))
+```
+
+
+## (2) Ridgeline plots
+
+Ridgeline plots are density plots for different categories or changes over time. Have a look at a tutorial on them with the ggridges package (e.g. this one: https://www.datanovia.com/en/blog/elegant-visualization-of-density-distribution-in-r-using-ridgeline/) and remember to install the package.
+
+Then, create density plots of body ratings for countries that occur at least 100 times in the data, and make it pretty!
+
+Scroll further down for code...
+
+...
+
+
+...
+
+Here's code for a ridgeline plot:
+```{r}
+library(ggridges)
+
+coffee %>% 
+  add_count(country_of_origin, name = "country_n") %>% 
+  filter(country_n > 100) %>%
+  ggplot(aes(x = body, y = country_of_origin, 
+             fill = country_of_origin)) +
+  geom_density_ridges(alpha = 0.7) +
+  theme_light() +
+  labs(title = "Body ratings for coffee from...", 
+       x = "Rating (0 - 10)", 
+       y = "Country of origin") +
+  theme(legend.position = "none",
+        panel.grid = element_blank()) +
+  scale_fill_manual(values = c("orange2", "royalblue4", "gold1", "deepskyblue3"))
+```
