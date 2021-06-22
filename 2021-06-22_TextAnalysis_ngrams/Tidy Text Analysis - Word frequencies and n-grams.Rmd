@@ -1,0 +1,459 @@
+---
+title: 'Tidy Text Analysis: Word frequencies & n-grams'
+author: "Julia Müller & Kyla McConnell"
+date: "22 6 2021"
+output: html_document
+---
+
+Based on Tidy Text Mining by Julia Silge and David Robinson (mostly chapter 4, some information from chapters 1 and 3) available here:
+https://www.tidytextmining.com/
+
+
+# 0 Prerequisites: Packages & getting data
+
+## Packages
+```{r}
+library(tidyverse) #for various data manipulation tasks
+library(tidytext) #for text mining specifically, main package in book
+library(stringr) #for various text operations
+library(gutenbergr) #to access full-text books that are in the public domain
+library(readtext) # for reading in txt files
+library(igraph) # for creating networks of bigrams
+library(ggraph) # for visualising networks of bigrams
+```
+
+
+## Reading in texts
+
+### Book data from Project Gutenberg
+* Project Gutenberg: free downloads of books in the public domain (i.e. lots of classic literature)
+* Currently in a legal battle in Germany - impossible to download via the website
+* Still accessible via the R package gutenbergr by ID
+* Top 100 books for inspiration (changes daily based on demand): https://www.gutenberg.org/browse/scores/top
+* Catalog: https://www.gutenberg.org/catalog/ 
+
+To find the id of a book (some have multiple copies):
+```{r}
+gutenberg_metadata %>%
+  filter(title %in% c("Alice's Adventures in Wonderland", "Grimms' Fairy Tales", "Andersen's Fairy Tales"))
+```
+
+Can also search by author name:
+```{r}
+gutenberg_works(author == "Carroll, Lewis")
+
+gutenberg_works(str_detect(author, "Carroll")) #if you only have a partial name
+```
+
+For more Gutenberg search options: https://ropensci.org/tutorials/gutenbergr_tutorial/
+
+Once you've found your books, download them with gutenberg_download:
+```{r}
+#fairytales_raw <- gutenberg_download(c(11, 2591, 1597))
+
+#If the command above doesn't work, try:
+fairytales_raw <- gutenberg_download(c(11, 2591, 1597), 
+                                     mirror = "http://mirrors.xmission.com/gutenberg/")
+
+head(fairytales_raw, 50)
+```
+
+### Preparing data
+- convert Gutenberg ID to a factor and replacing the ID numbers with more descriptive labels 
+```{r}
+fairytales_raw <- fairytales_raw %>% 
+  mutate(gutenberg_id = recode(gutenberg_id,
+                               "11" = "Alice's Adventures in Wonderland",
+                                                "2591" = "Grimm's Fairytales",
+                                                "1597" = "Hans Christian Anderson's Fairytales"),
+         gutenberg_id = as.factor(gutenberg_id))
+```
+
+
+# 1 Tidy text & word frequencies
+* One token per row
+* Token: "a meaningful unit of text, most often a word, that we are interested in using for further analysis"
+* An n-gram is also a token, as you'll see later
+
+## 1.1 The unnest_tokens function
+* Easy to convert from full text to token per row with unnest_tokens()
+Syntax: unnest_tokens(df, newcol, oldcol)
+* unnest_tokens() automatically removes punctuation and converts to lowercase (unless you set to_lower = FALSE)
+* by default, tokens are set to words, but you can also use token = "characters", "ngrams", "sentences", "lines", "regex", "paragraphs", and even "tweets" (which will retain usernames, hashtags, and URLs)
+
+```{r}
+(fairytales_tidy <- fairytales_raw %>% 
+  unnest_tokens(word, text))
+
+# To keep sentence number:
+fairytales_raw %>% 
+  unnest_tokens(sentence, text, token = "sentences") %>% 
+  mutate(sent_nr = row_number()) %>% 
+  unnest_tokens(word, sentence)
+```
+
+## 1.2 Removing non-alphanumeric characters
+* Project Gutenberg data sometimes contains underscores to indicate italics
+* str_extract is used to get rid of non-alphanumeric characters (because we don't want to count _word_ separately from word)
+```{r}
+str_extract("_test words_ _hello", "[a-z']+") #extract first (singular) word, until a space or non-alphanumeric character is found
+
+str_remove_all("_test words_ _hello", "_") #specifically remove only underscores
+
+#More info/tests for regular expressions: https://regexr.com
+
+fairytales_tidy <- fairytales_tidy %>% 
+  mutate(word = str_extract(word, "[a-z']+"))
+``` 
+
+
+## 1.3 Stop words
+* Stop words: very common, "meaningless" function words like "the", "of" and "to" -- not usually important in an analysis (i.e. to find out that the most common word in two books you are comparing is "the")
+* tidytext has a built-in df called stop_words for English 
+* remove these from your dataset with anti_join
+
+We can take a look:
+```{r}
+head(stop_words, 20)
+```
+
+Anti_join removes from the left-side (or piped-in) dataframe any rows that are in the right-side dataframe
+```{r}
+fairytales_tidy <- fairytales_tidy %>% 
+  anti_join(stop_words)
+
+fairytales_tidy
+```
+
+Define other stop words:
+```{r}
+meaningless_words <- tibble(word = c("von", "der", "thy", "thee", "thou"))
+
+fairytales_tidy <- fairytales_tidy %>% 
+  anti_join(meaningless_words)
+```
+This could also be used to remove character names, for example.
+
+The stopwords package also contains lists of stopwords for other languages, so to get a list of German stopwords, you could use:
+```{r}
+library(stopwords)
+stop_german <- data.frame(word = stopwords::stopwords("de"), stringsAsFactors = FALSE)
+head(stop_german)
+```
+More info: https://cran.r-project.org/web/packages/stopwords/readme/README.html
+
+
+## 1.4 Analysing word frequencies
+* Easily find frequent words using count() 
+* Data must be in tidy format (one token per line)
+* sort = TRUE to show the most frequent words first
+
+tidy_books %>%
+  count(word, sort = TRUE) 
+
+```{r}
+fairytales_freq <- fairytales_tidy %>% 
+  group_by(gutenberg_id) %>% #including this ensures that the counts are by book and the id column is retained
+  count(word, sort=TRUE)
+
+head(fairytales_freq, 10)
+```
+
+Reminder: filter can be used to look at subsets of the data, i.e. one book, all words with freq above 100, etc. (Note here that I don't save this output)
+```{r}
+fairytales_tidy %>% 
+  group_by(gutenberg_id) %>% 
+  count(word, sort=TRUE) %>% 
+  filter(gutenberg_id == "Grimm's Fairytales")
+```
+
+
+## 1.5 Plotting word frequencies with bar graphs
+
+Bar graph of top words in Grimm's fairytales (only those with a count of at least 90)
+```{r}
+fairytales_freq %>% 
+  filter(n>90 & gutenberg_id == "Grimm's Fairytales") %>% 
+  ggplot(aes(x=n, y=reorder(word, n), fill=n)) +
+  geom_col(show.legend=FALSE) +
+  labs(
+    x = "Word",
+    y = "Frequency", 
+    title = "Most frequent words in Grimm's Fairytales"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45)) 
+```
+
+## 1.6 TF-IDF
+Simple counts are hard to compare across documents (longer texts will have higher counts in general, etc.) TF-IDF is a text mining metric that denotes which words are particularly strongly represented in one text vs another.
+
+Low tf_idf if words appear in many books, high if they occur in few books.
+
+More: https://www.tidytextmining.com/tfidf.html#the-bind_tf_idf-function
+And: https://en.wikipedia.org/wiki/Tf–idf
+
+The bind_tf_idf() function needs four arguments: dataframe (often piped in as first argument), word/token column, book/text id column, and n/count.
+
+```{r}
+fairytales_idf <- fairytales_freq %>% 
+  bind_tf_idf(word, gutenberg_id, n)
+
+fairytales_idf %>%
+  select(gutenberg_id, word, tf_idf) %>% 
+  arrange(desc(tf_idf))
+```
+
+```{r}
+fairytales_idf$word <- as.factor(fairytales_idf$word)
+
+fairytales_idf %>%
+  group_by(gutenberg_id) %>% 
+  arrange(desc(tf_idf)) %>% 
+  top_n(20, tf_idf) %>% 
+  ggplot(aes(x = tf_idf, y = reorder(word, tf_idf), fill = gutenberg_id)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "tf-idf") +
+  facet_wrap(~gutenberg_id, scales = "free") +
+  theme_minimal()
+```
+
+
+# 2 Analysing n-grams
+
+In the next section, we'll only work with Alice in Wonderland. We also need information on which chapter a line occurs in, so we'll use `cumsum()` - you can think of this as a counter that starts at 0 and counts up by 1 every time the next part of the line evaluates to TRUE. In other words, every time the regular expression in `str_detect()` finds "chapter" followed by a number or Roman numeral, the counter counts up by one.
+Then, we remove the column that contains the Gutenberg ID, get rid of lines in "Chapter 0", i.e. the title, author and information on the publisher, convert chapter to a factor, and remove any underscores in the text.
+
+```{r}
+alice <- fairytales_raw %>% 
+  filter(gutenberg_id == "Alice's Adventures in Wonderland") %>% 
+  mutate(chapter = cumsum(str_detect(text, regex("^chapter [\\divxlc]", ignore_case = TRUE)))) %>%
+  select(-gutenberg_id) %>% 
+  filter(chapter != 0) %>% 
+  mutate(chapter = as_factor(chapter),
+         text = str_remove_all(text, "_"))
+
+alice %>% 
+  select(text, chapter)
+```
+
+## 2.1 Unnest tokens: n-grams
+
+The `unnest_tokens()` lets you define what should count as a token. So far, we've used `token = "words"`, but now we want to move on to multi-word combinations (n-grams) instead of single words.
+
+An n-gram is a combination of consecutive words of length n. Each bigram (n = 2), for example, consist of two words. Let's have a look:
+```{r}
+(alice_bigrams <- alice %>% 
+  unnest_tokens(bigram, text, token = "ngrams", n = 2))
+```
+Each word appears twice now: As the first and as the second word in a bigram. So the bigrams overlap.
+
+Change the `n = ` argument to control how many words each n-gram should contain:
+```{r}
+alice %>% 
+  unnest_tokens('4-gram', text, token = "ngrams", n = 4)
+```
+
+## 2.1 Counting n-grams
+
+We can use commands for analysing and visualising single words to do the same for n-grams. First, let's see how often each bigram occurs in the text:
+```{r}
+alice_bigrams %>% 
+  count(bigram) %>% 
+  arrange(desc(n))
+
+# or
+alice_bigrams %>% 
+  count(bigram, sort = TRUE)
+```
+
+The most common bigrams are empty lines, so let's remove those first:
+```{r}
+alice_bigrams <- alice_bigrams %>% 
+    drop_na(bigram)
+
+alice_bigrams %>% 
+  count(bigram) %>% 
+  arrange(desc(n))
+```
+
+## 2.2 Removing stopwords from n-grams
+A lot of these bigrams contain stopwords such as "the", "a", and "to". To remove them, we can use the stopword list again:
+```{r}
+stop_words
+```
+
+However, this list contains single words, so we need to split up the bigrams with `separate()`:
+```{r}
+(alice_bigrams <- alice_bigrams %>% 
+  separate(col = bigram,
+           into = c("word1", "word2"),
+           sep = " ",
+           remove = FALSE)) 
+```
+We'd like to keep the bigram column, so we need to set `remove` to FALSE. Alternatively, we can use `unite()` later to glue the single words back together into bigrams.
+
+Next, we can remove bigrams if either word is in the stopwords data:
+```{r}
+(alice_bigrams_stop <- alice_bigrams %>%
+  filter(!word1 %in% stop_words$word & !word2 %in% stop_words$word))
+```
+
+...and count them again:
+```{r}
+alice_bigrams_stop %>% 
+  count(bigram, sort = TRUE)
+```
+
+## 2.3 Plot bigram frequencies
+
+We can now plot these bigram frequencies, similar to how we visualised word frequencies earlier.
+```{r}
+alice_bigrams_stop %>% 
+  count(bigram, sort = TRUE) %>% 
+  filter(n > 4) %>% 
+  ggplot(aes(x = reorder(bigram, n),
+             y = n,
+             fill = n)) +
+  geom_col(show.legend = FALSE) +
+  labs(x = NULL, y = "frequency", title = "Most frequent bigrams in Alice's Adventures in Wonderland") +
+  coord_flip() +
+  theme_minimal()
+```
+
+
+## 2.4 Filtering n-grams
+
+To find bigrams that contain specific words, we can use `filter()`:
+```{r}
+alice_bigrams_stop %>% 
+  filter(word1 == "alice" | word2 == "alice") %>% 
+  distinct(bigram)
+```
+
+...alternatively, we can use `str_detect()` to find instances of "alice" in the bigram column:
+```{r}
+alice_bigrams_stop %>% 
+  filter(str_detect(bigram, "alice")) %>% 
+  distinct(bigram)
+```
+This applies partial matching, so e.g. "alice's" is also found, in contrast to the first filter command.
+
+
+## 2.5 TF-IDF with n-grams
+
+Instead of looking at characteristic words per document, we can analyse characteristic bigrams or n-grams per document.
+Let's do this for the different chapters. 
+```{r}
+(alice_bigram_tfidf <- alice_bigrams_stop %>% 
+  count(chapter, bigram) %>% 
+  bind_tf_idf(bigram, chapter, n))
+
+alice_bigram_tfidf %>% 
+  arrange(desc(tf_idf))
+```
+The tf_idf column shows us characteristic words for each chapter. The mock turtle, for example, makes appearances in chapters 9 and 10 while the march hare can be found in chapter 7.
+
+## 2.6 TF-IDF Plot
+```{r}
+alice_bigram_tfidf %>%
+  group_by(chapter) %>%
+  slice_max(tf_idf, n = 3) %>%
+  ungroup() %>%
+  ggplot() +
+  aes(x = tf_idf, 
+      y = fct_reorder(bigram, tf_idf), 
+      fill = chapter) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ chapter, scales = "free") +
+  labs(x = "tf-idf", y = NULL) +
+  theme_minimal()
+```
+
+
+## 2.7 Creating and visualising a bigram network
+
+Let's visualise which words commonly co-occur in a network graph. 
+First, we need to count the bigrams. Then, the `graph_from_data_frame()` command from the igraph package reformats the data.
+```{r}
+alice_graph <- alice_bigrams_stop %>% 
+  count(word1, word2) %>% # we need the words separated for this graph
+  filter(n > 3) %>% 
+  graph_from_data_frame()
+```
+
+Now, it can be plotted with `ggraph()` from the eponymous package.
+The exact layout of this graph is randomly generated, so we'll set a seed to make sure we get the same graph:
+```{r}
+set.seed(2021)
+
+ggraph(alice_graph, layout = "fr") +
+  geom_edge_link() +
+  geom_node_point() +
+  geom_node_text(aes(label = name), 
+                 vjust = 1, hjust = 1)
+```
+We get a sense of which words occur together, but the graph could definitely look prettier and it's unclear which word occurs first: is it "rose tree" or "tree rose", for example?
+
+We'll create an object called "a" that saves an arrow shape:
+```{r}
+a <- grid::arrow(type = "closed", length = unit(.15, "inches"))
+```
+This way, we can indicate how the words in the bigrams are ordered.
+
+Nicer graph:
+```{r}
+ggraph(alice_graph, layout = "fr") +
+  geom_edge_link(aes(edge_alpha = n), # the links are more transparent if the bigram is rare
+                 show.legend = FALSE,
+                 arrow = a, end_cap = circle(.03, 'inches')) + #adding the arrows, making sure they don't touch the node
+  geom_node_point(color = "#34013f", size = 3) + # larger, purple nodes
+  geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+  theme_void() +
+  labs(title = 'Bigrams (two-word combinations) in "Alice\'s Adventures in Wonderland"')
+```
+
+
+# Try it!
+
+## Characteristic bigrams in Taylor Swift's albums
+
+Using Taylor Swift's lyrics, recreate the tf-idf bar graph we made earlier. We're interested in characteristic bigrams per album.
+```{r}
+taylor_swift <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/taylor_swift_lyrics.csv')
+
+head(taylor_swift)
+```
+
+The steps you need to get there are:
+- use `unnest_tokens()` to extract bigrams from the `Lyrics` column
+- `separate()` the bigrams into single words
+- remove stopwords (making sure to remove them if they're the first or the second word in the bigram)
+- count how often each bigram appears per album
+- use `bind_tf_idf()`
+
+Plot the five bigrams with the highest `tf_idf` per album. As a bonus, create a custom stopword list of words like "uh" and "ah" that occur in the lyrics and remove those, too. The bar graph helps you identify them.
+
+
+## Bigram network of Beyoncé lyrics
+
+Use Beyoncé's lyrics to create a network graph of bigrams that occur at least 15 times.
+```{r}
+beyonce <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/beyonce_lyrics.csv')
+
+head(beyonce)
+```
+
+Here are step-by-step tips:
+- remove the song "Halo Greek translation"
+- use `unnest_tokens()` to create a column with bigrams
+- remove any missing values (with `drop_na()`)
+- separate the bigrams into single words
+- remove stopwords
+- count how often each word 1 word 2 combination occurs in the data
+- make sure to only keep word combinations that occur more often than 15 times
+- use `graph_from_data_frame()`
+...then plot!
+
+Additionally, you can create (or add to, if you completed the Taylor Swift exercise) a list of custom stopwords that often occur in songs ("uuh", "oh", etc.)
+
