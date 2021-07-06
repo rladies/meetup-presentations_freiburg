@@ -72,7 +72,25 @@ When were they discovered?
 How much time do they save?
 ```{r}
 records %>% 
-  
+  filter(shortcut == "Yes") %>% 
+  distinct(track)
+```
+
+```{r}
+records %>% 
+  mutate(year = lubridate::year(date)) %>% 
+  filter(shortcut == "Yes") %>% 
+  group_by(track) %>% 
+  summarize(discovered = min(date)) %>% 
+  arrange(discovered)
+```
+
+
+```{r}
+records %>% 
+  filter(shortcut == "Yes") %>% 
+  count(player) %>% 
+  arrange(desc(n))
 ```
 
 
