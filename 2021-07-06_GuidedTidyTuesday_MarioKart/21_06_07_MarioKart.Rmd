@@ -8,6 +8,26 @@ output: html_document
 # Guided Tidy Tuesday: Mario Kart 
 
 ```{r}
+library(tidyverse)
 
+records <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-05-25/records.csv')
+drivers <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-05-25/drivers.csv')
+```
+
+## Look at data 
+```{r}
+glimpse(records)
+summary(records)
+str(records)
+head(records)
+```
+
+```{r}
+records %>% 
+  mutate(track = as.factor(track),
+         type = as.factor(type))
+
+(records <- records %>% 
+  mutate(across(where(is.character), as.factor)))
 ```
 
