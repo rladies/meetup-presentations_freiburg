@@ -52,11 +52,20 @@ Players vs number of shortcuts
 single_lap <- records %>% 
   filter(type == "Single Lap")
 
-single_lap %>% 
-  group_by(track) %>% 
+records %>% 
+  group_by(track, type) %>% 
   summarize(min_time = min(time)) %>% 
   ggplot() +
-  aes(y = track, x = min_time) +
-  geom_col()
+  aes(y = fct_reorder(track, desc(min_time)), x = min_time, fill = type) +
+  geom_col(position = "dodge") +
+  theme_minimal() +
+  theme(
+    legend.position = "None"
+  ) + 
+  labs(
+    title = "Records on Mario Kart Tracks",
+    y = "Record time", 
+    x = "Track"
+  )
 ```
 
