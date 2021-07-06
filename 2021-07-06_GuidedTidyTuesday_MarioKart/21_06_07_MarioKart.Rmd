@@ -1,0 +1,11 @@
+---
+title: "Guided Tidy Tuesday 06-05-21: Mario Kart"
+author: "Kyla McConnell"
+date: "7/6/2021"
+output: html_document
+---
+
+```{r}
+
+```
+
