@@ -136,9 +136,9 @@ records %>%
                    y = Yes, yend = No), 
                color="grey") +
   geom_point(aes(y = Yes), 
-             size = 3, colour = "darkblue") +
+             size = 3, colour = "darkblue", alpha = 0.5) +
   geom_point(aes(y = No), 
-             size = 3, colour = "darkgreen") +
+             size = 3, colour = "darkgreen",  alpha = 0.5) +
   coord_flip() +
   theme_minimal()
 ```
