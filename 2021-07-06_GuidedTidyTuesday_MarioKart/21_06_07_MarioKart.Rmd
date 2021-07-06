@@ -102,6 +102,23 @@ records %>%
 ```
 
 ```{r}
+kart <- drivers %>% 
+  distinct(player, nation) %>% 
+  full_join(records)
+
+kart %>% 
+  drop_na(nation) %>% 
+ggplot(aes(y = nation, fill = nation)) +
+  geom_bar() +
+  theme_minimal() +
+    theme(
+    legend.position = "None"
+  ) +
+  labs(
+    title = "Records by country",
+    y = "Country", 
+    x = "# of Records"
+  )
 
 ```
 
