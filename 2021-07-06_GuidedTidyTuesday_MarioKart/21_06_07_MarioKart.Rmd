@@ -93,4 +93,15 @@ records %>%
   arrange(desc(n))
 ```
 
+```{r}
+records %>% 
+  group_by(track, shortcut) %>% 
+  summarize(fastest = min(time)) %>% 
+  pivot_wider(names_from = shortcut, values_from = fastest) %>% 
+  mutate(Difference = No - Yes)
+```
+
+```{r}
+
+```
 
