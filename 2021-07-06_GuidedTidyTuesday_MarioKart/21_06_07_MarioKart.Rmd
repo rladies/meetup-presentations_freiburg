@@ -108,7 +108,7 @@ kart <- drivers %>%
 
 kart %>% 
   drop_na(nation) %>% 
-ggplot(aes(y = nation, fill = nation)) +
+ggplot(aes(y = fct_infreq(nation), fill = nation)) +
   geom_bar() +
   theme_minimal() +
     theme(
@@ -119,6 +119,26 @@ ggplot(aes(y = nation, fill = nation)) +
     y = "Country", 
     x = "# of Records"
   )
-
 ```
 
+```{r}
+records %>% 
+  group_by(track, shortcut) %>% 
+  summarise(fastest = min(time)) %>% 
+  ungroup() %>% 
+  pivot_wider(names_from = shortcut, values_from = fastest) %>% 
+  drop_na(Yes) %>% 
+  mutate(time_saved = No - Yes,
+         track = fct_reorder(track, -Yes)) %>% 
+  ggplot() +
+  aes(x = track) +
+  geom_segment(aes(xend = track, 
+                   y = Yes, yend = No), 
+               color="grey") +
+  geom_point(aes(y = Yes), 
+             size = 3, colour = "darkblue") +
+  geom_point(aes(y = No), 
+             size = 3, colour = "darkgreen") +
+  coord_flip() +
+  theme_minimal()
+```
