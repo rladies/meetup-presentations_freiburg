@@ -31,3 +31,32 @@ records %>%
   mutate(across(where(is.character), as.factor)))
 ```
 
+
+How did the world records develop over time?
+Which track is the fastest?
+For which track did the world record improve the most?
+For how many tracks have shortcuts been discovered?
+When were shortcuts discovered?
+On which track does the shortcut save the most time?
+Which is the longest standing world record?
+Who is the player with the most world records?
+Who are recent players?
+
+Which loop is the most difficult?
+Fastest tracks
+Longest records 
+Duration of record by track
+Players vs number of shortcuts
+
+```{r}
+single_lap <- records %>% 
+  filter(type == "Single Lap")
+
+single_lap %>% 
+  group_by(track) %>% 
+  summarize(min_time = min(time)) %>% 
+  ggplot() +
+  aes(y = track, x = min_time) +
+  geom_col()
+```
+
