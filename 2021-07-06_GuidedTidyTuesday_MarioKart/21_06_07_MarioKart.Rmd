@@ -53,19 +53,26 @@ single_lap <- records %>%
   filter(type == "Single Lap")
 
 records %>% 
-  group_by(track, type) %>% 
+  group_by(track, type, shortcut) %>% 
   summarize(min_time = min(time)) %>% 
   ggplot() +
   aes(y = fct_reorder(track, desc(min_time)), x = min_time, fill = type) +
   geom_col(position = "dodge") +
-  theme_minimal() +
-  theme(
-    legend.position = "None"
-  ) + 
+  theme_minimal() + 
   labs(
     title = "Records on Mario Kart Tracks",
     y = "Record time", 
     x = "Track"
-  )
+  ) +
+  facet_wrap(type ~ shortcut)
 ```
+Shortcuts:
+How many have shortcuts?
+When were they discovered?
+How much time do they save?
+```{r}
+records %>% 
+  
+```
+
 
