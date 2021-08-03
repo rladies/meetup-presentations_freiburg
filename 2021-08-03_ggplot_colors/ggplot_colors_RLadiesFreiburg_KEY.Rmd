@@ -508,15 +508,20 @@ head(athletes)
   )) %>% 
   filter(gender %in% c("Men", "Women")) %>% 
   group_by(year, gender, event) %>% 
-  summarize(N = n())) 
+  summarize(N = n()))
 ```
 
 (a) Add colors to the plot and adjust any other aesthetic settings as you wish:
 ```{r}
 ggplot(swimmers) +
-  aes(x = N, y = event) +
+  aes(x = N, y = event, fill = event) +
   facet_wrap(~year) +
-  geom_col()
+  geom_col(show.legend = FALSE) +
+  scale_fill_brewer("Blues") + 
+  theme_minimal() +
+  theme(axis.text.y = element_text(face = "bold"),
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
 ```
 
 
@@ -537,12 +542,14 @@ athletes %>%
 athletes %>% 
   group_by(year, country) %>% 
   summarize(N = n()) %>% 
-  filter(country %in% c("Germany", "United States of America", "Canada")) %>% 
+  filter(country %in% c("Germany", "United States of America", "Canada", "Brazil")) %>%
   filter(year > 1992) %>% 
   ggplot() +
-  aes(x = year, y = N) +
+  aes(x = year, y = N, color = country) +
   geom_point() +
-  geom_smooth()
+  geom_smooth() +
+  theme_minimal() +
+  scale_color_paletteer_d("wesanderson::Moonrise3")
 ```
 
 ### 3 Gender
@@ -551,8 +558,14 @@ athletes %>%
 (b) Use colors of your choice -- but think about gender stereotypes
 ```{r}
 athletes %>% 
+  drop_na(gender) %>% 
   group_by(gender, year) %>% 
-  summarize(N = n())
+  summarize(N = n()) %>% 
+  ggplot() +
+  aes(x = year, y = N, fill = gender) +
+  geom_col(position = "dodge") +
+  theme_minimal() +
+  scale_fill_manual(values = c("#E8B83F", "#007162", "#734079"))
 ```
 
 
@@ -574,8 +587,9 @@ athletes %>%
   group_by(medal, country) %>% 
   summarize(N = n()) %>% 
   ggplot() +
-  aes(x = N, y = medal) +
+  aes(x = N, y = medal, fill = medal) +
   geom_col() +
-  facet_wrap(~country)
+  facet_wrap(~country) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#AD7C42", "#D4D2C7", "#E4CC08"))
 ```
-
