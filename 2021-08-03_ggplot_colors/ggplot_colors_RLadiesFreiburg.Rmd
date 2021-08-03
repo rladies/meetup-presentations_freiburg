@@ -1,0 +1,573 @@
+---
+title: "Making colourful ggplots!"
+author: "Julia Müller & Kyla McConnell"
+date: "3 8 2021"
+output: html_document
+---
+
+# Setup
+
+(1) Load our favourite package (remember that tidyverse contains ggplot2) 
+(2) Read in data from the TidyTuesday GitHub: penguins data!
+
+```{r}
+library(tidyverse)
+
+penguins <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv') %>% 
+  drop_na() # remove missing values
+```
+
+## Basic plots
+
+First, make some plots to play with (and save them to variables). We'll do this without colors to start:
+
+(1) penguins_flipper: Scatterplot
+```{r}
+(penguins_flipper <- ggplot(penguins) +
+  aes(x = flipper_length_mm, y = body_mass_g) +
+  geom_point(show.legend = FALSE) +
+  labs(x = "Flipper length", y = "Body mass",
+       title = "Palmer penguins flipper length and body mass") +
+  theme_minimal())
+```
+
+(2) penguins_bill: Scatterplot with trend line
+```{r}
+(penguins_bill <- ggplot(penguins) +
+  aes(x = bill_length_mm, y = bill_depth_mm) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(x = "Bill length", y = "Bill depth",
+       title = "Palmer penguins bill length and depth") +
+  theme_minimal())
+```
+
+(3) penguins_island: Bar chart
+```{r}
+(penguins_island <- 
+   penguins %>% 
+   filter(island != "Torgersen") %>% #removing this one island for this plot since it has only one species
+   ggplot() +
+  aes(x = island) +
+  geom_bar(position = "dodge") + #this will be helpful later
+  labs(x = "Island", y = "n",
+       title = "Palmer penguins by island") +
+  theme_minimal())
+```
+
+# Reminder: Colors in ggplot
+
+Two aes options: color and fill
+- color for smaller areas like dots and lines
+- fill for larger areas 
+
+- Mapping to columns that already exist in aes: adds color
+- Mapping to columns not yet displayed in the graph: adds information / can seemingly change behavior of geoms
+
+Note that you can add to the aes of a plot that is saved as a variable. 
+
+```{r}
+penguins_island +
+  aes(fill = island)
+
+penguins_island +
+  aes(color = island)
+
+(penguins_island <- penguins_island +
+  aes(fill = species)) #try changing to color
+```
+
+```{r}
+(penguins_flipper <- penguins_flipper +
+  aes(color = body_mass_g))
+```
+
+```{r}
+penguins_bill + 
+  aes(color = species)
+
+(penguins_bill <- penguins_bill +
+  aes(color = species, fill = species))
+```
+
+# Custom colours
+- fill vs. color
+- manual vs. gradient
+
+scale_fill_manual() vs. scale_color_manual() for categorical/factors in color vs. fill aes
+scale_fill_gradient() vs. scale_color_gradient() for continuous/numeric in color vs. fill aes
+
+## Inbuilt R options
+
+600+ built in colors in base R 
+See here: http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+```{r}
+colors()
+```
+
+## scale_fill/color_gradient/manual
+
+fill vs. color:
+- depends on what you defined in aes() 
+  - i.e. did you map the column information to fill (for larger spaces) or to color (for smaller spaces/lines/dots)
+
+### _manual()
+
+- *_manual* for categories/discrete units
+- must provide the correct number of colors (take a look at the default ggplot and count how many unique colors there are)
+
+```{r}
+penguins_island + 
+  scale_fill_manual(values = c("seagreen4", "darkgoldenrod2", "deepskyblue4"))
+```
+
+```{r}
+penguins_island + 
+  scale_fill_manual(values = c("paleturquoise3", "mediumpurple3", "steelblue2"))
+```
+
+Let's say we wanted to use color as well:
+```{r}
+penguins_island + 
+  aes(color = species) +
+  scale_fill_manual(values = c("paleturquoise3", "mediumpurple3", "steelblue2")) +
+  scale_color_manual(values = c("paleturquoise4", "mediumpurple4", "steelblue3"))
+```
+
+### _gradient()
+
+- *gradient_()* for a range of colors from a low end to a high end
+- must give two colors, one with low= and high= 
+- can be applied to color or fill depending on what you defined in aes()
+
+```{r}
+penguins_flipper +
+  scale_color_gradient(low = "khaki1", high = "lightpink2")
+```
+
+```{r}
+penguins_flipper +
+  scale_color_gradient(low = "lightpink2", high = "khaki1")
+```
+
+`scale_colour_gradient2()` lets you pick an additional colour for the midpoint of the data:
+```{r}
+penguins_flipper +
+  scale_colour_gradient2(low = "yellow", high = "darkblue",
+                         mid = "gray", midpoint = 5000)
+```
+
+`scale_colour_gradientn()` lets you pick a range of colours
+```{r}
+penguins_flipper +
+  scale_colour_gradientn(colours = c("darkblue", "red", "gray", "orange", "yellow"))
+```
+
+
+## Hex and RBG
+
+Hex codes: 
+- # followed by six digits (combination of numbers and letters A - F) to express RGB (Red Green Blue) values of colours
+- used in many coding applications, i.e. HTML
+
+Use them in the scale_ commands just like you would use the R base options 
+  - decide fill vs. color and manual vs. gradient
+
+Want to pick your own colors? https://htmlcolorcodes.com/
+Get a palette from one hex code: https://mycolor.space/
+
+
+```{r}
+penguins_island + 
+  scale_fill_manual(values = c("#414756", "#5E77A9", "#733E79"))
+```
+
+```{r}
+penguins_flipper +
+  scale_color_gradient(low = "#A5DE85", high = "#00B6FF")
+```
+
+A note about color choices: Compare the complementary colors above (close to each other on the color wheel/rainbow) to the contrasting colors below (opposites on the color wheel).
+
+The graph below is a gradient from red to green, and thus very clearly inaccessible to certain disabilities/differences in vision.
+```{r}
+penguins_flipper +
+  scale_color_gradient(low = "#A5DE85", high = "#FF6083")
+```
+
+## Changing other parameters with hex codes
+
+You can also change the color of the plot background, the grid lines, and the text. (Highlighted in red for clarity.)
+
+Use hex codes or R default colors interchangably within the theme() command
+Theme command often has a parameter (i.e. panel.background) = element_rect/element_text/element_line 
+- element_rect/text/line has arguments fill and color for larger areas vs. lines like with ggplot 
+```{r}
+#Background: theme(panel.background = element_rect(fill = 'XXXX'))
+penguins_flipper
+  theme(panel.background = element_rect(fill = 'darkred'))
+
+penguins_flipper +
+  scale_color_gradient(low = "#D16BA5", high = "#5FFBF1") + 
+  theme(panel.background = element_rect(fill = '#E6E1E7'))
+
+#Plot outline: theme(panel.background = element_rect(color = 'XXXX'))
+penguins_flipper +
+  scale_color_gradient(low = "#D16BA5", high = "#5FFBF1") + 
+  theme(panel.background = element_rect(fill = '#E6E1E7', color = "red"))
+
+#Grid lines: theme( panel.grid = element_line(color = "XXXX"))
+penguins_flipper +
+  scale_color_gradient(low = "#D16BA5", high = "#5FFBF1") + 
+  theme(panel.background = element_rect(fill = '#E6E1E7', color = "darkgrey"),
+        panel.grid = element_line(color = "red"))
+
+#Text: theme(title = element_text(color = "XXXX"))
+penguins_flipper +
+  scale_color_gradient(low = "#D16BA5", high = "#5FFBF1") + 
+  theme(panel.background = element_rect(fill = '#E6E1E7', color = "darkgrey"),
+        panel.grid = element_line(color = "grey"),
+        title = element_text(color = "red"))
+
+#Axis markers: theme(axis.text = element_text(color = "XXX"))
+penguins_flipper +
+  scale_color_gradient(low = "#D16BA5", high = "#5FFBF1") + 
+  theme(panel.background = element_rect(fill = '#E6E1E7', color = "darkgrey"),
+        panel.grid = element_line(color = "grey"),
+        axis.text = element_text(color = "red"))
+
+#Image background/outline: theme(plot.background = element_rect(fill = "XXXX", color = "XXXX"))
+penguins_flipper +
+  scale_color_gradient(low = "#D16BA5", high = "#5FFBF1") + 
+  theme(panel.background = element_rect(fill = '#E6E1E7', color = "darkgrey"),
+        panel.grid = element_line(color = "grey"),
+      plot.background = element_rect(fill = "lightgrey",
+                                       color = "darkgrey"))
+```
+
+
+# Ready-made palettes
+
+Another option is to use available colour palettes that other people have created. These are often stored in separate packages that need to first be installed and loaded every time you want to use them.
+
+Added advantage that some are already colorblind-friendly, so you don't have issues like the red-green plot above.
+
+
+## Common options
+
+### RColorBrewer
+
+```{r}
+#install.packages("RColorBrewer")
+library(RColorBrewer)
+```
+
+To see the palettes and names, use:
+```{r}
+display.brewer.all()
+```
+
+**Kinds of palettes**
+- Sequential palettes: good for gradients - data from low to high
+  palettes: Blues, BuGn, BuPu, GnBu, Greens, Greys, Oranges, OrRd, PuBu, PuBuGn, PuRd, Purples, RdPu, Reds, YlGn, YlGnBu YlOrBr, YlOrRd
+- Qualitative palettes: for categorical data
+  palettes: Accent, Dark2, Paired, Pastel1, Pastel2, Set1, Set2, Set3
+- Diverging palettes: mid-range values very light, extremes dark
+  palettes: BrBG, PiYG, PRGn, PuOr, RdBu, RdGy, RdYlBu, RdYlGn, Spectral
+
+**For discrete data (categories):**
+Use `scale_color_brewer()` or `scale_fill_brewer()` instead of `scale_color_manual()` or `scale_fill_manual()`. As an argument in the brackets, select which palette you'd like to use:
+```{r}
+penguins_bill +
+  scale_color_brewer(palette = "YlGnBu") +
+  scale_fill_brewer(palette = "YlGnBu")
+
+penguins_bill +
+  scale_color_brewer(palette = "Dark2") +
+  scale_fill_brewer(palette = "Dark2")
+
+penguins_bill +
+  scale_color_brewer(palette = "Spectral") +
+  scale_fill_brewer(palette = "Spectral")
+```
+
+You can reverse the order of the palettes by adding `direction = -1`, e.g.
+```{r}
+penguins_bill +
+  scale_color_brewer(palette = "Spectral", direction = -1) +
+  scale_fill_brewer(palette = "Spectral", direction = -1)
+```
+
+
+**For continuous data:**
+Use `scale_color/fill_distiller()` instead:
+```{r}
+penguins_flipper +
+  scale_color_distiller(palette = "Greens")
+
+penguins_flipper +
+  scale_color_distiller(palette = "Accent")
+
+penguins_flipper +
+  scale_color_distiller(palette = "RdYlBu")
+```
+
+...and `direction = 1` to reverse the palette:
+```{r}
+penguins_flipper +
+  scale_color_distiller(palette = "RdYlBu", direction = 1)
+```
+
+
+### viridis
+
+The {viridis} package contains palettes that are robust to colorblindness and greyscale-printing.
+
+![Viridis palettes](viridisPals.png)
+
+**Commands**:
+scale_color_viridis() - for smaller areas: points, lines and texts
+scale_fill_viridis() - for larger areas: bars, boxplots
+
+These both have a `option = ` argument with which you can specify the palette.
+
+**Colourcoding for numeric variable**
+Gradient colours
+```{r}
+library(viridis)
+
+penguins_flipper +
+  scale_color_viridis(option = "inferno")
+
+penguins_flipper +
+  scale_color_viridis(option = "mako")
+
+penguins_flipper +
+  scale_color_viridis(option = "turbo")
+```
+
+**Colourcoding for discrete variable**
+When discrete variables (groups/categories) are shown in different colours, add `discrete = TRUE`:
+```{r}
+penguins_bill +
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE)
+
+penguins_bill +
+  scale_color_viridis(option = "mako", discrete = TRUE) +
+  scale_fill_viridis(option = "mako", discrete = TRUE)
+```
+
+
+## Lesser-known colour palette options
+
+...for example based on:
+- Wes Anderson films (https://github.com/karthik/wesanderson)
+- Studio Ghibli films (https://ewenme.github.io/ghibli/)
+- Scientific Journal and Sci-Fi-themes (https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html)
+- Scientific colour maps (https://github.com/thomasp85/scico)
+- Vermeer and Rembrandt paintings (https://github.com/EdwinTh/dutchmasters)
+
+While these can all be downloaded and used separately, the {paletteer} package collects a bunch (2128 palettes from 59 different packages!!) of them all in one place: 
+https://github.com/EmilHvitfeldt/paletteer
+
+```{r}
+#install.packages("paletteer")
+library(paletteer)
+```
+
+
+**Usage**
+
+`scale_color/fill_paletteer_d("package::palette")` for discrete (categorical) data
+`scale_color/fill_paletteer_c("package::palette")` for continuous data
+
+```{r}
+#install.packages("scico")
+
+penguins_flipper +
+  scale_color_paletteer_c("scico::berlin")
+
+penguins_flipper +
+  scale_color_paletteer_c("scico::vik")
+
+penguins_bill + 
+  scale_color_paletteer_d("dutchmasters::pearl_earring") +
+  scale_fill_paletteer_d("dutchmasters::pearl_earring")
+
+penguins_bill + 
+  scale_color_paletteer_d("futurevisions::earth") +
+  scale_fill_paletteer_d("futurevisions::earth")
+
+penguins_bill + 
+  scale_color_paletteer_d("wesanderson::Darjeeling1") +
+  scale_fill_paletteer_d("wesanderson::Darjeeling1")
+
+penguins_bill + 
+  scale_color_paletteer_d("rockthemes::alice") +
+  scale_fill_paletteer_d("rockthemes::alice")
+```
+
+Check if the palettes work for your data type! If they don't, you'll get an "palette not found" error. For example, the dutchmasters palettes are all discrete, so trying to use them for a numeric variable results in an error.
+```{r eval=FALSE}
+penguins_flipper +
+   scale_color_paletteer_c("dutchmasters::pearl_earring")
+```
+
+See which palettes are available for which data types:
+```{r}
+palettes_c_names #for continuous data
+
+palettes_d_names #for discrete data
+```
+
+Because these are data frames, we can use data wrangling commands such as `filter()` to find palette names or to limit them to diverging or sequential palettes:
+```{r}
+palettes_c_names %>% 
+  filter(package == "scico" & type == "diverging") # show all palettes from the scico package
+```
+
+
+# Additional considerations
+
+## Colour choices are not neutral
+Source: https://www.storytellingwithdata.com/blog/2021/6/8/colors-and-emotions-in-data-visualization written by Cédric Scherer
+
+The colours we pick are not neutral! They are often associated with emotions or carry meaning (depending on viewers' cultural background).
+
+Some examples:
+- when showing temperature, red is associated with heat, blue with cold/rain
+- black associated with death
+
+Another example: colours and gender stereotypes
+Avoid traditionally stereotyped colours like blue and pink (but also it can backfire to simply reverse the colours, i.e. use blue for women, pink for men)
+Some examples and ideas here: https://blog.datawrapper.de/gendercolor/
+
+
+## Accessibility: Colourblindness
+
+Palettes from some packages (viridis, scico...) are colourblind-safe. Some RColorBrewer palettes are, as well - show them with:
+```{r}
+display.brewer.all(colorblindFriendly = TRUE)
+```
+
+If you're not sure about other palettes or your custom colours, you can use the {colorblindr} package to test if colour differences are visible for colourblind people:
+https://github.com/clauswilke/colorblindr
+
+Since this is a bit tricky to install, there's also a website where you can upload a graph instead:
+http://hclwizard.org:3000/cvdemulator/
+
+By the way: to save graphs, run `ggsave()`, e.g.:
+```{r}
+penguins_flipper +
+  scale_colour_gradientn(colours = c("darkblue", "red", "gray", "orange", "yellow"))
+
+ggsave("penguins_flipper.png")
+```
+By default, this will save the plot that was last displayed.
+
+
+## Accessibiliy: Alt text
+
+When posting graphs e.g. on Twitter, add "alt text", i.e. a written description of what your data visualization shows. This allows people who are blind or visually impaired to use their screenreaders to have that alt text read to them.
+
+A useful formula for writing alt text (from: https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81):
+"[Chart type] of [type of data - variables] where [reason for including chart - what does it show?]. Include a [link to data source] somewhere in the text."
+
+So for this graph:
+```{r}
+penguins_flipper
+```
+
+...the alt text could be something like:
+
+"[Scatterplot] of [penguin flipper length by body mass] where [as flipper length increases, so does body mass]. Data via the TidyTuesday github: https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv"
+
+
+# Try it out!
+
+This week's Tidy Tuesday features Paralympic medals from 1980 - 2016. Check out the data dictionary here: https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-03/readme.md
+
+Read in the data and take a look:
+```{r}
+athletes <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-08-03/athletes.csv')
+
+head(athletes)
+```
+
+### 1 Swimmers
+(1) Take a look at the following summary table:
+```{r}
+(swimmers <- athletes %>% 
+  filter(str_detect(event, "Freestyle") | str_detect(event, "Breaststroke") | str_detect(event, "Backstroke") ) %>% 
+  mutate(event = case_when(
+    str_detect(event, "Freestyle") ~ "Freestyle", 
+    str_detect(event, "Breaststroke") ~ "Breaststroke", 
+    str_detect(event, "Backstroke") ~ "Backstroke", 
+  )) %>% 
+  filter(gender %in% c("Men", "Women")) %>% 
+  group_by(year, gender, event) %>% 
+  summarize(N = n())) 
+```
+
+(a) Add colors to the plot and adjust any other aesthetic settings as you wish:
+```{r}
+ggplot(swimmers) +
+  aes(x = N, y = event) +
+  facet_wrap(~year) +
+  geom_col()
+```
+
+
+### 2 Countries
+(2) Here is an ugly summary plot of medals won in Paralympic games by athletes from Germany, the US and Canada.
+If you want to see how the summary table looks, run the following code:
+
+athletes %>% 
+  group_by(year, country) %>% 
+  summarize(N = n()) %>% 
+  filter(country %in% c("Germany", "United States of America", "Canada")) %>% 
+  filter(year > 1992)
+  
+(a) Add a mapping to aes that will make the graph have a separate line for each country
+(b) Use a custom palette to color the to the lines, dots, and any other part of the graph you'd like
+(c) Add another country and update your custom colors
+```{r}
+athletes %>% 
+  group_by(year, country) %>% 
+  summarize(N = n()) %>% 
+  filter(country %in% c("Germany", "United States of America", "Canada")) %>% 
+  filter(year > 1992) %>% 
+  ggplot() +
+  aes(x = year, y = N) +
+  geom_point() +
+  geom_smooth()
+```
+
+### 3 Gender
+(3) Create a graph of medals by gender from the following summary table. Note that this shows a binary gender division based on event given Paralympic regulations. 
+(a) Pipe the code into a graph with year on one axis and N on the other, then assign gender to color. You can do a bar graph, box plot, or other type of geom that you think represents the data. 
+(b) Use colors of your choice -- but think about gender stereotypes
+```{r}
+athletes %>% 
+  group_by(gender, year) %>% 
+  summarize(N = n())
+```
+
+
+### 4 Challenge: Medals
+If you have some dplyr skills you'd like to try out:
+
+(a) Filter athletes to include only a few countries you're interested in (the country column is a mess so this step is a must!)
+(b) Return a summary table that contains the number of rows for each medal type and country 
+(c) Pipe this summary table to ggplot, and create a bar chart with medal on the Y axis and the count on the X axis
+(d) Facet wrap by country
+(e) Add colors!
+
+Hint: add the following code to your wrangling pipeline to display the medals in a logical order:
+mutate(medal = factor(medal, levels = c("Bronze", "Silver", "Gold")) 
+```{r}
+
+```
+
