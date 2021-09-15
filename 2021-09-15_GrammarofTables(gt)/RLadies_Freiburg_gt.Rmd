@@ -1,0 +1,624 @@
+---
+title: "Tables with {gt}"
+author: "Julia Müller"
+date: "15 9 2021"
+output: html_document
+---
+
+# Packages & data
+
+Today's Tidy Tuesday dataset contains the results of a survey on annual income of more than 24,000 people!
+
+More info on the dataset:
+https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-05-18/readme.md
+
+We'll explore both the {gt} and {gtsummary} packages today as well as use (of course) the tidyverse, our fave!
+```{r}
+#install.packages(c("gt", "gtsummary"))
+#install.packages("tidyverse") #if your tidyverse is out of date (<1.0.3), you'll get an error and can reinstall tidyverse to fix
+
+library(gt)
+library(gtsummary)
+library(tidyverse)
+
+survey <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-05-18/survey.csv') %>% 
+  drop_na(gender)
+
+head(survey)
+```
+
+Take a look at the data (and read through the data dictionary) to get a first impression of the data.
+Try to figure out where the respondents selected an answer and were they wrote something in their own words.
+
+## Wrangling
+For convenience, we'll narrow down the data to people in the US, simplify the gender column and make "Woman" the reference level:
+```{r}
+survey_US <- survey %>% 
+  filter(currency == "USD" & country %in% c("United States", "USA", "US", "U.S.", "United States of America", "Usa", "United states", "united states", "Us")) %>% 
+  mutate(gender = fct_collapse(gender,
+                               "Other/prefer not to answer" = c("Other or prefer not to answer", "Prefer not to answer")),
+         gender = fct_relevel(gender, "Woman"))
+```
+
+
+# Tables with {gt}
+
+More info:
+https://gt.rstudio.com/articles/intro-creating-gt-tables.html
+
+
+## Average annual salary by gender
+
+### Creating a summary
+Let's first calculate the average salary for each gender:
+```{r}
+survey_US %>% 
+  group_by(gender) %>% 
+  summarise(avg_salary = mean(annual_salary)) %>% 
+  ungroup()
+```
+
+To create our first {gt} table, we simply pipe this into `gt()` and save this object as `gt_gender`:
+```{r}
+(gt_gender <- survey_US %>% 
+  group_by(gender) %>% 
+  summarise(avg_salary = mean(annual_salary)) %>% 
+  ungroup() %>% 
+  gt()
+ )
+```
+Like a graph, this opens in a new window and has changed the formatting.
+
+### Adding descriptions
+To change the formatting, add colour, text, etc., we use the pipe %>% 
+First, we'll prettify
+- the column labels with `cols_label()`
+- add a title and subtitle with `tab_header()`
+- add a source note with `tab_source_note()`
+```{r}
+gt_gender %>% 
+   cols_label(
+    avg_salary = "Average yearly salary (in USD)",
+    gender = "Respondent's gender"
+  ) %>%
+  tab_header(title = "Average annual salary",
+             subtitle = "N = 21091 (US respondents only)") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  )
+```
+
+Markdown formatting (i.e. *italics* and **bold**, as well as <br> for a line break) are possible when the column label is wrapped in `md()`:
+```{r}
+gt_gender %>% 
+   cols_label(
+    avg_salary = md("**Average yearly salary** <br> (*in USD*)"),
+    gender = md("**Respondent's <br> gender**")
+  ) %>%
+  tab_header(title = "Average annual salary",
+             subtitle = "N = 21091 (US respondents only)") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  )
+```
+
+### Changing the column width
+...with `cols_width()`. 
+Note the slightly non-intuitive ~ syntax and px() for inputing a pixel value.
+```{r}
+gt_gender %>% 
+   cols_label(
+    avg_salary = md("**Average yearly salary** <br> (*in USD*)"),
+    gender = md("**Respondent's <br> gender**")
+  ) %>%
+  tab_header(title = "Average annual salary",
+             subtitle = "N = 21091 (US respondents only)") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  ) %>%
+  cols_width(gender ~ px(300),
+             avg_salary ~ px(200))
+```
+Columns can be listed separately, or with the `select()` syntax (e.g. `starts_with()`, `ends_with()`, `contains()`, `everything()`).
+
+Here's an example where we change the widths of all columns to 250:
+```{r}
+gt_gender %>% 
+   cols_label(
+    avg_salary = md("**Average yearly salary** <br> (*in USD*)"),
+    gender = md("**Respondent's <br> gender**")
+  ) %>%
+  tab_header(title = "Average annual salary",
+             subtitle = "N = 21091 (US respondents only)") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  ) %>%
+  cols_width(everything() ~ px(250))
+```
+
+For convenience, we'll overwrite `gt_gender`:
+```{r}
+gt_gender <- gt_gender %>% 
+   cols_label(
+    avg_salary = md("**Average yearly salary** <br> (*in USD*)"),
+    gender = md("**Respondent's <br> gender**")
+  ) %>%
+  tab_header(title = "Average annual salary",
+             subtitle = "N = 21091 (US respondents only)") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  ) %>%
+  cols_width(gender ~ px(300),
+             avg_salary ~ px(200))
+
+gt_gender
+```
+
+
+### Adding colour
+To colour-code data, we use `data_color()`. Since we saved the table we've been working on over gt_gender, we can now start with that and pipe it on to additional arguments.
+
+As a first example, let's add colour to the gender column:
+```{r}
+gt_gender %>% 
+  data_color(
+    columns = gender,
+    colors = c("blue", "yellow", "red", "green")
+  )
+```
+
+We can also specify a colour scheme with help from the {scales} package. Here, we'll colour in the average salary column so that higher salaries will be shown in darker colours:
+```{r}
+gt_gender %>% 
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = c("white", "dodgerblue4"), # hex codes work too!
+      domain = NULL)
+  )
+```
+
+The `domain` argument determines how the values are mapped on the colours. Here, the minimum value is mapped to white and the maximum value to blue, but we can change this manually by setting minimum and maximum values. (This is part of the scales::col_numeric() call, not gt.) 
+
+Also note that for dark cells, the text colour is automatically changed to white for better legibility, but this can be switched off:
+```{r}
+gt_gender %>% 
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "dodgerblue4"),
+      domain = c(60000, 120000)), # if a value is not contained in this range, the cell will turn dark gray (same as if it had a missing value)
+    autocolor_text = FALSE
+  )
+```
+
+Alternatively, you can colour-code the text rather than the cell:
+```{r}
+gt_gender %>% 
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "dodgerblue4"),
+      domain = c(60000, 120000)),
+    apply_to = "text" # default is "fill" for the cell colour
+  )
+```
+
+You can specify several colours in the palette, e.g.:
+```{r}
+gt_gender %>% 
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = c(
+        "gold", "white", "dodgerblue4"),
+      domain = c(60000, 120000))
+    )
+```
+
+Or you can use palettes from packages such as {paletteer} (https://github.com/EmilHvitfeldt/paletteer):
+```{r}
+gt_gender %>% 
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = paletteer::paletteer_d(palette = "nord::frost") %>%
+        as.character(), # needs to be changed to character (otherwise is of class "colors", which doesn't work here)
+      domain = c(60000, 120000))
+    )
+```
+
+### Adding a footnote
+Now that we've colour-coded the salary column, we might want to add an explanation of what the colour stands for, which we can do in a footnote with `tab_footnote()`:
+
+Note: If you run the following command multiple times, you'll get multiple footnote markers, so be careful! 
+```{r}
+(gt_gender <- gt_gender %>% 
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = c(
+        "gold", "white", "dodgerblue4"),
+      domain = c(65000, 120000))
+  ) %>% 
+  tab_footnote(
+    footnote = "Colour shows annual salary",
+    locations = cells_column_labels( # where to put the small number that references the footnote, here in the avg_salary column
+      columns = avg_salary
+    )
+  ))
+```
+
+### Calculating the average salary
+We can also add in a summary row to show the average salary in the data:
+```{r}
+gt_gender %>% 
+  summary_rows(
+    columns = avg_salary,
+    fns = list("overall average" = "mean"),
+    use_seps = F # T will separate digits with a comma
+  )
+```
+
+### Text alignment
+We can change the alignment of the text with `cols_align()`:
+```{r}
+gt_gender %>% 
+  cols_align(
+    align = "left"
+  ) # this applies to all columns
+
+gt_gender %>% 
+  cols_align(
+    align = "left",
+    columns = gender # but they can be listed individually, too
+  )
+```
+
+
+## Adding in a group (level of education)
+
+So far, the underlying summary table we've been working with has been fairly simple, but {gt} allows for more complex designs. Let's have a look at how to add groups first, then work with spanners:
+
+![Anatomy of a gt table](gt_parts_of_a_table.svg)
+
+Let's look at the data split up by the highest level of education (but keep the gender information).
+We'll first drop missing education data and reorder the levels of the education factor before creating a summary table.
+```{r}
+(survey_edu <- survey_US %>% 
+  drop_na(highest_level_of_education_completed) %>% 
+  mutate(highest_level_of_education_completed = fct_relevel(highest_level_of_education_completed, "High School", "Some college", "College degree")) %>% 
+  group_by(gender, highest_level_of_education_completed) %>% 
+  summarise(avg_salary = mean(annual_salary)) %>% 
+  ungroup())
+```
+
+Now we can pipe into `gt()` - but within the brackets, we specify that the education column should be a grouping variable (`groupname_col`):
+```{r}
+survey_edu %>% 
+  gt()
+
+survey_edu %>% 
+  gt(groupname_col = "highest_level_of_education_completed") 
+```
+
+To polish this table, we add text and colour like before:
+```{r}
+(gt_gender_education <- survey_edu %>% 
+  gt(groupname_col = "highest_level_of_education_completed") %>% 
+   cols_label(
+    avg_salary = md("**Average yearly salary** <br> (*in USD*)"),
+    gender = md("**Respondent's <br> gender**")
+  ) %>%
+  cols_width(gender ~ px(300),
+             avg_salary ~ px(200)) %>%  
+  tab_header(title = "Average annual salary",
+             subtitle = "N = 21091 (US respondents only)") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  ) %>%
+  data_color(
+    columns = avg_salary,
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "dodgerblue4"),
+      domain = NULL)
+  ) %>% 
+  tab_footnote(
+    footnote = "Colour shows annual salary",
+    locations = cells_column_labels(
+      columns = avg_salary
+    )
+  ) %>% 
+  cols_align(
+    align = "right",
+    columns = gender
+  ))
+```
+
+### Groupwise summaries
+Like before, we can add the average annual salary, but we'd like it to be calculated individually per group (i.e. level of education):
+```{r}
+(gt_gender_education <- gt_gender_education %>% 
+  summary_rows(
+    groups = TRUE, # average per group instead of for the whole table
+    columns = avg_salary,
+    fns = list("group average" = "mean"),
+    use_seps = F))
+```
+
+
+## Working with spanners
+
+Let's look at how salaries progress (or not) by the respondents' years of professional experience. Additionally, we'd still like to look at gender and also race to see if everyone's salaries increase at similar rates over their professional lives.
+In other words, we'd like the years of experience to be the row labels and the gender and race categories as column labels. To make things clearer, though, we want spanner column labels to separate these two variables.
+
+![Anatomy of a gt table](gt_parts_of_a_table.svg)
+
+To achieve this, let's first create two summary tables: One for salary by experience and gender, and one for salary by experience and race.
+```{r}
+(exp_gender <- survey_US %>% 
+  group_by(gender, overall_years_of_professional_experience) %>% 
+  summarise(avg_salary = mean(annual_salary)) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    names_from = gender, 
+    values_from = avg_salary)) # pivot to turn gender categories into column labels
+
+(exp_race <- survey_US %>% 
+  group_by(race) %>% 
+  filter(n() > 400) %>% # limiting this to the four most selected answers
+  ungroup() %>% 
+  group_by(race, overall_years_of_professional_experience) %>% 
+  summarise(avg_salary = mean(annual_salary)) %>% 
+  ungroup() %>% 
+  pivot_wider(
+    names_from = race, 
+    values_from = avg_salary))
+```
+
+Finally, we need to combine those two tables into one and change the order of the experience factor levels so they are arranged in ascending order:
+```{r}
+(exp_total <- left_join(exp_gender, exp_race) %>% 
+  mutate(overall_years_of_professional_experience = fct_relevel(overall_years_of_professional_experience, "1 year or less", "2 - 4 years", "5-7 years", "8 - 10 years", "11 - 20 years", "21 - 30 years", "31 - 40 years", "41 years or more"),
+         overall_years_of_professional_experience = fct_recode(overall_years_of_professional_experience, "5 - 7 years" = "5-7 years")) %>% 
+  arrange(overall_years_of_professional_experience))
+```
+
+Let's pipe this table into `gt()` and and then add two spanners with `tab_spanner()`:
+```{r}
+(gt_exp_total <- exp_total  %>%  
+  gt() %>% 
+    tab_spanner(
+    label = "Gender",
+    columns = c(Woman, Man, "Non-binary", "Other/prefer not to answer")
+  ) %>% 
+  tab_spanner(
+    label = "Race",
+    columns = c(White, "Black or African American", "Asian or Asian American", "Hispanic, Latino, or Spanish origin")
+  ))
+```
+
+...and make it prettier:
+```{r}
+(gt_exp_total <- gt_exp_total  %>% 
+  cols_label(
+    overall_years_of_professional_experience = md("**Total years of professional experience**")
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = list( # make both the column and the spanner labels bold
+      cells_column_labels(everything()), 
+      cells_column_spanners(everything())
+    )
+  ) %>%
+  cols_width(overall_years_of_professional_experience ~ px(200),
+             everything() ~ px(120)) %>%  
+  tab_header(title = "Average annual salary by professional experience",
+             subtitle = "...as well as gender and race") %>% 
+  tab_source_note(
+    source_note = "Source: Tidy Tuesday - Ask a Manager Survey"
+  ))
+```
+
+### Colourcoding several groups - why domain is important
+Let's add colour: shades of yellow for the gender and of green for the race columns. To start, we'll set the domain argument to NULL:
+```{r}
+gt_exp_total %>%
+  data_color(
+    columns = Woman:"Other/prefer not to answer",
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "#FFDE00"),
+      domain = NULL)
+  ) %>%
+  data_color(
+    columns = "Asian or Asian American":White,
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "#63BAAB"),
+      domain = NULL)
+  )
+```
+This lets us see how earnings progress over time for each subgroup, but it's difficult to compare the groups to each other.
+
+In this case, it would be better to set the domain manually, picking values below the overall minimum and above the overall maximum:
+```{r}
+(gt_exp_total <- gt_exp_total %>%
+  data_color(
+    columns = Woman:"Other/prefer not to answer",
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "#FFDE00"),
+      domain = c(40000, 180000))
+  ) %>%
+  data_color(
+    columns = "Asian or Asian American":White,
+    colors = scales::col_numeric(
+      palette = c(
+        "white", "#63BAAB"),
+      domain = c(60000, 180000))
+  )
+)
+```
+
+
+## Modifying the table output options
+With `tab_options()`, you can change design elements of your table. Think of it as the `theme()` of {gt}.
+```{r}
+?tab_options() # help page with list of the many, MANY options
+
+gt_exp_total %>% 
+  tab_options(
+    heading.background.color = "lightgray",
+    heading.title.font.size = 24,
+    heading.title.font.weight = "bolder",
+    heading.subtitle.font.size = 20
+    )
+
+gt_gender_education %>% 
+  tab_options(
+    row_group.background.color = "#D8A21A",
+    row_group.border.top.color = "black",
+    summary_row.background.color = "#FFEECB"
+  )
+```
+
+
+# Tables with {gtsummary}
+
+The {gtsummary} package automatically summarises information in data sets and also improves the look of the output from statistical models such as regressions (try: `tbl_regression(model_name)`).
+
+More info: http://www.danieldsjoberg.com/gtsummary/
+
+## Descriptive statistics
+Let's pick a few variables and see what the {gtsummary} package does with them:
+```{r}
+survey_US %>% 
+  select(gender, how_old_are_you, annual_salary) %>% 
+  tbl_summary()
+```
+Looks like it automatically recognises the data type and adjusts accordingly: 
+For categorical variables (and also text/character columns), it counts the number of cases and calculates the corresponding percentages. For numeric variables, we get the median and interquartile range.
+
+That means it's important to ensure the data types are correct. Let's see what happens when we add in the other monetary compensation variable:
+```{r}
+survey_US %>% 
+  select(gender, how_old_are_you, annual_salary, other_monetary_comp) %>% 
+  tbl_summary()
+```
+
+This is treated like a categorical variable! Let's check the data type and convert to numeric, then try again.
+
+For numeric columns, you'll see the median and the interquartile range (IQR) -- 25th and 75th percentiles.
+```{r}
+typeof(survey_US$other_monetary_comp)
+
+survey_US %>% 
+  mutate(other_monetary_comp = as.numeric(other_monetary_comp)) %>% 
+  select(gender, how_old_are_you, annual_salary, other_monetary_comp) %>% 
+  tbl_summary()
+```
+Much better!
+
+Note that NAs are represented as "Unknown".
+
+## Handpicking summary statistics
+Next, let's change the defaults. We'd like to see the mean, standard deviation, and the minimum and maximum values for numeric values, and add the total (represented by a capital N) for the categorical variables. These functions are wrapped in curly brackets. In the same step, we also change the label for NAs from "Unknown" to "missing". Note that the footnote updates automatically to explain what these numbers stand for.
+```{r}
+survey_US %>% 
+  mutate(other_monetary_comp = as.numeric(other_monetary_comp)) %>% 
+  select(gender, how_old_are_you, annual_salary, other_monetary_comp) %>%
+  tbl_summary(
+    statistic = list(all_continuous() ~ c("{mean} ({sd}); {min} - {max}"),
+                     all_categorical() ~ "{n} / {N} ({p}%)"),
+    missing_text = "missing")
+```
+
+Often, multi-line summaries are easier to read, so instead of having mean, sd, min and max all in one line, we'd like to spread that information across two lines. To do that, we need to first "convert" continuous variables to "continuous2". We can then list the summary functions in a vector:
+```{r}
+survey_US %>% 
+  mutate(other_monetary_comp = as.numeric(other_monetary_comp)) %>% 
+  select(gender, how_old_are_you, annual_salary, other_monetary_comp) %>%
+  tbl_summary(
+    type = all_continuous() ~ "continuous2", #this is necessary to do multi-line summaries
+    statistic = list(all_continuous() ~ c("{mean} ({sd})", #give the lines you want as single strings separated by commas
+                                          "{min} - {max}",
+                                          "{p25}, {p75}")),
+    missing_text = "missing")
+```
+
+## Labels and captions
+Finally, let's change the variable names, change "Characteristic" to "Variable", make all labels bold, and add a header. 
+
+Note the ~ for assigning names and the fact that we are using commands that often start with modify_
+```{r}
+(gt_descriptive <- survey_US %>% 
+  mutate(other_monetary_comp = as.numeric(other_monetary_comp)) %>% 
+  select(gender, how_old_are_you, annual_salary, other_monetary_comp) %>%
+  tbl_summary(
+    type = all_continuous() ~ "continuous2",
+    statistic = list(all_continuous() ~ c("{mean} ({sd})", 
+                                          "{min} - {max}",
+                                          "{p25}, {p75}")),
+    missing_text = "missing",
+    label = list(
+      gender ~ "Gender",
+      how_old_are_you ~ "Age bracket",
+      annual_salary ~ "Annual salary (in USD)",
+      other_monetary_comp ~ "Other monetary compensation")) %>% 
+  modify_header(label = "**Variable**") %>%
+  bold_labels() %>% 
+  modify_caption("**Ask a Manager Survey** - *Descriptive statistics*"))
+```
+
+
+# Exporting tables
+
+Mac users:
+First install PhantomJS with webshot::install_phantomjs(). If you have issues, you may have to change the PATH variable, but this can be quite a headache.
+
+Export {gt} tables with `gtsave()`:
+```{r}
+#webshot::install_phantomjs()
+
+gt_gender_education %>%
+  gtsave(
+    "salary_gender_education.png",  
+    expand = 20 # adds whitespace around the table
+    #can add a path argument, by default will go in the same folder as your .Rmd
+  )
+```
+Available file types: HTML, PDF, PNG, LaTeX, RTF
+
+A table made with a function from {gtsummary} needs to first be converted with `as_gt()`:
+```{r}
+gt_descriptive %>% 
+  as_gt() %>%
+  gtsave("survey_descriptive.png")
+```
+
+...or as a word file (the {flextable} package needs to be installed):
+```{r}
+gt_descriptive %>%
+  as_flex_table() %>%
+  flextable::save_as_docx(path = "survey_descriptive.docx")
+```
+
+
+# Try it!
+
+Here are some ideas:
+
+(a) Recreate the `gt_gender` table but with race instead of gender. Then, level it up by adding in the highest level of education as in `gt_gender_education`.
+
+(b) And/or: Use the other monetary compensation variable instead of annual salary.
+
+(c) Instead of overall work experience, use `years_of_experience_in_field` for the `gt_exp_total` table.
+
+(d) Create a descriptive summary table with some other/additional variables.
+
