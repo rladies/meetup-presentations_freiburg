@@ -42,9 +42,32 @@ nominees %>%
   arrange(desc(n))
 ```
 
-## Which distributors have won the most awards?
+## Which distributors have won the most awards this year?
 ```{r}
+winners <- nominees %>% 
+  filter(type == "Winner" & year == 2021) %>% 
+  mutate(distributor = recode(distributor,
+    "Apple TV+" = "Apple TV",
+    "App Store, Apple TV+" = "Apple TV",
+    "HBO Max" = "HBO"
+  )) %>% 
+  count(distributor) %>% 
+  top_n(10) %>% 
+  arrange(desc(n))
+```
 
+```{r}
+winners %>% 
+  gt() %>% 
+  tab_header(
+    title = "2021 Emmy Winners",
+    subtitle = "Top 10 distributors by Emmy wins"
+  ) %>% 
+  tab_source_note("Source: TidyTuesday Github") %>% 
+  cols_label(
+    distributor = "",
+    n = ""
+  )
 ```
 
 
