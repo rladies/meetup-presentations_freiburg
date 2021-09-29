@@ -13,3 +13,24 @@ library(scales)
 nominees <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-21/nominees.csv')
 ```
 
+```{r}
+colnames(nominees)
+```
+
+```{r}
+nominees %>% 
+  distinct(category)
+```
+
+```{r}
+summary(nominees$year)
+```
+
+```{r}
+nominees %>% 
+  filter(type == "Winner") %>% 
+  distinct(category, title) %>% 
+  count(title) %>% 
+  arrange(desc(n))
+```
+
