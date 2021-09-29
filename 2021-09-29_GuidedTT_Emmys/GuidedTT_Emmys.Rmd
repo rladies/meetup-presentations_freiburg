@@ -1,0 +1,15 @@
+---
+title: "Guided Tidy Tuesday: gt edition"
+author: "Kyla McConnell"
+date: "9/29/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(gt)
+library(scales)
+
+nominees <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-21/nominees.csv')
+```
+
