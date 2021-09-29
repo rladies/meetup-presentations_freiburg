@@ -57,7 +57,7 @@ winners <- nominees %>%
 ```
 
 ```{r}
-winners %>% 
+winners_gt <- winners %>% 
   gt() %>% 
   tab_header(
     title = md("**2021 Emmy Winners**"),
@@ -74,7 +74,26 @@ winners %>%
       palette = c("white", "#63BAAB"),
       domain = NULL
     )
-  )
+  ) %>% 
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(distributor)
+  ) 
+
+winners_gt %>% 
+gtsave("emmys_distributor2021.png",
+       expand = 20)
+```
+
+
+## Costume winners
+```{r}
+costumes <- nominees %>% 
+  filter(str_detect(category, "Costume") & year == 2021) %>% 
+  mutate(category = str_remove(category, "Outstanding"),
+         category = str_remove(category, "Costumes - 2021"),
+         category = str_trim(category)) %>% 
+  filter(category %in% c("Period", "Contemporary", "SciFi/Fantasy"))
 ```
 
 
