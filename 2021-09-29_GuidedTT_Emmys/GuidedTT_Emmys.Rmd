@@ -93,24 +93,52 @@ costumes <- nominees %>%
   mutate(category = str_remove(category, "Outstanding"),
          category = str_remove(category, "Costumes - 2021"),
          category = str_trim(category)) %>% 
-  filter(category %in% c("Period", "Contemporary", "SciFi/Fantasy"))
+  filter(category %in% c("Period", "Contemporary", "Fantasy/Sci-Fi"))
 ```
 
 ```{r}
 costumes %>% 
   distinct(category, type, title, distributor) %>% 
+  arrange(desc(type)) %>% 
   gt(
     groupname_col = "category"
   ) %>% 
   tab_header(
     title = md("**2021 Emmy Awards for Costume**"),
-    subtitle = md("**in the categories Period, Contemporary, and SciFi/Fantasy**")
+    subtitle = md("**in the categories Period, Contemporary, and Fantasy/Sci-Fi**")
   ) %>% 
   tab_source_note("Source: TidyTuesday Github") %>% 
   cols_label(
     type = "",
     title = md("**Title**"),
     distributor = md("**Distributor**")
+  ) %>% 
+  tab_style(
+    style = cell_fill(color = "lightblue"),
+    location = cells_body(rows = type == "Winner")
+  ) %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold"),
+      cell_fill(color = "#F1F1F1")
+    ),
+    location = cells_row_groups()
+  ) %>% 
+  tab_options(
+    row_group.border.top.color = "black"
+  ) %>% 
+  cols_align(
+    align = "center",
+    columns = title
+  ) %>% 
+  cols_align(
+    align = "right",
+    columns = distributor
+  ) %>% 
+  cols_width(
+    type ~ px(100),
+    distributor ~ px(100),
+    title ~ px(200)
   )
 ```
 
