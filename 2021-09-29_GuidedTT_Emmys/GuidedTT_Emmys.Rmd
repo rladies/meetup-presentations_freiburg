@@ -60,13 +60,20 @@ winners <- nominees %>%
 winners %>% 
   gt() %>% 
   tab_header(
-    title = "2021 Emmy Winners",
-    subtitle = "Top 10 distributors by Emmy wins"
+    title = md("**2021 Emmy Winners**"),
+    subtitle = md("**Top 10 distributors by Emmy wins**")
   ) %>% 
   tab_source_note("Source: TidyTuesday Github") %>% 
   cols_label(
     distributor = "",
     n = ""
+  ) %>% 
+  data_color(
+    columns = n,
+    colors = scales::col_numeric(
+      palette = c("white", "#63BAAB"),
+      domain = NULL
+    )
   )
 ```
 
