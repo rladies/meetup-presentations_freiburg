@@ -96,4 +96,21 @@ costumes <- nominees %>%
   filter(category %in% c("Period", "Contemporary", "SciFi/Fantasy"))
 ```
 
+```{r}
+costumes %>% 
+  distinct(category, type, title, distributor) %>% 
+  gt(
+    groupname_col = "category"
+  ) %>% 
+  tab_header(
+    title = md("**2021 Emmy Awards for Costume**"),
+    subtitle = md("**in the categories Period, Contemporary, and SciFi/Fantasy**")
+  ) %>% 
+  tab_source_note("Source: TidyTuesday Github") %>% 
+  cols_label(
+    type = "",
+    title = md("**Title**"),
+    distributor = md("**Distributor**")
+  )
+```
 
