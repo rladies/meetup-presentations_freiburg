@@ -26,11 +26,25 @@ nominees %>%
 summary(nominees$year)
 ```
 
+## Which shows have won the most awards?
 ```{r}
 nominees %>% 
   filter(type == "Winner") %>% 
   distinct(category, title) %>% 
   count(title) %>% 
   arrange(desc(n))
+
+nominees %>% 
+  filter(type == "Winner") %>% 
+  distinct(category, title) %>% 
+  group_by(title) %>% 
+  tally() %>% 
+  arrange(desc(n))
 ```
+
+## Which distributors have won the most awards?
+```{r}
+
+```
+
 
