@@ -283,7 +283,7 @@ survey_dev +
 To colour specific words in a text, we need CSS (Cascading Style Sheets) formatting.
 As a first example, we'd like to colourcode the "US respondents only" part red.
 We need to wrap that part of the text in:
-`<span style = 'color:_____' your text </span>`
+`<span style = 'color:_____'> your text </span>`
 ```{r}
 survey_dev +
   labs(subtitle = "N = 21091 <span style ='color:red'>(US respondents only)</span>") +
