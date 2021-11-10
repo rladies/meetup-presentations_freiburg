@@ -1,0 +1,388 @@
+---
+title: "How do I use custom fonts?"
+author: "Julia Müller & Kyla McConnell"
+date: "5 11 2021"
+output: html_document
+---
+
+# Data, packages, an example graph
+
+```{r}
+options(scipen = 999)
+
+library(showtext) # for option A
+library(extrafont) # for option B
+library(ggtext) # Markdown formatting in titles and labels
+library(tidyverse)
+
+survey <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-05-18/survey.csv') %>% 
+  drop_na(gender)
+
+head(survey)
+```
+
+Tidy Tuesday dataset contains the results of a survey on annual income of more than 24,000 people!
+
+More info on the dataset:
+https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-05-18/readme.md
+
+For convenience, we'll narrow down the data to people in the US, simplify the gender column and filter out "Other" responses:
+```{r}
+survey_US <- survey %>% 
+  filter(currency == "USD" & country %in% c("United States", "USA", "US", "U.S.", "United States of America", "Usa", "United states", "united states", "Us")) %>% 
+  mutate(gender = fct_collapse(gender,
+                               "Other/prefer not to answer" = c("Other or prefer not to answer", "Prefer not to answer"))) %>% 
+  filter(gender != 'Other/prefer not to answer')
+
+head(survey_US)
+```
+
+Let's create a boxplot of annual salary by gender:
+```{r}
+(survey_box <- survey_US %>% 
+  filter(annual_salary < 1000000) %>% 
+  ggplot() +
+  aes(x = gender, y = annual_salary, colour = gender) +
+  geom_violin() +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(x = "Gender", y = "Annual salary",
+       title = "Average annual salary",
+       subtitle = "N = 21091 (US respondents only)",
+       caption = "Source: Tidy Tuesday - Ask a Manager Survey") +
+  theme(legend.position = "none") +
+  scale_color_manual(values = c("#c70039", "#ff5733", "#ffc305")))
+```
+
+...and a line graph of how salary develops over time, still split up by gender:
+```{r}
+(survey_dev <- survey_US %>% 
+  mutate(years_of_experience_in_field = fct_relevel(years_of_experience_in_field, "1 year or less", "2 - 4 years", "5-7 years", "8 - 10 years", "11 - 20 years", "21 - 30 years", "31 - 40 years", "41 years or more"),
+         years_of_experience_in_field = fct_recode(years_of_experience_in_field, "5 - 7 years" = "5-7 years")) %>% 
+  group_by(gender, years_of_experience_in_field) %>% 
+  summarise(avg_salary = mean(annual_salary)) %>% 
+  ungroup() %>% 
+  ggplot() +
+  aes(x = years_of_experience_in_field, y = avg_salary,
+      colour = gender, group = gender) +
+  geom_point() +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Years of professional experience in the field",
+       y = "Average annual salary (in USD)",
+       title = "Average annual salary",
+       subtitle = "N = 21091 (US respondents only)",
+       caption = "Source: Tidy Tuesday - Ask a Manager Survey") +
+  scale_color_manual(values = c("#c70039", "#ff5733", "#ffc305")))
+```
+
+
+# Font options in default ggplot's `theme()`
+
+## Types of texts that can be changed
+
+![Text elements in plots](element_text.png)
+
+theme(
+    text = #all text items
+    plot.title = 
+    plot.subtitle = 
+    plot.caption = #bottom right
+    plot.tag =  #top left
+    axis.title = #axis labels
+    axis.title.x = 
+    axis.title.y = 
+    axis.text = #axis tick labels
+    axis.text.x = 
+    axis.text.y = 
+    legend.title = 
+    legend.text = 
+  )
+
+
+## element_text()
+Most commonly used text adjustments:
+```{r}
+element_text(
+  face = NULL, 
+  color = NULL, 
+  size = NULL,
+  family = NULL
+)
+```
+
+
+```{r}
+survey_dev +
+  theme(
+    text = element_text(face = "bold") #try also italic or bold.italic
+  )
+```
+
+```{r}
+survey_dev +
+  theme(
+    axis.text = element_text(color = "purple")
+  )
+```
+
+
+## Inbuilt font options
+
+There are three inbuilt options in ggplot which map (point to) three fonts. Which exact fonts these are might depend on your operating system.
+
+sans (the default) - maps to Arial
+serif - maps to Times New Roman (can also call "Times")
+mono - maps to Courier New
+
+We can specify these in the `family` argument in `element_text()`:
+```{r}
+survey_dev +
+  theme(
+    plot.title = element_text(family = "serif")
+  )
+
+survey_dev +
+  theme(
+    plot.title = element_text(family = "mono")
+  )
+```
+
+
+# Custom fonts
+
+Broadly, there are two ways to use other fonts in ggplot:
+- Download the font file(s) you'd like to use, then let R know where they are saved
+- Download *and install* fonts, then allow R to access them. This gives R access to all fonts you have installed on your computer
+
+
+## Option A: Font files not installed
+
+### Where to find/match fonts
+For example:
+- fontspace.com
+- fonts.google.com
+
+dyslexic-friendly: https://t.co/grXip7myuF?amp=1
+
+Pick one or several fonts you like and download them as a TrueType Font (file ending: .ttf). Save these files in the same folder as this script.
+
+### Using the fonts with the {showtext} package
+
+Use the function `font_add()` to register the font with R.
+The first argument is family = the name you want to assign to the font. We'll use this in `theme()`to tell ggplot which font we'd like it to use.
+The second argument is the path to the font file. If we use a Markdown document, we can simply type in the name of the file, including the ".ttf" ending.
+
+```{r}
+font_add(family = "Bungee", "Bungee-Regular.ttf")
+font_add(family = "Fauna", "FaunaOne-Regular.ttf")
+```
+
+If we're using a Google font, we can instead just use the `font_add_google()` command:
+```{r}
+font_add_google(name = "Poiret One",   # Name of the font as it is listed on Google fonts
+                family = "Poiret") # Name we'll use in theme()
+```
+
+..and one more command:
+```{r}
+showtext_auto() # allows fonts to show up in plots
+```
+You need to run this every time you add new fonts.
+
+Now, we can specify the fonts we'd like to use in a `theme()`call. Here, we're setting all text elements to "Fauna" but the plot title to "Bungee":
+```{r}
+survey_box +
+  theme(text = element_text(family = "Fauna"),
+        plot.title = element_text(family = "Bungee"))
+```
+
+And to check that the font we directly got from Google Fonts works too:
+```{r}
+survey_box +
+  theme(plot.title = element_text(family = "Poiret"))
+```
+
+
+### Try it!
+a) Download a font you like, save it in the same folder as this file, and use it
+b) Find a Google font you like and use it in a plot
+
+
+## Option B: Font files installed
+
+### Installing fonts
+
+Where are fonts kept on your computer?
+Windows: somewhere like C:\Windows\Fonts
+Mac: Network/Library/Fonts
+
+How do you install them?
+Windows (10): Right-click -> install (can check it worked by searching in the fonts folder)
+
+Which file types work?
+Any that have the ".ttf" (preferred) or ".otf" endings
+
+
+### Using the {extrafont} package
+
+To make sure we won't run into any problems, we'll detach the showtext package before working with extrafont:
+```{r}
+detach("package:showtext", unload=TRUE)
+```
+
+The first time you use this package OR when you've installed new fonts, run:
+```{r}
+font_import() # this takes a few minutes! Make sure to select "y" and press Enter
+```
+
+Then (and every time you start a new R session), run:
+```{r}
+loadfonts() # for other operating systems
+# OR
+loadfonts(device = "win") # for Windows
+```
+
+To list the available fonts:
+```{r}
+fonts()
+```
+
+### Using fonts
+They can now be added to plots like before:
+```{r}
+survey_box +
+  theme(text = element_text(family = "Calibri"))
+```
+
+
+# Markdown formatting in titles and labels with the {ggtext} package
+
+## Italics and bold
+
+As we've seen, we can change the properties (bold, italic, colours, fonts, etc.) of entire elements. 
+The {ggtext} package lets you use make specific words bold or italic (as opposed to the entire text in base ggplot).
+
+First, put one asterisk around the word(s) for italics and two for bold text. Then, in `theme()`, set the text element to `element_markdown()`.
+```{r}
+survey_dev +
+  labs(title = "*Average* annual **salary**") +
+  theme(plot.title = element_markdown())
+```
+
+We need to do this for every element separately. Within `element_markdown()`, we can make use of the same options as in `element_text()`:
+```{r}
+survey_dev + 
+  labs(title = "*Average* annual **salary**",
+       subtitle = "N = 21091 *(US respondents only)*") +
+  theme(plot.title = element_markdown(),
+        plot.subtitle = element_markdown(size = 20, colour = "red"))
+```
+
+## Colours
+To colour specific words in a text, we need CSS (Cascading Style Sheets) formatting.
+As a first example, we'd like to colourcode the "US respondents only" part red.
+We need to wrap that part of the text in:
+`<span style = 'color:_____' your text </span>`
+```{r}
+survey_dev +
+  labs(subtitle = "N = 21091 <span style ='color:red'>(US respondents only)</span>") +
+  theme(plot.subtitle = element_markdown())
+```
+
+We've changed our minds, would actually prefer blue and have found the hex code #100257. This works the same way:
+```{r}
+survey_dev +
+  labs(subtitle = "N = 21091 <span style ='color:#100257'>(US respondents only)</span>") +
+  theme(plot.subtitle = element_markdown())
+```
+
+For a more useful example, we'll explain what the colours in the plot mean by colourcoding words in the title. This way, we can get rid of the separate legend:
+```{r}
+survey_dev +
+  labs(title = "Average annual salary for 
+       <span style ='color:#c70039'>men</span>,
+       <span style ='color:#ffc305'>women</span> and
+       <span style ='color:#ff5733'>non-binary people</span>") +
+  theme(plot.title = element_markdown(),
+        legend.position = "null")
+```
+
+Similarly, we can change the fonts and font sizes by adding arguments to the CSS. These arguments need to be separated by a semicolon:
+`<span style = 'color:_____;font-family:_____;font-size:____' your text </span>`
+```{r}
+survey_dev +
+  labs(title = "Average annual salary for 
+       <span style ='color:#c70039;font-family:Bungee'>men</span>,
+       <span style ='color:#ffc305;font-size:24pt'>women</span> and
+       <span style ='color:#ff5733;'>non-binary people</span>") +
+  theme(plot.title = element_markdown(),
+        legend.position = "null")
+```
+
+Add line breaks with <br>
+```{r}
+survey_dev +
+  labs(title = "Average annual salary for <br>
+       <span style ='color:#c70039;font-family:Bungee'>men</span>,
+       <span style ='color:#ffc305;font-size:24pt'>women</span> and
+       <span style ='color:#ff5733;'>non-binary people</span>") +
+  theme(plot.title = element_markdown(),
+        legend.position = "null")
+```
+
+The markdown syntax for italics and bold text also still work within <span>
+```{r}
+survey_dev +
+  labs(title = "Average annual salary for <br>
+       <span style ='color:#c70039;font-family:Bungee'>men</span>,
+       <span style ='color:#ffc305;font-size:24pt'>women</span> and
+       <span style ='color:#ff5733;'>**non-binary people**</span>") +
+  theme(plot.title = element_markdown(),
+        legend.position = "null")
+```
+
+...and we can change fonts for all texts in `theme()` still and it'll apply to `element_markdown()`-elements too:
+```{r}
+survey_dev +
+  labs(title = "*Average* annual **salary** for <br>
+       <span style ='color:#c70039;font-family:Bungee'>men</span>,
+       <span style ='color:#ffc305;font-size:24pt'>women</span> and
+       <span style ='color:#ff5733;'>**non-binary people**</span>") +
+  theme(text = element_text(family = "serif"),
+        plot.title = element_markdown(),
+        legend.position = "null")
+```
+
+## Text boxes
+We can also draw a textbox around text with `element_textbox_simple()` in `theme()`:
+```{r}
+survey_dev +
+  theme(plot.title = element_textbox_simple(
+        size = 18, # font size
+        face = "bold",
+        family = "Bungee",
+        colour = "red",
+        linetype = 1, # turn on border
+        box.color = "darkgray", # border color (hex codes possible)
+        fill = "gray", # background fill color (hex codes possible)
+        padding = margin(5, 5, 5, 5), # padding around text inside the box
+        margin = margin(10, 0, 10, 0))) # margin around text box
+```
+
+We can combine textboxes and the markdown formatting we've been using:
+```{r}
+survey_dev +
+  labs(title =  "Average annual salary for <span style = 'color:#c70039;'>men</span>, <span style = 'color:color:#ffc305;'>women</span> and
+       <span style ='color:#ff5733'>non-binary people</span>") +
+  theme(plot.title = element_textbox_simple(
+        #size = 18,
+        linetype = 1, # turn on border
+        box.color = "darkgray", # border color (hex codes possible)
+        fill = "lightgray", # background fill color (hex codes possible)
+        padding = margin(5, 5, 5, 5), # padding around text inside the box
+        margin = margin(0, 0, 10, 0)),  # margin around text box
+        legend.position = "null")
+```
+
+
