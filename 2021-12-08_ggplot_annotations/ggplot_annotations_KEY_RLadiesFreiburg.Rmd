@@ -1,0 +1,438 @@
+---
+title: "Annotations"
+author: "Julia Müller & Kyla McConnell"
+date: "8 12 2021"
+output: html_document
+---
+
+```{r}
+library(ggforce)
+library(ggfx)
+library(tidyverse)
+```
+
+# Manual annotation
+
+## Data and first plot
+For the first examples, we'll analyse a Tidy Tuesday dataset on transit costs: how much did it cost to build public transport, and how long were the newly constructed train lines?
+```{r}
+transit_cost <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-01-05/transit_cost.csv')
+
+transit_cost <- transit_cost %>% 
+  drop_na(country, real_cost, length) %>% 
+  mutate(real_cost = as.numeric(real_cost),
+         country = fct_recode(country,
+                              "China" = "CN",
+                              "Vietnam" = "VN",
+                              "Spain" = "ES",
+                              "South Korea" = "KR",
+                              "USA" = "US"
+         ))
+
+head(transit_cost)
+```
+
+We'll narrow this data down to five countries:
+The two countries with the highest cost per km built: the US and Vietnam
+The two countries with the lowest cost per km built: Spain and South Korea
+The country with the most projects: China
+
+Now, to create our plot. We'll create a scatterplot of real cost (= what the train line actually cost, in millions of US dollars) by length (in km) for a subset of these five countries.
+Then, we'll add separate trend lines for each country, and also a general trend line for all countries (using the full data set):
+```{r}
+trains <- ggplot() +
+  aes(x = real_cost, y = length, colour = country) +
+  geom_point(data = subset(transit_cost, 
+                           country %in% c("China", "Vietnam", "Spain", "South Korea", "USA")), 
+             size = 3) +
+  geom_smooth(data = subset(transit_cost, 
+                            country %in% c("China", "Vietnam", "Spain", "South Korea", "USA")), # trendlines for the five countries
+              method = "lm", se = FALSE) +
+  geom_smooth(data = transit_cost, # trendline for all data points
+              method = "lm", se = FALSE, 
+              colour = "black", size = 2, linetype = 3) +
+  scale_x_continuous(expand = c(0, 0), 
+                     breaks = seq(0, 15000, 1000), 
+                     limits = c(0, 15500)) +
+  scale_y_continuous(expand = c(0, 0), 
+                     breaks = seq(0, 80, 10), 
+                     limits = c(0, 90)) +
+  scale_colour_manual(values = c("#959599", "#80a0c7", "#394165", "#a65041", "#dca258")) +
+  labs(x = "Cost in millions of USD",
+       y = "Length of line in km",
+       title = "Do longer urban rail projects always cost more?",
+       subtitle = 'The data set includes information on transit lines built since the late 1990s from 50 countries. This graph shows the countries with 
+           the highest number of projects - China | 
+       the lowest cost per km - Spain and South Korea | 
+       the highest cost per km - the USA and Vietnam',
+       caption = "Data source: Transit Costs Project (transitcosts.com) via Tidy Tuesday") +
+  theme_minimal() +
+  theme(legend.position = "top",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+trains
+```
+
+## Annotations with `annotate()`
+
+### Text
+First, we'd like to add an explanation of what the black line (overall trend) means. While we can do that e.g. in the subtitle, we can also add an annotation box in the plot area with `annotate("text")`. The x- and y-values depend on the range of the data and tend to require some guesswork:
+```{r}
+(trains <- trains +
+   annotate(
+    geom = "text", 
+    x = 13000, y = 35, 
+    size = 4, color = "black", lineheight = .9,
+    label = "This line shows the relationship between \ncost and length of the line for the entire data."))
+```
+
+### Rectangles
+```{r}
+trains + 
+  annotate(
+  geom = "rect", 
+  xmin = 1000, xmax = 11500, 
+  ymin = 0, ymax = 20,
+  alpha = .2
+)
+```
+
+Other geoms are:
+- segment (arguments: x, xend, y, yend) to draw a line
+- pointrange (arguments: x, y, ymin, ymax)
+
+
+### Try it!
+Add another text annotation that is next to the yellow and above the red line. It should (or could) read "Cost for projects in the US and Vietnam are all over the place even though the constructed lines are fairly short". Save your results to the trains plot! 
+```{r}
+trains <- trains + annotate(
+    "text", 
+    x = 8700, y = 14, 
+    size = 4, color = "#100f14", lineheight = .9, 
+    label = "Cost for projects in the US and Vietnam are all over the place \neven though the constructed lines are fairly short.")
+```
+
+## Arrows with `geom_curve()`
+Let's add an arrow that connects our first text annotation to the line it refers to. We can do this with geom_curve. In the aesthetics, we need to specify where on the x- and y-axes the line should start (x, y) and end (xend, yend). With the arrow argument, we can add the arrowhead, and curvature determines if the line is straight or curved.
+```{r}
+trains +
+  geom_curve(
+    aes(x = 13500, y = 38, xend = 13200, yend = 44),
+    arrow = arrow(length = unit(0.1, "inch")), size = 0.6,
+    color = "red", curvature = 0.5 # 0 = straight line, negative = left-hand curves, positive = right-hand curves
+  )
+```
+
+To add more than one arrow at a time, we can use a data frame which contains the coordinates:
+```{r}
+arrows <-
+  tibble(
+    x1 = c(8000, 13500, 6500),
+    x2 = c(8000, 13200, 6100),
+    y1 = c(10, 38, 15),
+    y2 = c(6, 55, 13)
+  )
+
+trains +
+  geom_curve(
+    data = arrows, 
+    aes(x = x1, y = y1, xend = x2, yend = y2),
+    arrow = arrow(length = unit(0.1, "inch")), size = 0.6,
+    color = "darkgray", curvature = 0
+  )
+```
+
+### Try it!
+Add a text box (with `annotate()`) and arrow (note that you need to update the `arrows` tibble, then rerun the `geom_curve()` code) that points to the most expensive project in the US. Additionally, see if you can find out what/where that project is.
+```{r}
+arrows <-
+  tibble(
+    x1 = c(8000, 13500, 6500, 11800),
+    x2 = c(8000, 13200, 6100, 11100),
+    y1 = c(10, 38, 15, 10),
+    y2 = c(6, 55, 13, 3)
+  )
+
+trains +
+  geom_curve(
+    data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2),
+    arrow = arrow(length = unit(0.1, "inch")), size = 0.6,
+    color = "darkgray", curvature = 0.3
+  ) +
+  annotate(
+    "text", x = 13000, y = 10, size = 4, color = "black", lineheight = .9,
+    label = "Why is this line so expensive?!")
+```
+
+Let's find out where this expensive project is.
+```{r}
+transit_cost %>% 
+  filter(country == "USA") %>% 
+  slice_max(order_by = real_cost, n = 1)
+
+trains +
+  geom_curve(
+    data = arrows, aes(x = x1, y = y1, xend = x2, yend = y2),
+    arrow = arrow(length = unit(0.1, "inch")), size = 0.6,
+    color = "darkgray", curvature = 0.3
+  ) +
+  annotate(
+    "text", x = 13000, y = 10, size = 4, color = "black", lineheight = .9,
+    label = "East Side Access (New York)\nPrice tag: 11000 million US dollars.")
+```
+
+
+# Annotations with the {ggforce} and {ggfx} packages
+
+## Data and first plot
+
+For this part, we'll look at data about almost 1800 films and whether they pass the Bechdel test (i.e.: are there two named female characters in the film who talk to each other about a topic that's not a man):
+```{r}
+movies <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-03-09/movies.csv')
+
+mov <- movies %>% 
+  mutate(title = str_replace(title, "&#39;", "'"),
+         intgross = as.numeric(intgross),
+         budget = budget/1000000) %>% 
+  filter(clean_test != "dubious") %>% 
+  drop_na(year, budget, intgross, clean_test) %>% 
+  mutate(clean_test =  fct_recode(clean_test,
+                                  "no named female characters" = "nowomen",
+                                  "the women don't talk" = "notalk",
+                                  "the women only talk about men" = "men",
+                                  "pass!" = "ok"))
+
+(bechdel <- mov %>% 
+  ggplot() +
+  aes(x = year, y = budget, colour = clean_test) +
+  geom_jitter() +
+  labs(title = "Back to the Bechdel test!",
+      x = "Year", y = "Budget (in million)",
+      colour = "",
+      caption = "Includes 1642 films from 1970 - 2013. \n Data source: Bechdeltest.com API via Tidy Tuesday") +
+  scale_color_manual(values = c("#e24f22", "#FFB547FF", "#800000FF", "#4A6990FF")) +
+  theme_minimal() +
+  theme(legend.position = "top",
+        plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(hjust = 0.5)))
+```
+
+Good ol' Palmer penguins:
+```{r}
+penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv') 
+
+(peng <- penguins %>% 
+  ggplot() +
+  aes(bill_length_mm, bill_depth_mm, fill = species, colour = species) +
+  geom_point() +
+  geom_smooth(method = "lm"))
+```
+
+
+## Annotations with {ggforce}
+This package offers some more annotation options:
+- `geom_mark_rect()` encloses the data in the smallest enclosing rectangle
+- `geom_mark_circle()` encloses the data in the smallest enclosing circle
+- `geom_mark_ellipse()` encloses the data in the smallest enclosing ellipse
+- `geom_mark_hull()` encloses the data with a concave or convex hull - the {concaveman} package is required for this geom
+```{r}
+penguins %>% 
+  drop_na(bill_length_mm, bill_depth_mm) %>% 
+  ggplot() +
+  aes(bill_length_mm, bill_depth_mm) +
+  geom_mark_circle(aes(fill = species)) +
+  geom_point()
+```
+Here, removing missing values is necessary. Otherwise the command will throw an error.
+
+### Adding labels
+Within the aesthetics of `geom_mark_*()`, you can specify a label and a description. They can either be part of the data, or user-defined text:
+```{r}
+penguins %>% 
+  drop_na(bill_length_mm, bill_depth_mm) %>% 
+  ggplot() +
+  aes(bill_length_mm, bill_depth_mm) +
+  geom_mark_ellipse(aes(fill = species,
+                        label = species,
+                        description = "Penguin species")) +
+  geom_point() +
+  theme_minimal()
+```
+
+### Labelling single data points
+If we want to label specific data points, we can filter them within `geom_mark_circle()`. The label will be the film's title, but we can also add a description, for which we'll pick the plot summary:
+```{r}
+bechdel + 
+  geom_mark_circle(aes(label = title, 
+                       filter = title %in% c("Avatar", "Waterworld", "RoboCop", "Titanic"),
+                       description = plot), 
+                   expand = unit(7, "mm"),
+                   label.lineheight = 0.7,
+                   label.fontsize = c(8, 6),
+                   show.legend = FALSE)
+```
+
+
+### Try it!
+See the blue point that is higher than all the rest, between year 2000 and 2010? Find the title of that film using a filter command (hint, use the mov df and the columns budget and clean_test), then add a circle to the plot that identifies it by title. If you have time, also find the highest yellow dot between 1975 and 1980, and circle it too!
+```{r}
+mov %>% 
+  filter(budget >= 300)
+
+mov %>% 
+  filter(budget > 50 & year < 1980)
+
+
+bechdel + 
+  geom_mark_circle(aes(label = title, 
+                       filter = title %in% c("Pirates of the Caribbean: At World's End", "Superman"),
+                       description = plot), 
+                   expand = unit(7, "mm"),
+                   label.lineheight = 0.7,
+                   label.fontsize = c(8, 6),
+                   show.legend = FALSE)
+```
+
+
+
+## Blurring data points with {ggfx}
+This package offers a variety of filters - here's an overview: https://www.r-bloggers.com/2021/03/say-goodbye-to-good-taste/
+
+We'll use the `with_blur()` command here. To draw attention to a specific group within the data, we can draw circles as we did earlier, but alternatively, we can blur the data we *don't* want to highlight. To achieve that, we need to wrap the `geom_jitter()` command in `with_blur()`:
+```{r}
+(mov_blur <- ggplot(mov) +
+  aes(x = year, y = budget, colour = clean_test) +
+  with_blur(
+    geom_jitter(),
+    sigma = unit(0.8, 'mm') # specifies amount of blur (higher = more)
+  ) +
+  geom_jitter(data = mov %>% filter(clean_test == "no named female characters")) + # non blurred points
+  labs(title = "Back to the Bechdel test!",
+      x = "Year", y = "Budget (in million)",
+      colour = "",
+      caption = "Includes 1642 films from 1970 - 2013. \n Data source: Bechdeltest.com API via Tidy Tuesday") +
+  scale_color_manual(values = c("#e24f22", "#FFB547FF", "#800000FF", "#4A6990FF")) +
+  theme_minimal() +
+  theme(legend.position = "top",
+        plot.title = element_text(hjust = 0.5),
+        plot.caption = element_text(hjust = 0.5)))
+```
+
+We can also blur other plot elements in theme:
+```{r}
+bechdel +
+  theme(plot.caption = with_blur(element_text(), sigma = 2))
+
+bechdel +
+  theme(legend.text = with_blur(element_text(), sigma = 2))
+```
+
+
+## Zooming in
+Finally, we might want to zoom in on a range or a group of data points. The `facet_zoom()` command achieves just that:
+```{r}
+transit_cost %>% 
+  filter(country %in% c("China", "Vietnam", "Spain", "South Korea", "USA")) %>% 
+  ggplot() +
+  aes(x = real_cost, y = length, colour = country) +
+  geom_point() +
+  facet_zoom(x = country == "Spain")
+```
+
+This works both on the x- and y-axis:
+```{r}
+transit_cost %>% 
+  filter(country %in% c("China", "Vietnam", "Spain", "South Korea", "USA")) %>% 
+  ggplot() +
+  aes(x = real_cost, y = length, colour = country) +
+  geom_point() +
+  facet_zoom(y = length < 20)
+```
+
+The syntax here is the same as in a `filter()` command:
+== for logical matching
+< and > or =< and => for numeric matching
+
+
+### Try it!
+(a) Re-do the trains plot but blur the individual data points, leaving only the trend lines unblurred.
+```{r}
+ggplot() +
+  aes(x = real_cost, y = length, colour = country) +
+  with_blur(
+    geom_point(data = subset(transit_cost, 
+                           country %in% c("China", "Vietnam", "Spain", "South Korea", "USA")), 
+             size = 2),
+    sigma = 1
+    )+
+  geom_smooth(data = subset(transit_cost, 
+                            country %in% c("China", "Vietnam", "Spain", "South Korea", "USA")), # trendlines for the five countries
+              method = "lm", se = FALSE) +
+  geom_smooth(data = transit_cost, # trendline for all data points
+              method = "lm", se = FALSE, 
+              colour = "black", size = 2, linetype = 3) +
+  scale_x_continuous(expand = c(0, 0), 
+                     breaks = seq(0, 15000, 1000), 
+                     limits = c(0, 15500)) +
+  scale_y_continuous(expand = c(0, 0), 
+                     breaks = seq(0, 80, 10), 
+                     limits = c(0, 90)) +
+  scale_colour_manual(values = c("#959599", "#80a0c7", "#394165", "#a65041", "#dca258")) +
+  labs(x = "Cost in millions of USD",
+       y = "Length of line in km",
+       title = "Do longer urban rail projects always cost more?",
+       subtitle = 'The data set includes information on transit lines built since the late 1990s from 50 countries. This graph shows the countries with 
+           the highest number of projects - China | 
+       the lowest cost per km - Spain and South Korea | 
+       the highest cost per km - the USA and Vietnam',
+       caption = "Data source: Transit Costs Project (transitcosts.com) via Tidy Tuesday") +
+  theme_minimal() +
+  theme(legend.position = "top",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
+
+(b) Also try emphasising the data points from the USA and Vietnam and blur other data points and lines.
+```{r}
+ggplot() +
+  aes(x = real_cost, y = length, colour = country) +
+  with_blur(
+    geom_point(data = subset(transit_cost, 
+                           country %in% c("China", "Spain", "South Korea")), 
+             size = 2),
+    sigma = 2) +
+  with_blur(geom_smooth(data = subset(transit_cost, 
+                            country %in% c("China", "Spain", "South Korea")), 
+              method = "lm", se = FALSE), 
+            sigma = 2)+
+  with_blur(geom_smooth(data = transit_cost, # trendline for all data points
+              method = "lm", se = FALSE, 
+              colour = "black", size = 2, linetype = 3),
+            sigma = 2)+
+  geom_point(data = subset(transit_cost, 
+                           country %in% c("USA", "Vietnam")), 
+             size = 2) +
+  geom_smooth(data = subset(transit_cost, 
+                            country %in% c("USA", "Vietnam")), 
+              method = "lm", se = FALSE) + 
+  scale_x_continuous(expand = c(0, 0), 
+                     breaks = seq(0, 15000, 1000), 
+                     limits = c(0, 15500)) +
+  scale_y_continuous(expand = c(0, 0), 
+                     breaks = seq(0, 80, 10), 
+                     limits = c(0, 90)) +
+  scale_colour_manual(values = c("#959599", "#80a0c7", "#394165", "#a65041", "#dca258")) +
+  labs(x = "Cost in millions of USD",
+       y = "Length of line in km",
+       title = "Do longer urban rail projects always cost more?",
+       subtitle = 'The data set includes information on transit lines built since the late 1990s from 50 countries. This graph shows the countries with 
+           the highest number of projects - China | 
+       the lowest cost per km - Spain and South Korea | 
+       the highest cost per km - the USA and Vietnam',
+       caption = "Data source: Transit Costs Project (transitcosts.com) via Tidy Tuesday") +
+  theme_minimal() +
+  theme(legend.position = "top",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
