@@ -1,0 +1,154 @@
+---
+title: "Guided Tidy Tuesday - Thanksgiving edition"
+author: "Julia Müller"
+date: "24 11 2021"
+output: html_document
+---
+
+
+```{r}
+library(tidyverse)
+library(showtext)
+library(ggtext)
+
+thanksgiving <- read_csv('https://raw.githubusercontent.com/fivethirtyeight/data/master/thanksgiving-2015/thanksgiving-2015-poll-data.csv')
+
+head(thanksgiving)
+```
+
+Data originally from the FiveThirtyEight Github - more info on it here:
+https://github.com/fivethirtyeight/data/tree/master/thanksgiving-2015
+
+```{r}
+janitor::clean_names(thanksgiving)
+```
+
+```{r}
+thanksgiving <- read_csv('https://raw.githubusercontent.com/fivethirtyeight/data/master/thanksgiving-2015/thanksgiving-2015-poll-data.csv',
+                         col_names = c("ID", "celebrate", "main_dish", "main_dish_other", "main_dish_method", "main_dish_method_other", "stuffing", "stuffing_other", "cranberry", "cranberry_other", "gravy", "side_brussels", "side_carrots", "side_cauliflower", "side_corn", "side_cornbread", "side_fruit_salad", "side_green_beans", "side_mac_cheese", "side_mashed_potatoes", "side_rolls_biscuits", "side_squash", "side_veg_salad", "side_yams", "drop1", "side_other", "pie_apple", "pie_buttermilk", "pie_cherry", "pie_chocolate", "pie_coconut", "pie_lime", "pie_peach", "pie_pecan", "pie_pumpkin", "pie_sweet_potato", "pie_none", "drop2", "pie_other", "dessert_apple_cobbler", "dessert_blondies", "dessert_brownies", "dessert_carrot_cake", "dessert_cheesecake", "dessert_cookies", "dessert_fudge", "dessert_icecream", "dessert_peach_cobbler", "dessert_none", "drop3", "dessert_other", "travel", "celebrate_where", "watch_Macys_parade", "kids_table_age", "meet_friends", "Friendsgiving", "Black_Friday_shop", "work_retail", "work_Black_Friday", "living_situation", "age", "gender", "combined_household_income", "region"),
+                         skip = 1)
+
+head(thanksgiving)
+```
+
+Removing unnecessary columns
+```{r}
+thanksgiving <- thanksgiving %>% 
+  select(-contains("drop"))
+```
+
+Data types
+```{r}
+str(thanksgiving)
+
+thanksgiving <- thanksgiving %>% 
+  mutate(across(everything(), as_factor))
+```
+
+# Main dish
+```{r}
+summary(thanksgiving$main_dish)
+summary(thanksgiving$main_dish_method)
+
+main <- thanksgiving %>% 
+  drop_na(main_dish, main_dish_method) %>% 
+  filter(main_dish != "Other (please specify)" & main_dish != "I don't know" & main_dish_method != "Other (please specify)" & main_dish_method != "I don't know") %>% 
+  count(main_dish, main_dish_method) %>% 
+  ggplot() +
+  aes(x = main_dish, y = n, fill = main_dish_method) +
+  geom_col(position = "dodge") +
+  scale_fill_manual(values = c("#e78d1f", "#922920", "#6d431e")) +
+  theme_light() +
+  labs(x = "", y = "",
+       title = "Main dishes served on Thanksgiving and their preparation methods",
+       caption = "Data source: FiveThirtyEight via TidyTuesday",
+       fill = "Preparation method")
+```
+
+## Theme options
+```{r}
+main <- main +
+  theme(panel.background = element_rect(fill = "#f7e0ac"),
+        plot.background = element_rect(fill = "#f7e0ac"),
+        legend.background = element_blank(),
+        legend.position = "top",
+        plot.caption = element_text(hjust = 0.5))
+```
+
+## Fonts
+```{r}
+font_add_google(name = "Satisfy", family = "satisfy")
+font_add_google(name = "Libre Baskerville", "libre")
+
+showtext_auto()
+```
+
+```{r}
+main +
+  theme(text = element_text(family = "libre"),
+        plot.title = element_text(family = "satisfy", size = 20, hjust = 0.5))
+```
+
+## Move title and legend in plot area
+```{r}
+main +
+  labs(title = "Main dishes served on Thanksgiving \nand their preparation methods:",
+       fill = "") +
+  theme(text = element_text(family = "libre"),
+        plot.title = element_text(family = "satisfy", size = 20, 
+                                  hjust = 0.5, vjust = -10),
+        legend.position = c(0.5, 0.4),
+        legend.direction = "horizontal",
+        plot.margin = margin(0, 1, 1, 1, "cm"),
+        panel.grid = element_blank(),
+        axis.ticks = element_blank()) +
+  geom_text(aes(label=n), 
+            position=position_dodge(width=0.9), vjust=-0.25)
+```
+
+# Pies
+```{r}
+thanksgiving %>% 
+  select(contains("pie")) 
+
+pie <- thanksgiving %>% 
+  pivot_longer(
+    cols = contains("pie"),
+    names_to = "drop",
+    values_to = "pies",
+    values_drop_na = TRUE
+  ) %>% 
+  select(-drop) %>% 
+  drop_na(region) %>% 
+  group_by(region) %>% 
+  count(pies) %>% 
+  add_count(region, wt = n) %>% 
+  mutate(perc = n/nn) %>% 
+  slice_max(order_by = n, n = 3) %>% 
+  ggplot() +
+  aes(x = pies, y = perc, fill = pies) +
+  geom_col() + 
+  facet_wrap(~ region) +
+  scale_fill_manual(values = c("#922920", "#6d431e", "#e78d1f")) +
+  scale_y_continuous(labels = scales::label_percent())
+```
+
+```{r}
+pie +
+  labs(x = "", y = "", caption = "**Data source:** *FiveThirtyEight* via TidyTuesday",
+       title = "Top three pies eaten on Thanksgiving",
+       subtitle = "<span style ='color:#e78d1f'>**Pumpkin pie**</span> is the most popular option in all regions, <br>but <span style ='color:#922920'>**apple pie**</span> and <span style ='color:#6d431e'>**pecan pie**</span> are also popular (and delicious!)") +
+  theme_light() +
+  theme(text = element_text(family = "libre"),
+        plot.caption = element_markdown(family = "libre"),
+        title = element_text(family = "satisfy"),
+        plot.subtitle = element_markdown(family = "satisfy"),
+        strip.background = element_rect(fill = "#f7e0ac"),
+        strip.text = element_text(colour = "#2B1D14"),
+        legend.position = "none",
+        axis.text.x = element_blank(),
+        axis.ticks = element_blank())
+```
+
+
+

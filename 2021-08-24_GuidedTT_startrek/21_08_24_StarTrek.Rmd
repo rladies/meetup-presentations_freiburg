@@ -1,0 +1,236 @@
+---
+title: "Guided Tidy Tuesday - Voice interactions in Star Trek"
+author: "Julia Müller"
+date: "24 8 2021"
+output: html_document
+---
+
+
+# Exploring the data
+
+Download from the TidyTuesday Github:
+https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-17/readme.md
+
+```{r}
+library(tidyverse)
+library(tidytext)
+
+computer <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-08-17/computer.csv')
+```
+
+```{r}
+head(computer, 20)
+
+str(computer)
+
+computer %>% 
+  select(line, interaction)
+```
+
+
+## Figuring out what the column names mean
+- What does "name" mean?
+  ID - we can ignore that
+- What's the difference between "line" and "interaction"?
+  Line is the entire bit, including stage directions and sentences not said to computer
+- ..."type" vs "pri_type"?
+  Interaction type (can be multiple - text duplicated!), primary narrowed down to one
+- ..."domain"? And some of the abbreviations, e.g. IoT
+  Interaction domain - how is speech used? 
+  IoT = Internet of Things - queries that activates or uses another piece of hardware
+  Subdomains e.g. replicator (food & drink) or Turbolift
+- ...the logicals: 
+  nv_resp = nonverbal response
+  is_fed = Federation computer
+  error = Interaction resulted in error
+
+Make sure to check out the codebook with much more information on what the categories mean here:
+http://www.speechinteraction.org/TNG/TeaEarlGreyHotDatasetCodeBook.pdf
+
+
+## Convert to factors
+```{r}
+str(computer)
+
+summary(as_factor(computer$char))
+
+computer <- computer %>% 
+  mutate(across(c(char, type, pri_type, domain, sub_domain), as_factor))
+```
+
+
+# Analysis
+
+## Who's the most talkative person?
+```{r}
+computer %>% 
+  filter(char_type == "Person") %>% 
+  count(char, sort = TRUE)
+```
+
+## How often is tea mentioned?
+```{r}
+computer %>% 
+  filter(str_detect(line, "\\b[Tt]ea\\b")) # regular expression to find tea or Tea as a separate word (hence the would boundaries \\b) but not as part of another word, so not e.g. "steady"
+```
+
+
+# Graphs
+
+## Speech types used by the computer vs the crew
+Are human characters more likely than the computer character(s) to use speech that is classified as conversational?
+
+### All speech types
+Let's make a bar graph of speech types for the computer compared to the crew members:
+```{r}
+computer %>% 
+  mutate(type = str_to_title(type)) %>% # to make sure all types start with a capital letter and remove spelling inconsistencies in the labeling
+  group_by(char_type) %>% 
+  count(type) %>% # create a summary table first
+  mutate(type = fct_reorder(type, n)) %>% # reorder the factor levels so they're shown largest to smallest
+  ungroup() %>% 
+  ggplot() +
+  aes(x = type, y = n, 
+      fill = char_type) + # use different colours for computers and persons
+  geom_col() + # because we calculated the summary earlier and the counts are present in the data, we use geom_col instead of geom_bar, which would sum up the relevant lines
+  coord_flip() +
+  facet_wrap(~ char_type, # create two plots, one for each char_type
+             scales = "free") + # scale of both x- and y-axis of plots can be independent
+  theme_minimal() +
+  theme(legend.position = "none") # remove the legend
+```
+
+### Primary types only
+Limiting this to the primary speech types, which means we need to remove duplicates with `distinct()`.
+To sort the factor correctly, we need `reorder_within()` together with `scale_x_reordered()`:
+```{r}
+computer %>% 
+  distinct(interaction, pri_type, # keep only unique interaction - primary type combinations to remove duplicates
+           .keep_all = TRUE) %>% # keep all other columns - by default, only interaction and pri_type would be kept, but we need the other columns for the next steps
+  group_by(char_type) %>% 
+  count(pri_type) %>% # create a summary table first
+  mutate(pri_type = reorder_within(pri_type, n, within = char_type)) %>% # reorder the factor levels so they're shown largest to smallest
+  ungroup() %>% 
+  ggplot() +
+  aes(x = pri_type, y = n, 
+      fill = char_type) + # use different colours for computers and persons
+  geom_col() + # because we calculated the summary earlier and the counts are present in the data, we use geom_col instead of geom_bar, which would sum up the relevant lines
+  coord_flip() +
+  facet_wrap(~ char_type, # create two plots, one for each char_type
+             scales = "free") + # scale of both x- and y-axis of plots can be independent
+  theme_minimal() +
+  scale_x_reordered() +
+  theme(legend.position = "none") # remove the legend
+```
+
+
+## Speech types used by the crew members
+```{r}
+library(trekcolors) # colour palettes based on star trek colour schemes
+```
+More info:
+https://github.com/leonawicz/trekcolors
+
+Bar graph of speech types where the category labels and percentages are inside the bars:
+```{r}
+computer %>% 
+  mutate(type = str_to_title(type)) %>%
+  filter(char_type == "Person") %>% 
+  count(type) %>% 
+  mutate(type = fct_reorder(type, n),
+         perc = round(n/sum(n) * 100, 2), # calculate the percentages, rounding to two positions after the comma
+         perc_label = paste0(type, ": ", perc, "%"), # create the labels: speech type: percentage%
+         place = if_else(perc >= 30, 1, 0)) %>% # where to place the labels: if the percentages is 30 or higher, the label should be inside the bar. Otherwise, outside.
+  ggplot() +
+  aes(x = type, y = perc, 
+      fill = type) +
+  geom_col() +
+  geom_text(aes(label = perc_label,
+                hjust = place)) + # hjust determines the placement of the text in the bar
+  coord_flip() +
+  theme_void() +
+  scale_fill_trek("klingon", reverse = TRUE) +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5), # both title and subtitle centered
+        plot.subtitle = element_text(hjust = 0.5)) +
+  labs(title = "Interaction types",
+       subtitle = "Enterprise crewmembers") 
+```
+
+
+## Speech types used by the six most talkative crew members
+Similar to the graph above, but with a `facet_wrap()` for a selection of crew members:
+```{r}
+computer %>% 
+  filter(char_type == "Person") %>% 
+  mutate(type = str_to_title(type),
+         char = fct_lump_n(char, n = 6) # simplify the char factor: keep the six most frequent characters as they are but change everything else to "Other"
+         ) %>% 
+  filter(char != "Other") %>% 
+  group_by(char) %>% 
+  count(type) %>% 
+  mutate(type = fct_reorder(type, n),
+         perc = round(n/sum(n) * 100, 2),
+         perc_label = paste0(type, ": ", perc, "%"),
+         place = if_else(perc >= 20, 1, 0)) %>% 
+  ggplot() +
+  aes(x = type, y = perc, fill = type) +
+  geom_col() +
+  geom_text(aes(label = perc_label,
+                hjust = place)) +
+  coord_flip() +
+  theme_void() +
+  scale_fill_trek("klingon", reverse = TRUE) +
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5)) +
+  labs(title = "Interaction types",
+       subtitle = "Enterprise crewmembers") +
+  facet_wrap(~ char)
+```
+
+
+# Quick text analysis
+Find and visualise the ten most characteristic words (by inverse document frequency) for each of the six most talkative characters: 
+```{r}
+computer %>% 
+  filter(char_type == "Person") %>% 
+  mutate(type = str_to_title(type),
+         char = fct_lump_n(char, n = 6)) %>% 
+  filter(char != "Other") %>% 
+  unnest_tokens(output = "word", 
+                input = interaction,
+                token = "words") %>% # the data now has one word per row
+  anti_join(stop_words) %>% # remove stopwords such as "the", "and", "of"...
+  group_by(char) %>% 
+  count(word) %>% 
+  bind_tf_idf(word,
+              char,
+              n) %>% 
+  slice_max(order_by = tf_idf, 
+            n = 10, 
+            with_ties = FALSE) %>% # limit to the ten words per character with the highest tf_idf
+  mutate(word = fct_reorder(word, tf_idf)) %>% 
+  ggplot() +
+  aes(word, tf_idf, fill = char) +
+  geom_col() +
+  coord_flip() +
+  facet_wrap(~ char, scales = "free") +
+  theme_minimal() +
+  scale_fill_trek(palette = "lcars_alt") +
+  theme(legend.position = "none")
+```
+
+
+# Links and resources
+
+Cédric Scherer's tutorial on labels inside of bars:
+https://www.cedricscherer.com/2021/07/05/a-quick-how-to-on-labelling-bar-graphs-in-ggplot2/
+
+Paper on this data: https://www.speechinteraction.org/TNG/AUTHORS_TeaEarlGreyHot_CHI2021.pdf
+
+Our previous meetups on text analysis:
+https://github.com/rladies/meetup-presentations_freiburg/tree/master/2020-07-Text_Analysis (explains tf-idf)
+https://github.com/rladies/meetup-presentations_freiburg/tree/master/2020-09-Sentiment_Analysis
+https://github.com/rladies/meetup-presentations_freiburg/tree/master/2021-06-22_TextAnalysis_ngrams
+

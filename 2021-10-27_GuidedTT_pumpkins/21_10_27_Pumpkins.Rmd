@@ -1,0 +1,96 @@
+---
+title: "Guided Tidy Tuesday: Giant pumpkins, watermelons & tomatoes"
+author: "Kyla McConnell & Julia Müller"
+date: "27 10 2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+
+pumpkins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-10-19/pumpkins.csv')
+```
+
+More info on the data:
+https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-10-19/readme.md
+
+```{r}
+head(pumpkins)
+```
+
+```{r}
+pumpkins <- pumpkins %>% 
+  mutate(
+    across(c(weight_lbs, est_weight, ott, pct_chart, place), as.numeric),
+    across(c(state_prov, country), as.factor)
+  )
+```
+
+```{r}
+pumpkins <- pumpkins %>% 
+  separate(id, c("year", "type"), sep="-")
+```
+
+```{r}
+pumpkins %>% 
+  filter(type == "W" & country == "United States") %>% 
+  group_by(state_prov) %>% 
+  summarize(weight_lbs = max(weight_lbs)) %>% 
+  top_n(15) %>% 
+  ggplot(aes(y = state_prov, x = weight_lbs, size = weight_lbs)) +
+  geom_point(color = "#646464") +
+  labs(
+    x = NULL,
+    y = NULL,
+    title = "Biggest watermelons by US state (in lbs)"
+  ) +
+  theme(
+    panel.background = element_rect(fill = "#FCD1D6"),
+    axis.line = element_line(color = "#CCF6B0", size = 3),
+    legend.position = "none",
+    panel.grid = element_blank(),
+    axis.ticks = element_blank(),
+    plot.title = element_text(face = "bold", size = 14, margin = margin(15, 0, 15, 0)),
+    plot.title.position = "plot",
+    axis.text.y = element_text(face = "bold", hjust = 0),
+    axis.text.x = element_text(face = "bold", vjust = -2)
+  )
+```
+
+
+```{r}
+head(pumpkins)
+```
+
+```{r}
+library(ggimage)
+img <- "pumpkin.png"
+
+pumpkins %>% 
+  filter(type == "P") %>% 
+  drop_na(weight_lbs) %>% 
+  group_by(country) %>% 
+  summarise(weight_lbs = max(weight_lbs)) %>% 
+  slice_max(order_by = weight_lbs, n = 10) %>% 
+  mutate(country = fct_reorder(country, -weight_lbs)) %>% 
+  ggplot() +
+  aes(y = country, x = weight_lbs) +
+  geom_image(aes(image = "pumpkin.png"),
+             asp = 1.5) +
+  labs(x = NULL,
+       y = NULL,
+       title = "Heaviest pumpkins grown by country",
+       subtitle = "...by weight in pounds",
+       caption = "Data source: Tidy Tuesday") +
+  scale_x_continuous(breaks = seq(995, 1000, by = 1)) +
+  theme(
+    plot.background = element_rect(fill = "#d4571d"),
+    panel.background = element_rect(fill = "white"),
+    text = element_text(face = "bold", colour = "black"),
+    axis.text = element_text(colour = "black"),
+    plot.margin = margin(1, 1, 1, 1, "cm"),
+    axis.ticks = element_blank()
+  )
+```
+
+
