@@ -20,21 +20,19 @@ Coming soon!
 
 | Year | Event | Code | YouTube |
 |------|-------|------|---------|
-| 2021 | Level up your ggplot: How do I add labels, arrows and other annotations? | [Code](2021/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd) | [(Youtube)](https://youtu.be/If3LgW69Tx4) |
-| . | . | . | . |
-
-
+| 2021 | Level up your ggplot: How do I add labels, arrows and other annotations? | [Code](2021/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd) | [Link](https://youtu.be/If3LgW69Tx4) |
+| 2021 | Guided Tidy Tuesday: Thanksgiving | [Code](2021/2021-11-24_GuidedTT_Thanksgiving/21_11_24_Thanksgiving.Rmd) |  |
+| 2021 | Level up your ggplot: How do I use custom fonts? | [Code](2021/2021-11-10_ggplot_fonts/ggplot_fonts_RLadiesFreiburg.Rmd) | [Link](https://youtu.be/t8sxun6UmWA) |
+| 2021 | Guided Tidy Tuesday: pumpkins and tomatoes | [Code](2021/2021-10-27_GuidedTT_pumpkins/21_10_27_Pumpkins.Rmd) | |
+| 2021 | Level up your ggplot: What is the deal with theme()? | [Code](2021/2021-10-13_Levelupggplot_theme/ggplot_theme_RLadiesFreiburg.Rmd) | [Link](https://www.youtube.com/watch?v=_DrfZzD_3nc) |
+| 2021 | Guided Tidy Tuesday: gt practice with Emmy data | [Code](2021/2021-09-29_GuidedTT_Emmys/GuidedTT_Emmys.Rmd) | |
 
 
 ### 2021
 
 
 
-- 21-11-24: [Guided Tidy Tuesday: Thanksgiving](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-11-24_GuidedTT_Thanksgiving/21_11_24_Thanksgiving.Rmd) by Julia
-- 21-11-10: [Level up your ggplot: How do I use custom fonts?](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-11-10_ggplot_fonts/ggplot_fonts_RLadiesFreiburg.Rmd) by Julia & Kyla [(Youtube)](https://youtu.be/t8sxun6UmWA)
-- 21-10-27: [Guided Tidy Tuesday: pumpkins and tomatoes](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-10-27_GuidedTT_pumpkins/21_10_27_Pumpkins.Rmd) by Kyla & Julia
-- 21-10-13: [Level up your ggplot: What is the deal with theme()?](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-10-13_Levelupggplot_theme/ggplot_theme_RLadiesFreiburg.Rmd) by Kyla & Julia [(Youtube)](https://www.youtube.com/watch?v=_DrfZzD_3nc)
-- 21-09-29: [Guided Tidy Tuesday: gt practice with Emmy data](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-09-29_GuidedTT_Emmys/GuidedTT_Emmys.Rmd) by Kyla
+
 - 21-09-15: [Create colourful, publication-ready tables with {gt} & {gtsummary}]() by Julia & Kyla [(Youtube)](https://www.youtube.com/watch?v=ZWcllDBfjmc&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=4&t=3s)
 - 21-08-24: [Guided Tidy Tuesday: Star Trek](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-08-24_GuidedTT_startrek/21_08_24_StarTrek.Rmd) by Julia
 - 21-08-03: [Color your ggplot beautiful!](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-08-03_ggplot_colors/ggplot_colors_RLadiesFreiburg_KEY.Rmd) by Julia & Kyla [(Youtube)](https://www.youtube.com/watch?v=A4fP31h4roU&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=5&t=9s)
