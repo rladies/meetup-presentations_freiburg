@@ -15,8 +15,21 @@ Many of our previous meetups have been recorded to the [R-Ladies Global Youtube 
 ### 2022
 Coming soon!
 
+
+### Past events
+
+| Year | Event | Code | YouTube |
+|------|-------|------|---------|
+| 2021 | Level up your ggplot: How do I add labels, arrows and other annotations? | [Code](2021/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd) | [(Youtube)](https://youtu.be/If3LgW69Tx4) |
+| . | . | . | . |
+
+
+
+
 ### 2021
-- 21-12-08: [Level up your ggplot: How do I add labels, arrows and other annotations?](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd) by Kyla & Julia [(Youtube)](https://youtu.be/If3LgW69Tx4)
+
+
+
 - 21-11-24: [Guided Tidy Tuesday: Thanksgiving](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-11-24_GuidedTT_Thanksgiving/21_11_24_Thanksgiving.Rmd) by Julia
 - 21-11-10: [Level up your ggplot: How do I use custom fonts?](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-11-10_ggplot_fonts/ggplot_fonts_RLadiesFreiburg.Rmd) by Julia & Kyla [(Youtube)](https://youtu.be/t8sxun6UmWA)
 - 21-10-27: [Guided Tidy Tuesday: pumpkins and tomatoes](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-10-27_GuidedTT_pumpkins/21_10_27_Pumpkins.Rmd) by Kyla & Julia
