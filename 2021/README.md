@@ -18,6 +18,6 @@
 | 21-06-22 | Tidy Text Analysis: Word frequencies & n-grams by Kyla & Julia |
 | 21-06-08 | Guided Tidy Tuesday: Coffee Ratings by Julia |
 | 21-05-19 | Advanced wrangling and ggplot: Zero to sHero P5 by Julia & Kyla |
-| 21-05-12: Panel discussion on women in science: Toolbox Series P5 by Divya & Elisa |
+| 21-05-12 | Panel discussion on women in science: Toolbox Series P5 by Divya & Elisa |
 
 
