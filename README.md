@@ -26,22 +26,23 @@ Coming soon!
 | 2021 | Guided Tidy Tuesday: pumpkins and tomatoes | [Code](2021/2021-10-27_GuidedTT_pumpkins/21_10_27_Pumpkins.Rmd) | |
 | 2021 | Level up your ggplot: What is the deal with theme()? | [Code](2021/2021-10-13_Levelupggplot_theme/ggplot_theme_RLadiesFreiburg.Rmd) | [Link](https://www.youtube.com/watch?v=_DrfZzD_3nc) |
 | 2021 | Guided Tidy Tuesday: gt practice with Emmy data | [Code](2021/2021-09-29_GuidedTT_Emmys/GuidedTT_Emmys.Rmd) | |
+| 2021 | Create colourful, publication-ready tables with {gt} & {gtsummary} | [Code](2021/2021-09-15_GrammarofTables(gt)/RLadies_Freiburg_gt.Rmd) | [Link](https://www.youtube.com/watch?v=ZWcllDBfjmc&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=4&t=3s) |
+| 2021 | Guided Tidy Tuesday: Star Trek | [Code](2021/2021-08-24_GuidedTT_startrek/21_08_24_StarTrek.Rmd) | |
+| 2021 | Color your ggplot beautiful! | [Code](2021/2021-08-03_ggplot_colors/ggplot_colors_RLadiesFreiburg_KEY.Rmd) | [Link](https://www.youtube.com/watch?v=A4fP31h4roU&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=5&t=9s) |
+| 2021 | First steps in GitHub and R-Studio by Elisa  | | |
+| 2021 | Guided Tidy Tuesday: MarioKart | [Code](2021/2021-07-06_GuidedTidyTuesday_MarioKart/21_06_07_MarioKart.Rmd) | |
+| 2021 | Tidy Text Analysis: Word frequencies & n-grams | [Code](2021/2021-06-22_TextAnalysis_ngrams/Tidy%20Text%20Analysis%20-%20Word%20frequencies%20and%20n-grams%20KEY.Rmd) | [Link](https://youtu.be/Z6-lBcGOmAo) |
+| 2021 | Guided Tidy Tuesday: Coffee Ratings | [Code](2021/2021-06-08_GuidedTidyTues_Coffee/21_06_08_CoffeeRatings.Rmd) | |
+| 2021 | Advanced wrangling and ggplot: Zero to sHero P5 | [Code](2021/2021-05-19-ZerotoShero(5)/05_Advanced_wrangling_KEY.Rmd) | [Link](https://youtu.be/_un2k-S-c_g)
+| 2021 | Panel discussion on women in science: Toolbox Series P5 by Divya & Elisa | | [Link](https://youtu.be/u1ij4NHQS8Q) |
 
 
-### 2021
 
 
 
 
-- 21-09-15: [Create colourful, publication-ready tables with {gt} & {gtsummary}]() by Julia & Kyla [(Youtube)](https://www.youtube.com/watch?v=ZWcllDBfjmc&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=4&t=3s)
-- 21-08-24: [Guided Tidy Tuesday: Star Trek](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-08-24_GuidedTT_startrek/21_08_24_StarTrek.Rmd) by Julia
-- 21-08-03: [Color your ggplot beautiful!](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-08-03_ggplot_colors/ggplot_colors_RLadiesFreiburg_KEY.Rmd) by Julia & Kyla [(Youtube)](https://www.youtube.com/watch?v=A4fP31h4roU&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=5&t=9s)
-- 21-07-20: First steps in GitHub and R-Studio by Elisa 
-- 21-07-06: [Guided Tidy Tuesday: MarioKart](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-07-06_GuidedTidyTuesday_MarioKart/21_06_07_MarioKart.Rmd) by Kyla
-- 21-06-22: [Tidy Text Analysis: Word frequencies & n-grams](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-06-22_TextAnalysis_ngrams/Tidy%20Text%20Analysis%20-%20Word%20frequencies%20and%20n-grams%20KEY.Rmd) by Kyla & Julia [(Youtube}](https://youtu.be/Z6-lBcGOmAo)
-- 21-06-08: [Guided Tidy Tuesday: Coffee Ratings](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-06-08_GuidedTidyTues_Coffee/21_06_08_CoffeeRatings.Rmd) by Julia 
-- 21-05-19: [Advanced wrangling and ggplot: Zero to sHero P5](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-05-19-ZerotoShero(5)/05_Advanced_wrangling_KEY.Rmd) by Julia & Kyla [(Youtube)](https://youtu.be/_un2k-S-c_g)
-- 21-05-12: Panel discussion on women in science: Toolbox Series P5 by Divya & Elisa [(Youtube)](https://youtu.be/u1ij4NHQS8Q)
+
+
 
 
 
