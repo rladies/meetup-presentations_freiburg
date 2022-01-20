@@ -1,5 +1,5 @@
 # R-Ladies Freiburg
-<img align='left', src='https://i.ibb.co/FbDVq20/R-Ladies-SMALL.jpg'>
+<img align='left' src='https://i.ibb.co/FbDVq20/R-Ladies-SMALL.jpg'>
 
 Located in Freiburg, Germany
 Organized by [Kyla McConnell](https://github.com/kyla-mcconnell), [Julia Müller](https://github.com/JuliaMuellerFr) & [Elisa Schneider](https://github.com/ichisa), founded by [Divya Seernani](https://github.com/DivyaSeernani)
