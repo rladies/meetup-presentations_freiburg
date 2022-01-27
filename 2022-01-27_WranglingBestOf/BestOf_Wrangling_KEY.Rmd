@@ -1,0 +1,416 @@
+---
+title: "Best of 2021: Data Wrangling"
+author: "Kyla McConnell"
+output: html_document
+---
+ 
+In 2021, we covered a lot of data wrangling (i.e. getting your data into the right format and doing manipulations with it). Here are our favorite tips and tricks!
+
+First, load the tidyverse, it's all we'll need:
+```{r}
+library(tidyverse)
+```
+
+And we'll use data on bee colonies from the Tidy Tuesday repo:
+```{r}
+colony <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-01-11/colony.csv')
+```
+
+
+## Helper functions 
+
+### for select()
+
+Identify columns by partial names using `starts_with()`, `ends_with()`, and `contains()`
+
+```{r}
+colony %>% 
+  select(starts_with("colony"))
+```
+```{r}
+colony %>% 
+  select(ends_with("pct"))
+```
+
+```{r}
+colony %>% 
+  select(contains("lost"))
+```
+
+```{r}
+colony %>% 
+  select(!contains("colony"))
+```
+
+Extract columns in order with a slice
+```{r}
+colony %>% 
+  select(year:colony_n)
+```
+
+```{r}
+colony %>% 
+  select(2:4)
+```
+
+Where allows you to check a condition within a function that returns true of false (i.e. is.numeric)
+```{r}
+colony %>% 
+  select(where(is.character))
+```
+
+### for summarize()
+
+Find the total number of NAs in a given column:
+```{r}
+colony %>% 
+  summarize(sum(is.na(colony_reno)))
+```
+Or per grouping:
+```{r}
+colony %>% 
+  group_by(state) %>% 
+  summarize(sum(is.na(colony_reno)))
+```
+
+```{r}
+colony %>% 
+  group_by(year) %>% 
+  summarize(sum(is.na(colony_reno)))
+```
+
+Find distinct entries in character columns
+```{r}
+colony %>% 
+  summarize(n_distinct(state))
+```
+
+Or numeric ones:
+```{r}
+colony %>% 
+  summarize(n_distinct(year))
+```
+
+Easily calculate quantiles:
+```{r}
+colony %>% 
+  group_by(state) %>% 
+  summarize(quant25 = quantile(colony_lost_pct, 0.25, na.rm = T),
+            quant75 = quantile(colony_lost_pct, 0.75, na.rm = T))
+```
+
+#### Exercises
+
+For the exercises, let's use data about the nutrition of Starbucks drinks
+```{r}
+starbucks <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-12-21/starbucks.csv')
+```
+
+
+1) How could you extract only the nutritional info, i.e. calories, fat, sodium, fiber, sugar, caffeine, etc. 
+```{r}
+starbucks %>% 
+  select(calories:caffeine_mg)
+```
+
+2) How many different drinks are represented in the data?
+```{r}
+starbucks %>% 
+  summarize(n_distinct(product_name))
+```
+
+3) What are the quantiles and mean values for caffeine in the drinks represented? 
+```{r}
+starbucks %>% 
+  summarize(quant25 = quantile(caffeine_mg, 0.25, na.rm = T),
+            mean = mean(caffeine_mg, na.rm = T),
+            quant75 = quantile(caffeine_mg, 0.75, na.rm = T))
+```
+
+## across()
+
+Across allows you to do an operation on many columns at once, using select()-style syntax or a vector `c()`
+
+Nest within mutate to do operations on the cells in those columns:
+
+```{r}
+colony %>% 
+  mutate(across(c(year, months, state), as.factor))
+```
+
+```{r}
+colony %>% 
+  mutate(across(!contains("colony"), as.factor))
+```
+
+```{r}
+colony %>% 
+  mutate(across(where(is.character), as.factor))
+```
+
+You can also write custom functions to use with across:
+
+function(x) {x - 10}
+function(z) {nchar(z)}
+
+function(whatever_name) {whatever_function(whatever_name)}
+
+```{r}
+colony %>% 
+  mutate(across(contains("pct"), function(x) {x / 100}))
+```
+
+```{r}
+colony %>% 
+  mutate(across(c(colony_n, colony_max, colony_lost), function(x) {round(x/1000, 1)}))
+```
+
+Across can also be used with summarize to get summary statistics over multiple columns
+```{r}
+colony %>% 
+  summarize(across(contains("colony"), mean, na.rm = T))
+```
+You can return more than one summary statistic by wrapping them in a vector (they'll be listed as _1 and _2)
+```{r}
+colony %>% 
+  summarize(across(contains("colony"), c(mean, sd), na.rm = T))
+```
+You can also summarize over both groupings and multople columns
+```{r}
+colony %>% 
+  group_by(months) %>% 
+  summarize(across(contains("colony"), mean, na.rm = T))
+```
+  
+```{r}
+colony %>% 
+  group_by(year) %>% 
+  summarize(across(c(months, state), n_distinct))
+```
+  
+## rowwise
+
+Mutating with a summary value will put the same value in every cell, summarizing over the whole dataset
+```{r}
+colony %>%
+  mutate(total_loss = sum(colony_lost, na.rm= T)) %>% 
+  ungroup()
+```
+
+But you can also calculate the summary value over given groupings
+```{r}
+colony %>%
+  group_by(year) %>% 
+  mutate(year_loss = sum(colony_lost, na.rm= T)) %>% 
+  ungroup()
+```
+
+```{r}
+colony %>%
+  group_by(state) %>% 
+  mutate(colony_gain = sum(c(colony_added, colony_reno), na.rm= T)) %>% 
+  ungroup()
+```
+
+`rowwise()` allows you to calculate for that row, i.e. the values in the given row here in two columns
+```{r}
+colony %>%
+  rowwise() %>% 
+  mutate(colony_gain = sum(c(colony_added, colony_reno))) %>% 
+  ungroup()
+```
+
+```{r}
+colony %>%
+  rowwise() %>% 
+  mutate(colony_gain_avg = mean(c(colony_added, colony_reno), na.rm=T)) %>% 
+  ungroup()
+```
+
+## c_across for vectors with select syntax
+
+Reminder: many functions in R require a vector `c()` when feeding multiple items to the same argument
+```{r}
+mean(c(1, 2, 3, 4, 5))
+```
+
+For example, we saw above:
+```{r}
+colony %>% 
+  summarize(total_change = mean(c(colony_lost, colony_added, colony_reno), na.rm = T))
+```
+
+What if we want to use select()-syntax? This is the value of `c_across()`
+It works mainly like `across()` but for situations where the function demands a vector `c()`
+```{r}
+colony %>% 
+  summarize(total_change = mean(c_across(contains("colony")), na.rm = T))
+```
+This has some common applications together with rowwise()
+```{r}
+colony %>% 
+  rowwise() %>% 
+  mutate(change_pct = sum(c_across(contains("_pct")), na.rm = T))
+```
+
+#### Exercises
+
+4. In the Starbucks data, some measurements are shown in mg and some in g. Change those in g to mgs (there are 1000mgs per g). 
+Warning! First make sure that your columns in grams are numeric!
+```{r}
+starbucks <- starbucks %>% 
+  mutate(across(contains("_g"), as.numeric))
+
+starbucks %>% 
+  mutate(across(contains("_g"),function(x) {x * 1000}))
+```
+
+5. Find the average "good stuff" across each drink by taking the mean of it's calories, sugar, caffine, and sodium. (Whether you want to save the changes in the exercise before to make it more comparable or not is up to you!)
+
+```{r}
+starbucks %>% 
+  rowwise() %>% 
+  mutate(good_stuff = mean(c(calories, sugar_g, caffeine_mg, sodium_mg, na.rm = T)))
+```
+
+
+## Factor leveling tricks
+
+`recode()` to change the labels of factor levels, but be aware of the non-intuitive syntax old_name = new_name, which is not the usual tidyverse convention
+
+Also note we are inside a `mutate()` command
+```{r}
+colony %>% 
+  mutate(months = recode(months,
+         "January-March" = "Spring",
+         "April-June" = "Summer",
+         "July-September" = "Fall",
+         "October-December" = "Winter"))
+```
+`recode()` preserves factor order, use `factor_recode()` to change to order of input
+
+You can change all levels or just some:
+```{r}
+colony %>% 
+  mutate(state = recode(state,
+         "Alabama" = "Alalabamabama"))
+```
+
+`fct_collapse()` combines multiple labels into one
+```{r}
+colony %>% 
+  mutate(state = fct_collapse(state,
+    "Southeast" = c("North Carolina", "Georgia", "South Carolina", "Virginia"),
+    "Northeast" = c("Delaware", "Connecticut", "Maine", "North Dakota")
+  ))
+```
+
+```{r}
+colony %>% 
+  mutate(months = fct_collapse(months,
+    "first_half" = c("January-March", "April-June"),
+    "second_half" = c("July-September", "October-December")))
+```
+
+## slice
+
+`slice_max()` and `slice_min()` retrieve the highest/lowest values of the given column, respectively
+```{r}
+colony %>% 
+  slice_max(colony_lost)
+```
+
+```{r}
+colony %>% 
+  slice_min(colony_lost)
+```
+
+You can also return more than one value, i.e. top 5
+```{r}
+colony %>% 
+  slice_max(colony_added, n = 5)
+```
+
+Or bottom 8:
+```{r}
+colony %>% 
+  slice_min(colony_added, n = 8)
+```
+
+```{r}
+colony %>% 
+  group_by(months) %>% 
+  slice_min(colony_n)
+```
+
+Ties/same values may lead to more rows than expected
+```{r}
+colony %>% 
+  group_by(months) %>% 
+  slice_min(colony_lost)
+```
+
+Unless you set `with_ties = FALSE`, which will then find the first matching item
+```{r}
+colony %>% 
+  group_by(months) %>% 
+  slice_min(colony_lost, with_ties = FALSE)
+```
+
+#### Exercises
+
+6. The milk column contains a numeric code that refers to the type of milk used: 
+- 0 none
+- 1 nonfat
+- 2 2%
+- 3 soy
+- 4 coconut
+- 5 whole
+
+First, make this column a factor. Then, change this column to show the new levels "no_milk", "cow_milk" and "alt_milk".
+
+```{r}
+starbucks <- starbucks %>% 
+  mutate(milk = as.factor(milk))
+
+starbucks %>% 
+  mutate(milk = fct_collapse(milk,
+                             "no_milk" = "0",
+                             "cow_milk" = c("1", "2", "5"),
+                             "alt_milk" = c("3", "4")))
+```
+
+7. Group by size, then return the top 3 drinks in terms of sugar. Don't allow ties!
+```{r}
+starbucks %>% 
+  group_by(size) %>% 
+  slice_max(sugar_g, n=3, with_ties = F)
+```
+
+
+
+## Honorable mention
+janitor::clean_names()
+
+```{r}
+test_df <- as.data.frame(matrix(ncol = 6))
+names(test_df) <- c("firstName", "ábc@!*", "% successful (2009)",
+                    "REPEAT VALUE", "REPEAT VALUE", "")
+
+test_df
+```
+
+This messy example df is quickly cleaned up, replacing common symbols, normalizing capitalization, taking care of empty names, and dealing with repeasted column names
+```{r}
+test_df %>% 
+  janitor::clean_names()
+```
+
+Other functions: 
+
+- `compare_df_cols()` for reading in multiple datasets that you want to rowbind, to check if the columns are identical 
+- `get_dupes()` for finding rows that are duplicated across one or many columns, i.e. get_dupes(mtcars, wt, cyl)
+- `remove_empty()` for removing entire rows or columns that are empty (happens when reading in Excel files frequently!)
+- other functions for reading from Excel, i.e. dealing with date formats
+
+See examples: https://cran.r-project.org/web/packages/janitor/vignettes/janitor.html#major-functions
