@@ -1,0 +1,267 @@
+---
+title: "Best of 2021 - Data visualisation"
+author: "Julia Müller"
+date: "10 2 2022"
+output: html_document
+---
+
+# Library and data
+
+Source and more info:
+https://github.com/rfordatascience/tidytuesday/blob/84c6abbadd5a038b99ca01da5aa377a07c8b46a7/data/2022/2022-01-18/readme.md
+```{r}
+library(tidyverse)
+chocolate <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-01-18/chocolate.csv')
+
+str(chocolate)
+head(chocolate)
+
+chocolate %>% 
+  slice_sample(n = 10)
+```
+
+## Wrangling
+```{r}
+chocolate <- chocolate %>% 
+  separate(col = "ingredients",
+           into = c("number_ingredients", "list_ingredients"),
+           sep = "- *") %>% 
+  mutate(number_ingredients = as.numeric(number_ingredients),
+         vanilla = case_when(
+           str_detect(list_ingredients, "V") ~ "contains vanilla",
+           TRUE ~ "no vanilla"),
+         vanilla = as_factor(vanilla),
+         cocoa_percent = str_remove(cocoa_percent, "%"),
+         cocoa_percent = as.numeric(cocoa_percent),
+         number_ingredients = case_when(
+      is.na(number_ingredients) & cocoa_percent == 100 ~ 1,
+      TRUE ~ number_ingredients
+    ),
+         across(where(is.character), as_factor)
+    )
+
+str(chocolate)
+```
+
+
+# Basic graphs
+
+## Scatter plot: Cocoa percentage by chocolate rating
+```{r}
+(p1 <- chocolate %>% 
+   drop_na(vanilla) %>% 
+  ggplot() +
+  aes(x = cocoa_percent, y = rating, colour = vanilla, fill = vanilla) +
+  geom_jitter() +
+  geom_smooth())
+```
+
+## Bar graph: Most common countries in data
+```{r}
+(p2 <- chocolate %>% 
+  count(country_of_bean_origin) %>% 
+  filter(country_of_bean_origin != "Blend" & n > 80) %>% 
+  mutate(country_of_bean_origin = fct_reorder(country_of_bean_origin, n)) %>% 
+  ggplot() +
+  aes(x = n, y = country_of_bean_origin, fill = country_of_bean_origin) + 
+  geom_col(show.legend = FALSE))
+```
+
+
+# Tips and tricks
+
+## Lesser-known labels
+
+Most users are familiar with the more common `labs()` arguments such as title, x, and y - but tags and captions are also very useful:
+```{r}
+(p1 <- p1 + 
+  labs(title = "Do chocolates with a higher cocoa content taste better?",
+       subtitle = "Do people like vanilla in their chocolate?",
+       x = "% of cocoa in the chocolate bar",
+       y = "rating (0 - 5)",
+       tag = "Plot 1",
+       caption = "Data source: Flavors of Cacao via TidyTuesday"))
+
+(p2 <- p2 + 
+  labs(title = "Where does chocolate come from?",
+       subtitle = "Most frequent countries in the dataset",
+       x = "frequency",
+       y = "country",
+       tag = "Plot 2",
+       caption = "Data source: Flavors of Cacao via TidyTuesday"))
+```
+
+## Theme options
+Workshop materials:
+https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-10-13_Levelupggplot_theme/ggplot_theme_RLadiesFreiburg.Rmd
+
+Video on Youtube:
+https://www.youtube.com/watch?v=_DrfZzD_3nc&ab_channel=R-LadiesGlobal
+
+
+Themes let you customize the "non-data components" of plots, such as its titles, labels, legends, etc. 
+For p1, we'll center the title and subtitle, making the title bold and the subtitle italic and gray, decrease the tag's font size and put the legend at the top.
+For p2, we'll delete the axis ticks and the colour of the panel background.
+
+```{r}
+p1 +
+  theme_light() + # in-built presets
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, face = "italic", colour = "darkgray"),
+    plot.tag = element_text(size = 10),
+    legend.position = "top"
+  )
+
+p2 + 
+  theme(
+    axis.ticks = element_blank(),
+    panel.background = element_rect(fill = "transparent")
+  )
+```
+
+
+## Custom colours
+Workshop materials:
+https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-08-03_ggplot_colors/ggplot_colors_RLadiesFreiburg_KEY.Rmd
+
+Video on Youtube:
+https://www.youtube.com/watch?v=A4fP31h4roU&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=6&t=9s&ab_channel=R-LadiesGlobal
+
+R has several hundred inbuilt colour options:
+```{r}
+p1 +
+  scale_color_manual(values = c("yellow", "green")) +
+  scale_fill_manual(values = c("yellow", "green"))
+```
+
+...but also allows for custom colours with hex codes:
+```{r}
+p1 +
+  scale_color_manual(values = c("yellow", "green")) +
+  scale_fill_manual(values = c("yellow", "green"))
+```
+
+Or we can use palettes from other packages:
+```{r}
+p2 +
+  viridis::scale_fill_viridis(discrete = TRUE)
+
+p2 + 
+  paletteer::scale_fill_paletteer_d("futurevisions::earth")
+```
+
+
+## Custom fonts
+Workshop materials:
+https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-11-10_ggplot_fonts/ggplot_fonts_RLadiesFreiburg.Rmd
+
+Video on Youtube:
+https://www.youtube.com/watch?v=t8sxun6UmWA&ab_channel=R-LadiesGlobal
+
+As a quick example, we'll add a Google font (but note that it's also possible to use fonts that are installed on your computer):
+```{r}
+library(showtext)
+
+font_add_google(name = "Indie Flower", # Name of the font as it is listed on Google fonts
+                family = "indie") # Name we'll use in theme()
+
+showtext_auto() # allows fonts to show up in plots
+```
+
+...then change the font in our plot:
+```{r}
+p2 +
+  theme(text = element_text(family = "indie"))
+```
+
+Instead of having a separate legend, we can use colours in the plot title to explain what the two colours in p1 mean. The {ggtext} package also lets you use Markdown formatting for **bold** and *italic* words.
+```{r}
+library(ggtext)
+
+(p1 <- p1 +
+  theme_light() +
+  scale_fill_manual(values = c("#2F4858", "#C34A36")) +
+  scale_colour_manual(values = c("#2F4858", "#C34A36")) +
+  labs(title = "Do chocolates with a **higher cocoa content** taste better?",
+  subtitle = "Do these raters like
+       <span style ='color:#C34A36'>vanilla in their chocolate</span>
+       or
+       <span style ='color:#2F4858'>do they prefer it without?</span>") +
+   theme(plot.title = element_markdown(),
+         plot.subtitle = element_markdown(),
+        legend.position = "null"))
+```
+
+
+## Annotations
+Workshop materials:
+https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd
+
+Video on Youtube:
+https://www.youtube.com/watch?v=If3LgW69Tx4&ab_channel=R-LadiesGlobal
+
+Very high chocolate-content bars seem to not be everyone's cup of tea. We can point that out in a text box with `annotate(geom = "text")`:
+```{r}
+p1 +
+  annotate(geom = "text",
+           x = 95, y = 1.6,
+           label = "Reviews for chocolate bars \nwith 100% cocoa \nare... mixed, at best") +
+  geom_curve(
+    aes(x = 95, y = 1.4, xend = 100, yend = 1.1),
+    arrow = arrow(length = unit(0.1, "inch")), size = 0.6,
+    color = "darkgray", curvature = 0.5
+  )
+```
+
+Or we can annotate p1 to explain that chocolate bars with a cocoa content that is close to the average are rated the highest, using {ggforce} to draw a circle around these data points:
+```{r}
+library(ggforce)
+
+p1 +
+  geom_mark_circle(aes(
+    fill = NA, colour = NA, # this lets us draw just one circle instead of one per vanilla/no vanilla data
+    filter = cocoa_percent > 65 & cocoa_percent < 75 & rating > 2 & rating < 4, # filter to data that should be contained in the circle
+    description = "There seems to be a sweet spot in terms of cocoa content: Chocolate bars with around 65-75% cocoa receive the best ratings."))
+```
+
+
+## Labels inside bars
+Workshop materials (not recorded):
+https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-08-24_GuidedTT_startrek/21_08_24_StarTrek.Rmd
+
+Bar graphs can be labelled inside the bars rather than on the y-axis:
+```{r}
+p2 + 
+  geom_text(aes(label = country_of_bean_origin,
+                hjust = 1.1)) + # to ensure labels are inside the bars
+  theme_void()
+```
+
+
+## Images instead of points
+Workshop materials (not recorded):
+https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-10-27_GuidedTT_pumpkins/21_10_27_Pumpkins.Rmd
+
+Instead of dots to represent data points, `geom_image` in {ggimage} replaces them with a picture of your choice:
+```{r}
+library(ggimage)
+img <- "choc.png"
+
+chocolate %>% 
+  filter(country_of_bean_origin == "Nicaragua") %>%
+  ggplot() +
+  aes(x = cocoa_percent, y = rating) +
+  geom_image(aes(image = img),
+             asp = 1.5) +
+  labs(title = "Chocolate bars by rating, cocoa from Nicaragua only") +
+  theme_light()
+```
+
+
+# Challenge ideas
+
+- Try to recreate p1, but with salt content instead of vanilla. Use custom colours and any annotations you like!
+- Pick a different image and recreate the last graph we made.
+- Go back to our materials on the topic and figure out how to make the placement of labels (inside or outside of the bar) in p2 dependent on the data - i.e. place it inside for longer and outside for shorter bars.
+
