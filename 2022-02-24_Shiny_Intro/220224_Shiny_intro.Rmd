@@ -74,7 +74,7 @@ Make a new directory / project and initiate it as a Shiny app. Check out the tem
 
 ## Function syntax
 
-More about function syntax in R from R in data science: https://r4ds.had.co.nz/functions.html
+More about function syntax in R from R for data science: https://r4ds.had.co.nz/functions.html
 
 Functions allow you to reuse chunks of code. Benefits include:
 - you can make changes to code in one central place even if it's used in many places in the script
@@ -119,14 +119,15 @@ x <- df$a
 
 So a function would be:
 ```{r}
-rescale01 <- function(x){
-  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+rescale01 <- function(aaaaaaa){
+  range_x <- max(aaaaaa, na.rm = TRUE) - min(aaaaaa), na.rm = TRUE)
+  aaaaa - min(aaaaa, na.rm = TRUE) / range_x
 }
 ```
 
 And could be called like:
 ```{r}
-df$a <- rescale(df$a)
+df$a <- rescale01(df$a)
 ```
 
 The anatomy of a function is:
@@ -156,7 +157,7 @@ So we have 4 main parts of shiny: loading the package, setting the UI, setting t
 
 ### UI 
 
-The UI is what your user sees (the output their given) and how they can change/customize input.
+The UI is what your user sees (the output they're given) and how they can change/customize input.
 
 Let's make a new Shiny app where we let the user change our "Hello, world!" to whoever they want to greet. 
 
