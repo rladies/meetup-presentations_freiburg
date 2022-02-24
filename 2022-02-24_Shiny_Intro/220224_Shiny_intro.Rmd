@@ -230,6 +230,28 @@ server <- function(input, output, session) {
 }
 ```
 
+Example from workshop:
+```{r}
+ui <- fluidPage(
+    textInput(inputId = "greeting", label = "Who do you want to greet?", 
+              value = "Type your name"), 
+    textOutput("full_greeting")
+)
+
+# ------------------- Server
+server <- function(input, output) {
+    output$full_greeting <- renderText({
+            paste0("Hello, ", input$greeting, "!")
+    })
+}
+
+
+shinyApp(ui, server)
+```
+
+
+
+
 ### sliderInput()
 
 Okay, so how about entering a number on a slider? Like maybe we want to let someone enter their age.
