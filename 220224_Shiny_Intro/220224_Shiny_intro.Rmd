@@ -1,0 +1,261 @@
+---
+title: "Intro to Shiny"
+author: "Kyla McConnell"
+date: "2/24/2022"
+output: html_document
+---
+
+# Welcome to Shiny!
+
+Shiny is a framework for making web apps: 
+- data dashboards
+- teaching materials
+- interactive plots
+
+Designed for data scientists, so no need to learn web-based programming languages (CSS, HTML, etc.)
+
+Some cool examples: https://shiny.rstudio.com/gallery/
+- Utah lake water quality -- https://shiny.rstudio.com/gallery/lake-profile-dashboard.html
+- Covid tracker -- https://shiny.rstudio.com/gallery/covid19-tracker.html
+- R Studio Conference Tweets -- https://shiny.rstudio.com/gallery/conference-tweet-dashboard.html
+
+Or some basic examples:
+- Interactive bar plot: https://shiny.rstudio.com/gallery/telephones-by-region.html
+- Word cloud generator: https://shiny.rstudio.com/gallery/word-cloud.html
+
+Our materials for learning Shiny: https://mastering-shiny.org/index.html
+
+
+## Our first app
+
+Easiest to make a new directory (folder) on your computer for the app, and put a simple R script (app.R).
+R-Studio makes this easy! Go to File -> New Project -> New Directory -> Shiny Web Application
+
+This will load a Shiny app example with geyser data, let's check it out!
+
+Run with the Run app button or the shortcut Cmd/Ctrl + Shift + Enter
+
+Note: When a Shiny app is running in R-Studio, your R console is busy and can't do other things.
+
+
+## Basic components
+
+Every Shiny app needs the following basic components:
+
+1) Load the shiny package
+```{r}
+library(shiny)
+```
+
+2) Define the user interface (UI), i.e. what our visitors will see.
+This example is a simple webpage with just some text displayed.
+```{r}
+ui <- fluidPage(
+  "Hello, world!"
+)
+```
+
+3) Set up the server and specify what it does
+So far, it does nothing! It just has all the essential components (input, output, session) waiting on our command
+```{r}
+server <- function(input, output, session) {
+}
+```
+
+4) Launch the app! Connect the UI and server components into one shiny app
+```{r}
+shinyApp(ui, server)
+```
+
+### Exercise
+
+Make a new directory / project and initiate it as a Shiny app. Check out the template app, then replace the code with the four essential components above, and change the text to whatever you want!
+
+
+## Function syntax
+
+More about function syntax in R from R in data science: https://r4ds.had.co.nz/functions.html
+
+Functions allow you to reuse chunks of code. Benefits include:
+- you can make changes to code in one central place even if it's used in many places in the script
+- reduces risk of errors when copy-pasting or rewriting the same code functions
+- you can give informative names
+
+In Shiny: Functions allow you to feed in complex instructions --> Remember that these are INSTRUCTIONS and not executed until on command
+
+Hadley's example, where we are rescaling random numbers 0-10 to a scale of 0 to 1:
+```{r}
+df <- tibble::tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+
+df$a <- (df$a - min(df$a, na.rm = TRUE)) / 
+  (max(df$a, na.rm = TRUE) - min(df$a, na.rm = TRUE))
+df$b <- (df$b - min(df$b, na.rm = TRUE)) / 
+  (max(df$b, na.rm = TRUE) - min(df$a, na.rm = TRUE))
+df$c <- (df$c - min(df$c, na.rm = TRUE)) / 
+  (max(df$c, na.rm = TRUE) - min(df$c, na.rm = TRUE))
+df$d <- (df$d - min(df$d, na.rm = TRUE)) / 
+  (max(df$d, na.rm = TRUE) - min(df$d, na.rm = TRUE))
+```
+
+Do you see the error? How could we make this into a function instead?
+
+Let's say we want to make this into a function:
+```{r}
+(df$a - min(df$a, na.rm = TRUE)) /(max(df$a, na.rm = TRUE) - min(df$a, na.rm = TRUE))
+```
+
+What is the input that we could remove?
+
+```{r}
+x <- df$a
+
+(x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+```
+
+So a function would be:
+```{r}
+rescale01 <- function(x){
+  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+}
+```
+
+And could be called like:
+```{r}
+df$a <- rescale(df$a)
+```
+
+The anatomy of a function is:
+1) A descriptive name, here rescale01 
+2) The argument(s), here just x inside function(x)
+3) The body/action you want to happen, inside {}
+
+Hadley's style tips: 
+- "Generally, function names should be verbs, and arguments should be nouns."
+- Best is to use snake_case
+- "If you have a family of functions that do similar things, make sure they have consistent names and arguments. Use a common prefix to indicate that they are connected. That’s better than a common suffix because autocomplete allows you to type the prefix and see all the members of the family."
+- "Where possible, avoid overriding existing functions and variables."
+- "Use comments, lines starting with #, to explain the “why” of your code. You generally should avoid comments that explain the “what” or the “how”. If you can’t understand what the code does from reading it, you should think about how to rewrite it to be more clear. "
+
+Final note for those curious, how to use conditional if-else logic within functions:
+if (this) {
+  # do that
+} else if (that) {
+  # do something else
+} else {
+  # 
+}
+
+## Back to Shiny!
+
+So we have 4 main parts of shiny: loading the package, setting the UI, setting the server function and running the app. 
+
+### UI 
+
+The UI is what your user sees (the output their given) and how they can change/customize input.
+
+Let's make a new Shiny app where we let the user change our "Hello, world!" to whoever they want to greet. 
+
+1) Change your UI to allow for a drop-down selection of inputs. You can let them choose from a shorthand string that is linked to a longer string/R object behind the scenes.
+```{r}
+ui <- fluidPage(
+    selectInput(inputId = "greeting", label = "Who do you want to greet?", choices = c("world" = "Hello, world!", "friends" = "Hi, friends!", "people" = "Hey, people!"))
+)
+```
+
+Now, you should see a drop down box with these three options! However, R doesn't know what to do with the input we've given it yet. So we need to interface with the server
+
+
+When we go back to the server object of the Shiny server, we can see it has three arguments:
+
+```{r}
+server <- function(input, output, session) {
+}
+```
+
+Input and output are important! The server can take user input and can send output back to the user.
+
+2) Tell the server to get the input selected by the user (which we've named greeting) and render it as text, i.e. print it. This is the output we want, which we name full_greeting here.
+
+```{r}
+server <- function(input, output, session) {
+    output$full_greeting <- renderText(input$greeting)
+}
+```
+
+Now, the server is sending the full, long version of the string back to the UI as output, rendered as text.
+
+But the UI also needs to show this text!
+
+3) Add to your UI a textOutput command which will render the output we've named full_greeting. Your app is now
+
+```{r}
+ui <- fluidPage(
+    selectInput(inputId = "greeting", label = "Who do you want to greet?", choices = c("world" = "Hello, world!", "friends" = "Hi, friends!", "people" = "Hey, people!")),
+    textOutput("full_greeting")
+)
+```
+
+Note! Lines are separated by commas in the UI, which is a fluidPage() object, but only by spaces/not at all in the server function.
+
+Exercise: Add another greeting option to your new Shiny app. Then, as the first item in the choices array, add: "Pick one" = "" What does this do?
+
+## Different input types
+
+### textInput()
+What if we want to allow the user to type in a custom word, so they can choose who to greet?
+
+Instead of selectInput() we could use textInput():
+
+1) Replace selectInput() with textInput() and remove the choices
+```{r}
+ui <- fluidPage(
+    textInput(inputId = "greeting", label = "Who do you want to greet?"),
+    textOutput("full_greeting")
+)
+```
+
+
+2) But our server is just outputing what it sees as the input -- we no longer have the option to give it a "longer version" like we did before. So we need to tell it to add a greeting to the input, and render this all as text for the user.
+```{r}
+server <- function(input, output, session) {
+    output$full_greeting <- renderText({
+        paste0("Hello, ", input$greeting, "!")
+        })
+}
+```
+
+### sliderInput()
+
+Okay, so how about entering a number on a slider? Like maybe we want to let someone enter their age.
+
+1) Set the UI to a sliderInput (on a fluidPage). You have to give the min and max values of the slide and the "value" it should start at
+```{r}
+ui <- fluidPage(
+    sliderInput("age", label = "How old are you?", min = 1, max = 80, value = 6)
+)
+```
+
+2) Say behind the scenes we want to translate this to "dog years", i.e. 1 year for you is equal to around 7 years for your dog's aging process. We tell the server to do the math and return the value together with some text as a text output
+```{r}
+server <- function(input, output, session) {
+    output$dog_age_greeting <- renderText({
+        dog_age <- input$age * 7
+        dog_age_greeting <- paste("That's ", dog_age, " in dog years!")
+    })
+}
+```
+
+3) Show the user the output by adding a textOuput to the UI
+```{r}
+ui <- fluidPage(
+    sliderInput("age", label = "How old are you?", min = 1, max = 80, value = 6),
+    textOutput("dog_age_greeting")
+)
+```
+
+Exercise: If you wanted to tell the user what their age would be in fish years, and you assume one year of life is 45 fish years, how would you add this?
