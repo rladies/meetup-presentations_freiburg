@@ -79,12 +79,14 @@ aruba<-map_data("world") %>%
   filter(region=="Aruba")
 
 aruba_points<-ggplot(aruba, aes(x=long, y=lat)) + 
-  geom_point(size=3) 
+  geom_point(size=3)+
+  theme_bw()
 
 aruba_points 
 
 aruba_polygon<-ggplot(aruba, aes(x=long, y=lat)) + 
-  geom_polygon() 
+  geom_polygon()+
+  theme_bw()
 
 aruba_polygon
 
@@ -369,7 +371,8 @@ If you like, send a private message to Julia including your name (or nickname/ps
 Julia will upload the file "RL_Freiburg_ppl.csv" to the GitHub repo of today's session. If you like, you can return to this exercise when the data are available on GitHub and create a map indicating the geolocations of the participants in today's workshop. You can also try to add the names of the participants to your map.
 
 ```{r exercise 1}
-RL <- readr::read_csv('https://raw.githubusercontent.com/rladies/meetup-presentations_freiburg/master/2022-03-10-Spatial_data_ggplot/RL_Freiburg_ppl.csv')
+
+RL<-readr::read_csv('https://raw.githubusercontent.com/rladies/meetup-presentations_freiburg/master/2022-03-10-Spatial_data_ggplot/RL_Freiburg_ppl.csv')
 
 map_RL<-ggplot()+
   geom_polygon(data=world, aes(x=long, y=lat, group=group), fill="#D3D3D3")+
@@ -476,14 +479,14 @@ world_map_spirits
 
 ```
 
-BONUS: Create a choropleth map showing the preferred alcoholic beverage in different European countries (see below).\ Hint: You can calculate the shares of each serving (e.g. beer_servings/total_servings) and use the base-R function max.col to find the column with the highest value.
+BONUS: Create a choropleth map showing the preferred alcoholic beverage in different European countries (see below).\
+
 
 ```{r map alcoholic beverages Europe}
 knitr::include_graphics("alcohol.JPG") #insert image from file
 ```
 
 ```{r Bonus exercise}
-
 #we have to subset the map data to European countries first
 
 europe<-c("Albania", "Andorra", "Austria", "Belarus", "Belgium", "Bosnia and Herzegovina","Bulgaria", "Canary Islands", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "UK",  "Ukraine", "Vatican")
@@ -492,26 +495,15 @@ europe<-c("Albania", "Andorra", "Austria", "Belarus", "Belgium", "Bosnia and Her
 europe<-map_data("world") %>% 
   filter(region %in% europe)
 
-#we then need to calculate the sum of all servings and exclude zeros in total_servings (to avoid error division by zero)
-
-alcohol<-alcohol %>% 
-  mutate(total_servings=beer_servings+spirit_servings+wine_servings) %>% 
-  filter(total_servings!=0)
-
-#we then calculate the share of beer, wine and spirits of total servings
-
-alcohol<-alcohol %>% 
-  mutate(share_beer=beer_servings/total_servings) %>% 
-  mutate(share_wine=wine_servings/total_servings) %>%
-  mutate(share_spirit=spirit_servings/total_servings)  
-  
-#we then identify the column with the maximum value and rename the column number to beer, spirit, wine
-
-alcohol<-alcohol %>% 
-  mutate(preferred_col=max.col(alcohol[, 7:9])) %>% 
-  mutate(preferred_alcohol=ifelse(preferred_col==1, "beer", ifelse(preferred_col==2, "spirit", ifelse(preferred_col==3, "wine", "other"))))
-
-View(alcohol)
+# calculating the preferred alcohol per country:
+alcohol <- alcohol %>% 
+  mutate(preferred_alcohol = case_when(
+    beer_servings > wine_servings & beer_servings > spirit_servings ~ "beer",
+    wine_servings > beer_servings & wine_servings > spirit_servings ~ "wine",
+    spirit_servings > wine_servings & spirit_servings > beer_servings ~ "spirit",
+    TRUE ~ "other"),
+    preferred_alcohol = as_factor(preferred_alcohol))
+alcohol
 
 #next, we will have to join the europe dataframe with the alcohol dataframe
 
@@ -521,7 +513,7 @@ View(europe_combined)
 
 #now we can finally plot our choropleth map with colours for the preferred alcoholic beverage
 
-europe_map_spirits<-ggplot(europe_combined, aes(x=long, y=lat, group=group))+ 
+europe_map_alcohol<-ggplot(europe_combined, aes(x=long, y=lat, group=group))+ 
   geom_polygon(aes(fill=preferred_alcohol), colour="white")+
   ggtitle("Preferred alcoholic beverage in European countries")+
   theme(plot.title=element_text(hjust=0))+
@@ -529,9 +521,9 @@ europe_map_spirits<-ggplot(europe_combined, aes(x=long, y=lat, group=group))+
   scale_fill_manual(values=c("#ecca00", "#42e9f5", "#ab273e"), na.value="#dfdbd8")+
   coord_cartesian(xlim=c(-27, 50))
 
-europe_map_spirits
+europe_map_alcohol
 
-europe_map_spirits+
+europe_map_alcohol+
   theme(legend.position="top", legend.justification="left")
 
 ```
