@@ -518,7 +518,7 @@ europe_map_alcohol<-ggplot(europe_combined, aes(x=long, y=lat, group=group))+
   ggtitle("Preferred alcoholic beverage in European countries")+
   theme(plot.title=element_text(hjust=0))+
   labs(caption="Tidy Tuesday 2018-06-26, data from WHO, Mona Chalabi Dear Mona Followup", fill="")+
-  scale_fill_manual(values=c("#ecca00", "#42e9f5", "#ab273e"), na.value="#dfdbd8")+
+  scale_fill_manual(values=c("gray40", "#ecca00", "#42e9f5", "#ab273e"), na.value="#dfdbd8")+
   coord_cartesian(xlim=c(-27, 50))
 
 europe_map_alcohol
