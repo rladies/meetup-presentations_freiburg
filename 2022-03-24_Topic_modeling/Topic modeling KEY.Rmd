@@ -46,9 +46,8 @@ We'll start with the "AssociatedPress" data set:
 ```{r}
 data("AssociatedPress") # part of the topicmodels package
 AssociatedPress
-View(AssociatedPress)
 ```
-Data type: Document Term Matrix
+Data type: Document Term Matrix (more details on this later!)
 2246 news articles from an American news agency (published ~1988)
 
 We can use `tidy()` to have a look:
@@ -84,6 +83,21 @@ ap_topics
 ```
 beta shows the probability of each term being generated from each topic
 e.g. "aaron" has a higher probability of being generated from topic 2 than topic 1
+
+**Scientific notation**
+R shows very large or very small numbers in scientific notation
+e: multiply the base number by 10 raised to the power of x
+You can also think about this as moving the comma to the right or left
+
+```{r}
+format(1.4e1, scientific = FALSE) # 1.4 * 10^1
+format(1.4e2, scientific = FALSE) # 1.4 * 10^2
+
+format(1.4e-1, scientific = FALSE) # 1.4 * 10^-1
+format(1.4e-2, scientific = FALSE) # 1.4 * 10^-2
+
+format(1.686917e-12, scientific = FALSE)
+```
 
 #### Words with highest beta per topic
 Let's visualise the 10 words per topic with the highest beta:
@@ -260,7 +274,7 @@ Let's find the topic most associated with each chapter:
 ```{r}
 (chapter_classifications <- chapters_gamma %>%
   group_by(title, chapter) %>%
-  slice_max(gamma) %>%
+  slice_max(gamma) %>% # default n is 1
   ungroup())
 ```
 
