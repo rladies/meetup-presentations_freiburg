@@ -1,0 +1,347 @@
+---
+title: "Topic modeling"
+author: "Julia Müller"
+date: "24 3 2022"
+output: html_document
+---
+
+Based on Chapter 6 in Tidy Text Mining (Julia Silge & David Robinson):
+https://www.tidytextmining.com/topicmodeling.html
+
+
+# Background
+
+## Introducing topic modeling
+- divides text into natural groups
+- similar to clustering (on numeric data)
+- unsupervised classification
+
+## Latent Dirichlet allocation (LDA)
+= common algorithm for topic modeling
+
+**Two principles:**
+
+(1) Every document is a mixture of topics
+-> document 1: 80% topic A, 15% topic B, 5% topic C
+-> document 2: 35% topic A, 55% topic B, 10% topic C
+
+(2) Every topic is a mixture of words
+e.g. if we classify newspaper texts into two topics:
+-> topic 1 ("politics"): government, law, congress, vote, President...
+-> topic 2 ("entertainment"): TV, Hollywood, actor, famous...
+But: words can be common in both topics (e.g. budget)
+
+
+# Code
+
+## Packages and data
+```{r}
+library(topicmodels)
+library(tidytext)
+library(tidyverse)
+library(gutenbergr)
+```
+
+We'll start with the "AssociatedPress" data set:
+```{r}
+data("AssociatedPress") # part of the topicmodels package
+AssociatedPress
+View(AssociatedPress)
+```
+Data type: Document Term Matrix
+2246 news articles from an American news agency (published ~1988)
+
+We can use `tidy()` to have a look:
+```{r}
+tidy(AssociatedPress)
+```
+
+
+## The LDA() function
+```{r}
+ap_lda <- LDA(AssociatedPress, 
+              k = 2, 
+              control = list(seed = 1234)) # for reproducible output
+
+ap_lda
+```
+- k determines how many topics should be created
+- in practice, k will often be > 2
+- ...and the data sets are usually much larger, too
+
+For more information on how to choose k:
+https://juliasilge.com/blog/evaluating-stm/
+
+
+## Interpretation
+
+### Word-topic probabilities
+The `tidy()` function in {tidytext} extracts the per-topic-per-word probabilities (=beta)
+```{r}
+ap_topics <- tidy(ap_lda, matrix = "beta")
+
+ap_topics
+```
+beta shows the probability of each term being generated from each topic
+e.g. "aaron" has a higher probability of being generated from topic 2 than topic 1
+
+#### Words with highest beta per topic
+Let's visualise the 10 words per topic with the highest beta:
+```{r}
+ap_topics %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10) %>% 
+  ungroup() %>%
+  arrange(topic, -beta) %>%
+  mutate(term = reorder_within(term, beta, topic)) %>% # reorder_within() necessary due to facet_wrap()
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  scale_y_reordered() + # also necessary because of reordering with facets
+  theme_minimal()
+```
+
+So what could topic 1 and topic 2 represent/which label(s) could we give them?
+(1) business/finance
+(2) politics
+
+Note: there's overlap (e.g. two, year(s) appear in both topics)
+
+
+### Document-topic probabilities
+Per-document-per-topic probabilities
+Same command as before, but matrix = "gamma" to extract this information
+
+```{r}
+ap_documents <- tidy(ap_lda, matrix = "gamma")
+ap_documents
+```
+
+gamma = estimated proportion of words from that document that are generated from that topic
+e.g. for document 1: 25% of words are from topic 1 (and 75% from topic 2)
+document 18: Almost all words from topic 2
+
+Let's have a look:
+```{r}
+tidy(AssociatedPress) %>% 
+  filter(document == 18) %>% 
+  arrange(desc(count))
+```
+Looks like this was classified correctly (politics)
+
+
+## Testing the method
+To see how accurate the LDA is, we can give it a problem that we know the answer to:
+Texts from three different books, but without the titles
+-> Use topic modeling (with k = 3) to cluster the texts into three topics
+-> Check if these topics represent the three original books
+
+Data:
+```{r}
+titles <- c("Twenty Thousand Leagues under the Sea", 
+            "Pride and Prejudice", 
+            "Great Expectations")
+
+books <- gutenberg_works(title %in% titles) %>%
+  gutenberg_download(meta_fields = "title", 
+                     mirror = "http://mirrors.xmission.com/gutenberg/")
+```
+
+### Data wrangling
+This is the full text of each of these books, so we'll need to do some data wrangling to get it into the correct format for LDA.
+First, let's divide each book in this data frame into chapters. The chapters will be our "documents" for topic modeling.
+```{r}
+(by_chapter <- books %>%
+  group_by(title) %>%
+  mutate(chapter = cumsum( # start at 0 and count up by 1 every time you...
+    str_detect(text, regex("^chapter ", ignore_case = TRUE))) # find chapter/CHAPTER at the beginning of a line
+    ) %>%
+  ungroup() %>%
+  filter(chapter > 0) %>%
+  unite(col = document, # create a new column "document" that contains
+        title, chapter)) # title and chapter separated by _ by default
+```
+
+...then, split the text up into words:
+```{r}
+(by_chapter_word <- by_chapter %>%
+  unnest_tokens(word, text))
+```
+
+Finally, we'll count how often each word occurs in each chapter:
+```{r}
+(word_counts <- by_chapter_word %>%
+  anti_join(stop_words) %>%
+  count(document, word, sort = TRUE))
+```
+This code returns a dataframe with the columns
+- document (book_chapter)
+- word
+- frequency
+
+### Converting into matrix
+But the LDA function needs a document term matrix as input. We can convert to that format with `cast_dtm()`:
+```{r}
+chapters_dtm <- word_counts %>%
+  cast_dtm(document, word, n)
+```
+
+**What is a document term matrix?**
+- each row contains one term, which document it comes from, and its frequency
+- but: if a term doesn't appear in a document, frequency = 0 is added
+-> different to our word_counts data frame
+"sparse" = most rows have a frequency of 0
+
+### LDA and analysis
+```{r}
+chapters_lda <- LDA(chapters_dtm, 
+                    k = 3, 
+                    control = list(seed = 1234))
+chapters_lda
+```
+
+### Per-topic-per-word probabilities
+```{r}
+chapter_topics <- tidy(chapters_lda, matrix = "beta")
+chapter_topics
+```
+Interpretation:
+- probability of term being generated from each topic
+- e.g. "joe" highest probability to be generated from topic 1, lowest probability from topic 2
+
+**Top five terms for each topic**
+```{r}
+chapter_topics %>%
+  group_by(topic) %>%
+  slice_max(beta, n = 10) %>% 
+  ungroup() %>%
+  arrange(topic, -beta) %>% 
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(beta, term, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  scale_y_reordered() +
+  theme_minimal() +
+  labs(x = expression(beta))
+```
+
+Looks like it worked!
+Topic 1: Great Expectations 
+Topic 2: Twenty Thousand Leagues Under the Sea
+Topic 3: Pride and Prejudice
+
+### Per-document-per-topic
+```{r}
+chapters_gamma <- tidy(chapters_lda, matrix = "gamma")
+chapters_gamma
+```
+
+Check if the LDA distinguished the three books well:
+```{r}
+chapters_gamma <- chapters_gamma %>%
+  separate(document, c("title", "chapter"), # opposite of unite
+           sep = "_", convert = TRUE) # to treat chapter as integer
+
+chapters_gamma
+```
+
+Visualise:
+```{r}
+chapters_gamma %>%
+  ggplot(aes(factor(topic), gamma)) +
+  geom_boxplot() +
+  facet_wrap(~ title) +
+  labs(x = "topic", y = expression(gamma)) +
+  theme_bw()
+```
+The algorithm does well overall, but struggles with Great Expectations
+
+Let's find the topic most associated with each chapter:
+```{r}
+(chapter_classifications <- chapters_gamma %>%
+  group_by(title, chapter) %>%
+  slice_max(gamma) %>%
+  ungroup())
+```
+
+Compare to the consensus topic (= the most common topic among its chapters)
+```{r}
+(book_topics <- chapter_classifications %>%
+  count(title, topic) %>%
+  group_by(title) %>%
+  slice_max(n, n = 1) %>% 
+  ungroup() %>%
+  transmute(consensus = title, topic)) # drop any other columns
+```
+
+### By word assignments: augment
+`augment()` lets us add information from a model to a dataframe. Here, we're adding the assigned topic from `chapters_lda` to the original data frame with documents, words, and their counts.
+```{r}
+assignments <- augment(chapters_lda, 
+                       data = chapters_dtm)
+assignments
+```
+
+Compare this with the consensus book titles (= assigned book titles):
+```{r}
+assignments <- assignments %>%
+  separate(document, c("title", "chapter"), 
+           sep = "_", convert = TRUE) %>%
+  inner_join(book_topics, by = c(".topic" = "topic"))
+
+assignments
+```
+
+Visualize this in a confusion matrix:
+```{r}
+assignments %>%
+  count(title, consensus, wt = count) %>%
+  mutate(across(c(title, consensus), 
+                ~str_wrap(., 20))) %>% # add line breaks to long titles
+  group_by(title) %>%
+  mutate(percent = n / sum(n)) %>%
+  ggplot(aes(consensus, title, fill = percent)) +
+  geom_tile() +
+  scale_fill_gradient(low = "lightblue", high = "darkred",
+                      label = scales::percent_format()) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1),
+        panel.grid = element_blank()) +
+  labs(x = "Book words were assigned to",
+       y = "Book words came from",
+       fill = "% of assignments")
+```
+
+What were the most commonly mistaken words?
+```{r}
+assignments %>%
+  filter(title != consensus) %>%
+  count(title, consensus, term, wt = count) %>%
+  ungroup() %>%
+  arrange(desc(n))
+```
+
+
+# Try it out!
+
+Apply topic modeling to Beyoncé's and/or Taylor Swift's lyrics! You can use songs or albums as documents.
+Another idea would be to see if topic modeling can distinguish between Beyoncé's and Taylor's lyrics.
+```{r}
+beyonce <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/beyonce_lyrics.csv')
+taylor_swift <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-09-29/taylor_swift_lyrics.csv')
+
+str(taylor_swift)
+
+str(beyonce)
+```
+
+For visualisations, note that there are packages with colour palettes for both artists:
+- https://github.com/asteves/tayloRswift
+- https://github.com/dill/beyonce
+
+Since these are song lyrics, it might also be useful to exclude words that are not included in the usual stopword lists (such as "ah", "uh", "whoa").
+
+
+FYI - another example: Spice Girls lyrics, as in this post by Julia Silge:
+https://juliasilge.com/blog/spice-girls/
+
