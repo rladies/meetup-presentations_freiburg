@@ -1,0 +1,235 @@
+---
+title: "Create beautiful documents, presentations, and articles with R Markdown"
+author: "Julia Müller"
+date: "21 4 2022"
+output: html_document
+---
+
+# Introducing RMarkdown
+
+Note: make sure the {tidyverse} family of packages is installed on your machine - {rmarkdown} is a part of that. Also install and load {knitr} for more options.
+```{r}
+library(knitr)
+library(tidyverse)
+```
+
+
+## What is RMarkdown?
+- document that effortlessly combine R code, output (such as plots or tables or model estimates) and text
+- output options: originally designed for HTML (so the most features) but Word and pdf files also possible
+- saves a lot of the hassle of typical word processors because formatting is consistently handled
+- helps make research more reproducible: easily handle modifications, additional data or analyses
+- default is a document, but other formats are possible
+  - journal articles (including references and a bibliography)
+  - slides
+  - ...much more: books, {learnr} tutorials, websites...
+-> for a quick example, create a new file:
+  File -> New file -> R Markdown -> Document (pick html as output format)
+  Have a look at the document, then click the Knit button at the top to export!
+
+
+## Anatomy of an R Markdown document
+- When you create and save a new R Markdown document, the working directory is set to wherever you save that document
+-> You can directly read in files that are in the same folder
+-> Output (e.g. exporting graphs or data files) are also saved in that place, as is the knitted document
+
+
+### YAML
+
+The YAML header is the first section of an Rmd - it's at the top of the document, framed by three hyphens ---
+By default, this will contain the title you entered, your name, the date, and the output format - but we can change this and add a lot more here!
+
+For example, if you want the date (which by default is the date you first created that file) to be updated every time you knit the file, change `date` to:
+date: "`r format(Sys.time(), '%d %B %Y')`"
+This will create the date in the format day, month, and year. See what happens if you move these elements around, add dots or hyphens, or switch small and capital letters!
+
+#### Appearance and style
+- in `html_document`, specify a theme and/or a highlight
+- themes (font, colours etc. of text):
+  default, bootstrap, cerulean, cosmo, darkly, flatly, journal, lumen, paper, readable, sandstone, simplex, spacelab, united, yeti
+  - for a preview: <https://bootswatch.com/3/>
+- highlight (background and font colour of code chunks):
+  default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark, textmate (or null to prevent syntax highlighting)
+
+
+### Text options
+
+#### Headers
+Use # to define headers, and ## or ### (and so on) to create subheadings
+These will translate into formatting, with font sizes decreasing.
+
+#### Bold and italics
+Use one set of asterisk around text to *create italics* and double asterisks to **make text bold**.
+
+#### Lists
+Use one asterisk at the beginning of a line for an unordered list item
+...and numbers followed by a full stop for ordered list
+In both cases, use two tabs (or four spaces) followed by + for the next level
+
+#### Links
+Links can be simply copy-pasted and will work as-is, but if you want some other text to act as a link, use:
+[Click here!](http://rmarkdown.rstudio.com)
+
+#### Blockquotes
+Use the bigger than sign for a blockquote:
+
+> This is a blockquote
+
+#### Line breaks and empty lines
+For a line break, add two spaces at the end of the line before you hit Enter.  
+For an empty line, use <br> - simply adding more line breaks in the Rmd file won't do it!
+
+#### Misc
+superscript^2^
+~~strikethrough~~
+
+### Code & output options
+All code needs to be in a code chunk
+- insert a new one by clicking on the green drop-down menu at the top
+  keyboard shortcut: Command + Option + I or Ctrl + Alt + I
+- code chunks can be labelled for better navigation
+- chunk names can be several words, but need to be unique
+```{r example}
+
+```
+
+How the output and the code itself shows up in the knitted document can also be modified:
+- `echo = FALSE` for output, but not code, to be visible
+- `include = FALSE` hides both output and code
+- `warning = FALSE` to suppress warning messages (also works for errors and messages)
+- `eval = FALSE`: code is not run
+
+#### Global options
+You can also set global options with `opts_chunk$set`. Usually, this is the first code chunk. 
+This example will stop all subsequent code from running, but you can also set, e.g., a default graphic size.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+#### Inline code
+Inline code is also possible, i.e., in the text, write `r `. Whatever code is included in the backticks will be run and the output will be shown in the text. This is useful for printing measures such as the mean or elements of a model summary without having to copy-paste numbers (especially if these numbers might still change). 
+
+#### Code folding
+Another option you're able to set is whether code blocks should be visible or hidden by default, with the user being able to click a button to see or hide the block:
+`code_folding: hide` or `code_folding: show` in the YAML - this is the default for the entire document
+{r class.source = 'fold-show'} or {r class.source = 'fold-hide'} to override the default for specific code blocks
+
+### Pictures
+In a code chunk, run `include_graphics("file_name")` to show a picture that is saved in the same place as your Markdown.
+If it's in a subfolder, run `include_graphics("subfolder/file_name")` instead.
+```{r}
+include_graphics("yourFile.fileEnding")
+```
+
+In the code chunk options, you can either use `fig.width` and `fig.height` (measured in inches) or `out.width` and `out.height` to control the width and height (as percentages), and `fig.align` with options "left", "right" and "center" for alignment.
+
+Alternatively, use:
+![Penguin species drawing by Allison Horst](penguin_species.png){width=50%}
+
+
+### Table of contents
+In the YAML:
+- add a colon and a line break after `html_document`
+- add `toc: true`
+- the depth of the table of contents (`toc_depth` - this is optional, the default is 3).
+- add `toc_float: true` to place the table of contents to the left of the document
+  - `collapsed: false` to make sure the TOC is open by default
+- sections can be numbered using `number_sections: true` in `html_document`
+  - this will number the sections in both the body and the TOC!
+
+
+## Formats
+
+### Other output formats
+
+#### pdf
+
+In a fresh R session, run:
+```{r}
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+This lets you use LaTeX in R, which is necessary for knitting to pdf.
+
+Then, when you create a new Markdown document, select Output: pdf
+Or change `output: pdf_document` in the YAML
+
+
+#### MS Word
+
+You shouldn't need additional R packages, but a version of Word (or Libre/Open Office).
+When opening a new R Markdown, select the Word option - or change `output: word_document`
+
+
+### Journal articles
+
+#### References
+In an academic article, you'll need to have references (usually, the author and year a text that you're referring to/quoting from) in the body of the text, plus a bibliography section at the end of the text. You can insert these into Markdown.
+
+It's easiest if you use reference management software such as Zotero or Citavi. Those programs can export the citations you'll need into a .bib file. Put that in the same folder as your Markdown document.
+
+In the YAML, add:
+`bibliography: my_references.bib`
+`link-citations: yes`
+The first line links to your references file, so make sure to type the correct name. The second line enables in-line citations.
+
+In the .bib file, information on each source is summarised, and each source is assigned a reference ID, preceded by a curly bracket {. The ID is what you need to refer to the item in Markdown, like so:
+@referenceID
+- Use square brackets if the reference should be in brackets:
+  [@referenceID]
+- For several references:
+  @ref1, @ref2
+  [@ref1; @ref2]
+- For page numbers:
+  @ref1[25]
+  [@ref1{23}]
+
+R Markdown will automatically add the references at the bottom of the document, so add a # References heading at the end
+
+By default, R Markdown uses the Chicago format, but this can be altered by adding a .csl (citation style language) in the YAML: `csl: my_style.csl`
+Download .csl files from, e.g., https://www.zotero.org/styles
+
+
+#### Journal templates
+
+The {rticles} package contains templates for many academic journals so your submissions fit their guidelines. 
+
+When that package is installed, templates will become available when you create a new R Markdown file.
+
+Here's an overview:
+https://github.com/rstudio/rticles
+
+
+### Slides
+
+It's also possible to make slides with R Markdown! There are several packages available (and the inbuilt R Presentation format is also good) but we'll focus on the {revealjs} package today - install it if you don't have it.
+
+When you create a new Markdown file, select Sildes and HTML as output. In the YAML, put  `output: revealjs::revealjs_presentation`.
+
+#### Slide breaks
+...will happen automatically for new first- and second-level headlines or
+use ---- for a manual slide break
+
+#### Appearance and style
+- theme (available themes are “simple”, “dark”, “black”, “sky”, “beige”, “serif”, “solarized”, “blood”, “moon”, “night”, “league”, or “white”)
+- highlight (“default”, “tango”, “pygments”, “kate”, “monochrome”, “espresso”, “zenburn”, “haddock”, or “breezedark” or null)
+- center: should content be vertically centered on the slides? Options: true/false
+
+#### Incremental bullet points
+- as a global option: `incremental: true` in the YAML
+- or: frame bullet points with ::: incremental (or ::: nonincremental) and :::
+- for other text, use . . .
+- or: ::: fragment :::
+
+#### Slide transitions
+- transition for moving between slides
+- available transitions are “convex”, “fade”, “slide”, “concave”, “zoom”, or “none”
+
+
+
+*Have fun with RMarkdown!*
+
+
+More info on {reveljs}: https://github.com/rstudio/revealjs
+
+More info on R Markdown: https://bookdown.org/yihui/rmarkdown-cookbook/

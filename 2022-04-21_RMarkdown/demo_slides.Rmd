@@ -1,0 +1,102 @@
+---
+title: "Slides demonstration"
+author: "Julia Müller"
+date: "14 4 2022"
+output: 
+  revealjs::revealjs_presentation:
+    incremental: true
+    theme: moon
+    highlights: tango
+    center: false
+    transition: fade
+bibliography: penguins.bib
+link-citations: yes
+---
+
+# Preparation
+
+## Choosing the data
+
+As everyone always says,
+
+> penguins are very cute!
+
+::: fragment
+...so let's work with penguin data today.  
+:::
+
+More information on this data set is available on [Allison Horst's Github page.](https://allisonhorst.github.io/palmerpenguins/)  
+
+This data can also be used via the {palmerpenguins} package [@Horst.2020] and was originally introduced in @Gorman.2014  
+
+
+## Loading packages & reading data
+
+First, we need to:  
+1. load **packages**  
+2. read in **data**  
+3. check if that data is *in the right format*  
+
+```{r library and data, warning = FALSE, message = FALSE}
+library(tidyverse)
+penguins <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv') %>% 
+  drop_na()
+head(penguins)
+```
+
+We've removed missing values here, which means that the data has `r nrow(penguins)` rows now.
+
+
+## Some descriptive statistics
+
+```{r penguin pic, echo = FALSE, out.width="50%"}
+knitr::include_graphics("penguin_species.PNG")
+```
+<br>Artwork by Allison Horst.<br><br>
+
+. . .
+
+The average bill length is `r mean(penguins$bill_length_mm)` mm and the average bill depth is `r mean(penguins$bill_depth_mm)` mm. <br>
+The data was collected between `r min(penguins$year)` and `r max(penguins$year)`.
+
+
+# Graphs
+
+Some ideas for graphs:
+
+* penguin weight by flipper length  
+    + for the entire data  
+    + or separately for each species  
+    + and additionally by sex  
+* flipper and bill length  
+* bill length and depth  
+
+## Weight and flipper length
+
+The following graphs are slightly simplified versions from the [vignette for the {palmerpenguins} package.](https://allisonhorst.github.io/palmerpenguins/articles/examples.html)
+
+----
+
+### Entire data
+```{r}
+mass_flipper <- ggplot(data = penguins,
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)") +
+  theme_minimal()
+```
+
+----
+
+```{r, echo = FALSE}
+mass_flipper
+```
+
+
+# References
