@@ -2,15 +2,16 @@
 ![](https://i.ibb.co/FbDVq20/R-Ladies-SMALL.jpg)
 
 Located in Freiburg, Germany
+
 Organized by [Kyla McConnell](https://github.com/kyla-mcconnell), [Julia Müller](https://github.com/JuliaMuellerFr) & [Elisa Schneider](https://github.com/ichisa), founded by [Divya Seernani](https://github.com/DivyaSeernani)
 
 Check out our upcoming events on our [Meetup page](https://www.meetup.com/rladies-freiburg/). We meet twice a month on Thursday nights at 6pm CEST (12pm EST).
 
-Follow us on Twitter [@RLadiesFreiburg](https://twitter.com/RLadiesFreiburg) to stay up to date on our upcoming activities, as well as polls for upcoing workshops and occasional memes, viz spotlights, and other fun things.
+Follow us on Twitter [@RLadiesFreiburg](https://twitter.com/RLadiesFreiburg) to stay up to date on our upcoming activities, as well as polls for upcoming workshops and occasional memes, viz spotlights, and other fun things.
 
-Many of our previous meetups have been recorded to the [R-Ladies Global Youtube channel](https://www.youtube.com/playlist?list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr).
+Many of our previous meetups have been recorded and are available on the [R-Ladies Global Youtube channel](https://www.youtube.com/playlist?list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr).
 
-## Previous Meetups
+## Previous workshops
 
 ### 2022
 - 22-01-27: [Best of 2021: Data wrangling with the tidyverse](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-01-27_WranglingBestOf) by Kyla [(Youtube)](https://www.youtube.com/watch?v=fHwpwRmcfI4&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=3)
