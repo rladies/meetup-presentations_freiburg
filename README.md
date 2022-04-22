@@ -14,7 +14,7 @@ Many of our previous meetups have been recorded to the [R-Ladies Global Youtube 
 
 ### 2022
 - 22-01-27: [Best of 2021: Data wrangling with the tidyverse](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-01-27_WranglingBestOf) by Kyla [(Youtube)](https://www.youtube.com/watch?v=fHwpwRmcfI4&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=3)
-- 22-02-10: [Best of data visualisation](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-02-10_VizBestOf) by Julia [(Youtube)](https://www.youtube.com/watch?v=3mQ5Nqdt-8Q&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1&t=5s)
+- 22-02-10: [Best of 2021: Data visualisation](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-02-10_VizBestOf) by Julia [(Youtube)](https://www.youtube.com/watch?v=3mQ5Nqdt-8Q&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1&t=5s)
 - 22-02-24: [Introduction to Shiny: Interactive dashboards for beginners](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-02-24_Shiny_Intro) by Kyla [(Youtube)](https://www.youtube.com/watch?v=gk73bLmteP0&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=2)
 - 22-03-10: [Spatial data with ggplot](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-03-10-Spatial_data_ggplot) by Beke Hansen
 - 22-03-24: [Text analysis with R: Topic modeling](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-03-24_Topic_modeling) by Julia [(Youtube)](https://www.youtube.com/watch?v=9ZfsOpSE104&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
