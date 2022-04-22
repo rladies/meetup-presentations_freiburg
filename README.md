@@ -4,7 +4,7 @@
 Located in Freiburg, Germany
 Organized by [Kyla McConnell](https://github.com/kyla-mcconnell), [Julia Müller](https://github.com/JuliaMuellerFr) & [Elisa Schneider](https://github.com/ichisa), founded by [Divya Seernani](https://github.com/DivyaSeernani)
 
-Check out our upcoming events on our [Meetup page](https://www.meetup.com/rladies-freiburg/). We meet twice a month on Wednesday nights at 6pm CEST (12pm EST), generally 1x advanced workshop on various topics, 1x live coded wrangling and visualization.
+Check out our upcoming events on our [Meetup page](https://www.meetup.com/rladies-freiburg/). We meet twice a month on Thursday nights at 6pm CEST (12pm EST).
 
 Follow us on Twitter [@RLadiesFreiburg](https://twitter.com/RLadiesFreiburg) to stay up to date on our upcoming activities, as well as polls for upcoing workshops and occasional memes, viz spotlights, and other fun things.
 
@@ -13,7 +13,13 @@ Many of our previous meetups have been recorded to the [R-Ladies Global Youtube 
 ## Previous Meetups
 
 ### 2022
-Coming soon!
+- 22-01-27: [Best of 2021: Data wrangling with the tidyverse](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-01-27_WranglingBestOf) by Kyla [(Youtube)](https://www.youtube.com/watch?v=fHwpwRmcfI4&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=3)
+- 22-02-10: [Best of data visualisation](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-02-10_VizBestOf) by Julia [(Youtube)](https://www.youtube.com/watch?v=3mQ5Nqdt-8Q&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1&t=5s)
+- 22-02-24: [Introduction to Shiny: Interactive dashboards for beginners](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-02-24_Shiny_Intro) by Kyla [(Youtube)](https://www.youtube.com/watch?v=gk73bLmteP0&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=2)
+- 22-03-10: [Spatial data with ggplot](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-03-10-Spatial_data_ggplot) by Beke Hansen
+- 22-03-24: [Text analysis with R: Topic modeling](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-03-24_Topic_modeling) by Julia [(Youtube)](https://www.youtube.com/watch?v=9ZfsOpSE104&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
+- 22-04-07: [Our first data dashboard: Interactive plots with Shiny](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-04-07_Shiny_FirstApp) by Kyla [(Youtube)](https://www.youtube.com/watch?v=Bb5Xol1oU_I&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
+- 22-04-21: [Create beautiful docuents, presentations, and articles with RMarkdown](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-04-21_RMarkdown) by Julia [(Youtube)](https://www.youtube.com/watch?v=l12RpPbZJUA&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
 
 ### 2021
 - 21-12-08: [Level up your ggplot: How do I add labels, arrows and other annotations?](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd) by Kyla & Julia [(Youtube)](https://youtu.be/If3LgW69Tx4)
@@ -31,6 +37,5 @@ Coming soon!
 - 21-06-08: [Guided Tidy Tuesday: Coffee Ratings](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-06-08_GuidedTidyTues_Coffee/21_06_08_CoffeeRatings.Rmd) by Julia 
 - 21-05-19: [Advanced wrangling and ggplot: Zero to sHero P5](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-05-19-ZerotoShero(5)/05_Advanced_wrangling_KEY.Rmd) by Julia & Kyla [(Youtube)](https://youtu.be/_un2k-S-c_g)
 - 21-05-12: Panel discussion on women in science: Toolbox Series P5 by Divya & Elisa [(Youtube)](https://youtu.be/u1ij4NHQS8Q)
-
 
 
