@@ -81,7 +81,7 @@ server <- function(input, output, session) {
 
 - Takes the users input, does something to it, and returns it as an output object
 - Input is read-only from the server
-- Input has to be read into a reactive contxt like `renderText()`, `renderPlot()` or `reactive()`
+- Input has to be read into a reactive context like `renderText()`, `renderPlot()` or `reactive()`
 
 ```{r}
 server <- function(input, output, session) {
@@ -129,7 +129,7 @@ shinyApp(ui, server)
 
 - Output must be rendered in a reactive context too! So the following code would throw an error:
 ```
-output$greeting <- "Hello, world!"
+output$greeting <- renderText("Hello, world!")
 ```
 
 - Input and output that depend on each other are considered to be in a *reactive dependency* 
@@ -156,12 +156,14 @@ Shiny: Functions help you understand and debug a lot and are basically essential
 library(tidyverse)
 eurovision <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-05-17/eurovision.csv') %>% 
   filter(section == "grand-final")
+
+head(eurovision)
 ```
 
 (1) Figure out a filter statement that we can later let the user manipulate
 ```{r}
 eurovision %>% 
-  filter(year == 2022 & rank < 4)
+  filter(year == 2021 & rank <= 3)
 ```
 
 (2) Make a plot example to show the user
@@ -236,7 +238,7 @@ Let's also allow the user to select how many winners they want to see!
 eurovision %>% 
   drop_na(rank) %>% 
   group_by(year) %>% 
-  summarize(range(rank))
+  summarize(max(rank))
 ```
 
 
@@ -265,7 +267,7 @@ Now, we could update the text on the screen to show what the user has inputted.
 
 Create a statement in `renderText()` that pastes together some text with the user's input, to describe the graph, e.g. 
 
-"Eurovision Context Placement in YEAR"
+"Eurovision Contest Placement in YEAR"
 "Showing the top RANK countries"
 
 Make sure to show this output to the user too!
