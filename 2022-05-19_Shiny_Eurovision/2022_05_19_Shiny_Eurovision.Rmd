@@ -1,0 +1,348 @@
+---
+title: "Shiny: Hands-On"
+author: "Kyla McConnell"
+date: '2022-05-16'
+output: html_document
+---
+
+# Shiny in a Nutshell
+
+- Start Shiny from a template via File -> New Project -> New Directory -> Shiny Web Application
+- Don't forget to load packages!
+- You can preview Shiny in a new window or the Viewer pane but remember, this will keep R busy! 
+
+## Three key parts of every Shiny app
+
+### (1) ui
+```{r}
+ui <- fluidPage(
+    selectInput(
+        inputId = "country", 
+        label = "Which country would you like to see?", 
+        choices = c("Germany", "France", "Spain", "Italy", "Poland")
+                ),
+    plotOutput("medals")
+)
+```
+
+- "User interface"
+
+(A) Collects input from users:
+  - drop-down list of options with *selectInput()*
+  ```
+    selectInput(inputId = "greeting", 
+                label = "Who do you want to greet?", 
+                choices = c("world" = "Hello, world!", "friends" = "Hi, friends!", "people" = "Hey, people!")
+                )
+  ```
+  - box for typing input with *textInput()*
+  ```
+    textInput(inputId = "greeting", 
+              label = "Who do you want to greet?", 
+              value = "Type your name"
+              )
+  ```
+  - numeric slider with *sliderInput()*
+  ```
+  sliderInput(inputID = "age", 
+            label = "How old are you?", 
+            min = 1, max = 80, value = 6
+            )
+  ```
+ 
+(B) Shows output to users once it has been handled by the server
+
+- The output object must first be generated (and named) by the server
+
+  - lines of text with *textOutput()*
+  ```
+  textOutput("full_greeting")
+  ```
+  
+  - summary table / tibble with *tableOutput()*
+  ```
+  tableOutput("medals")
+  ```
+  
+  - ggplot / other plot with *plotOutput()* 
+  ```
+  plotOutput("medals")
+  ```
+
+(C) Both collecting input and showing output takes place within a *fluidPage()*, and note the commas! 
+
+
+### (2) server
+```{r}
+server <- function(input, output, session) {
+    output$full_greeting <- renderText(input$greeting)
+}
+```
+
+- Takes the users input, does something to it, and returns it as an output object
+- Input is read-only from the server
+- Input has to be read into a reactive contxt like `renderText()`, `renderPlot()` or `reactive()`
+
+```{r}
+server <- function(input, output, session) {
+    
+    summary_table <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-08-03/athletes.csv') %>% 
+        mutate(medal = factor(medal, levels = c("Bronze", "Silver", "Gold"))) %>% 
+        group_by(medal, country, year) %>% 
+        summarize(N = n())
+    
+    output$medals <- renderPlot(
+        summary_table %>% 
+            filter(country == input$country) %>% 
+        ggplot() +
+            aes(x = N, y = medal, fill = medal) +
+            geom_col() +
+            facet_wrap(~country) +
+            theme_minimal() +
+            scale_fill_manual(values = c("#AD7C42", "#D4D2C7", "#E4CC08"))
+    )
+}
+```
+
+- Above is an example of rendering a plot that is dependent on filtering by user input
+- Notice how the data is read in in a separate step, in a non-reactive context -- so that this step doesn't have to be repeated every time the user changes the input!
+
+
+### (3) shinyApp
+```{r}
+shinyApp(ui, server)
+```
+
+- Finally, just bring it all together into one `shinyApp()`!
+
+## Reactivity 
+
+- Reactive contexts allow R to be updated automatically whenever the user changes the input -- every time they drag the slider, as soon as they type one more letter, etc. 
+  - renderText()
+  - renderPlot()
+  - reactive()
+
+- Most reactivity happens in the server function, where input is turned into output 
+
+- Input is read-only; you can't alter it within the server or anywhere else! Leave that to the user. 
+  - It must be read in to a reactive context to allow for automatic updating
+
+- Output must be rendered in a reactive context too! So the following code would throw an error:
+```
+output$greeting <- "Hello, world!"
+```
+
+- Input and output that depend on each other are considered to be in a *reactive dependency* 
+
+## Declarative programming 
+
+- Shiny is based on *declarative* programming, so the mentality is a little different to R programming (which is *imperative*)
+
+R: "paste together ‘hello’ and the user’s name, then send it to output$greeting" (IMPERATIVE)
+Shiny: "if and when you need to send output$greeting to the browser, this is how you should do that" (DECLARATIVE)
+
+R: "ERROR -- You misspelled your variable name as "greting" !!"
+Shiny: "Okay, if I ever need to use "greting", now I know how to make it -- no problem here! Guess you just don't want any output!"
+
+R: Order of lines matters! Top to bottom please.
+Shiny: I use whatever line I need, based on reactive dependencies -- order doesn't really matter much to me.
+
+R: Functions are useful when things get long, but just writing out what you want to happen in order usually does the trick.
+Shiny: Functions help you understand and debug a lot and are basically essential!
+
+# Data dashboard -- Eurovision
+
+```{r}
+library(tidyverse)
+eurovision <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2022/2022-05-17/eurovision.csv') %>% 
+  filter(section == "grand-final")
+```
+
+(1) Figure out a filter statement that we can later let the user manipulate
+```{r}
+eurovision %>% 
+  filter(year == 2022 & rank < 4)
+```
+
+(2) Make a plot example to show the user
+
+```{r}
+eurovision %>% 
+  filter(year == 2022 & rank < 4) %>% 
+  ggplot(aes(x = reorder(artist_country, -total_points), y = total_points)) +
+  geom_col()
+```
+
+(3) Add colors and labels
+```{r}
+eurovision %>% 
+  filter(year == 2022 & rank < 4) %>% 
+  ggplot(aes(x = reorder(artist_country, -total_points), y = total_points, fill = artist_country)) +
+  geom_col(show.legend = F) +
+  labs(
+    y = "Total points",
+    x = "Country"
+  ) +
+  theme_minimal()
+```
+
+Other options from RColorBrewer might be an option, but they don't have as many built-in levels as ggplot does! 
+  
+# (1) Add the graph 
+
+Let's first just put this graph into a Shiny application, and have it be shown to the user. 
+
+Make sure to: 
+(A) Load in the data in a way that it won't have to be reloaded every time an input is changed
+(B) Create the graph in a reactive context  
+(C) Send the graph to output and show it to the user
+
+
+## Spoilers
+
+Hints: 
+- Data should be read into the server function, but not in a reactive context (just in the body of the function)
+- The graph should be created inside a reactive context like `renderPlot()`, inside the server function, and saved to an output object with a unique name 
+- The graph should be displayed in the UI using `plotOutput()` and the name you have given the plot in the server
+
+
+# (2) Collect user input
+
+Now, let's let the user pick which year to display! 
+
+```{r}
+range(eurovision$year)
+```
+
+We can make this a `sliderInput()` or allow users to pick from a drop-down list with a `selectInput()`
+
+Since there wasn't a contest in 2022, I'll use selectInput() so that I can remove this year from the options! 
+
+After you add the ability to input, update the plot so that it reacts to the value given in the input.
+
+## Spoilers
+
+Make sure to:
+(A) Add a `selectInput()` object to your UI, with numeric options from 2004:2022 excluding 2020 (you can type them out, or use a range for those years before 2019 and then add 2021 and 2022 to the vector)
+(B) Change the filter command in your ggplot to be responsive to the input given, using the unique Id you gave the input 
+(C) Use commas between parts of the UI ! 
+ 
+
+# (3) Collect more user input
+
+Let's also allow the user to select how many winners they want to see!
+
+```{r}
+eurovision %>% 
+  drop_na(rank) %>% 
+  group_by(year) %>% 
+  summarize(range(rank))
+```
+
+
+Add another opportunity for user input, this time for the top X number of countries they'd like to see on the plot. This might be a nice `sliderInput()`
+
+Then, update your plot to use this information as well!
+
+Make sure to think about how many colors your palette has! You may have to set the max number lower unless you use a different palette. ggplot's built in palette will be fine though. 
+
+
+
+## Spoilers
+
+Be sure to: 
+(A) Create a `sliderInput()` with how many countries should be displayed. 
+(B) Update your filter command to include this input as well, using the ID you gave it. 
+(C) You can use the number of countries to determine which ranks to show, i.e. those which ranked less than or equal to that number!
+
+Also: Rotating axis labels will help when the user shows a lot of countries at once!
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.8))
+
+
+# (4) Add a reactive title
+
+Now, we could update the text on the screen to show what the user has inputted. 
+
+Create a statement in `renderText()` that pastes together some text with the user's input, to describe the graph, e.g. 
+
+"Eurovision Context Placement in YEAR"
+"Showing the top RANK countries"
+
+Make sure to show this output to the user too!
+
+## Spoilers 
+
+Be sure to:
+(A) Add a reactive context to the server using `renderText()` where you create an output of the text you want to show, using input values
+(B) Show this output to the user in the UI using `textOutput()`
+
+If you want, you can make two separate outputs, one as a title and one as a subtitle, so they easily show on separate lines. 
+
+
+# Layout
+
+Now we have a working Shiny app, let's craft the layout so that not everything is on top of each other!
+
+First, we can try adding a title with a `titlePanel()` object. This goes in the UI and can include a regular string of text. 
+
+Add this to the top of your ui -- maybe with a more creative title!
+```
+titlePanel("Eurovision Results"), 
+```
+
+Now, we can also add a sidebar panel and a main panel. 
+
+For this, we need to first open a `sidebarLayout()` command in the UI, which contains two things: 
+(1) a `sidebarPanel()` where our inputs will be 
+(2) a `mainPanel()` for the plot! 
+
+Take a look at the Shiny template for an example: 
+
+```
+library(shiny)
+library(tidyverse)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Old Faithful Geyser Data"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+
+```
+
+How could you add this to your Eurovision dashboard?
+
+## Spoilers
+
+(A) First, wrap all the code in your ui (other than the titlePanel)in `sidebarLayout()`
+(B) Then, wrap all input parts in `sidebarPanel()` with a comma at the end!
+(C) Finally, wrap the text that serves as a title for your plot, plus the plot itself in `mainPanel()`
+
+
+# Conclusion
+
+There are plenty of steps we could do now to beautify our Shiny app!
+
+- find more color options or assign each country a set color, i.e. by making a hex code column
+- adjust the width of our input section or the formatting of titles 
+- add more content like a summary table or other type of graph
+
+But we have a functioning Shiny app that allows the user to control both the year and the amount of countries they'd like to see. 
+
