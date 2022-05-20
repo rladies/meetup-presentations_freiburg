@@ -21,6 +21,7 @@ Many of our previous meetups have been recorded and are available on the [R-Ladi
 - 22-03-24: [Text analysis with R: Topic modeling](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-03-24_Topic_modeling) by Julia [(Youtube)](https://www.youtube.com/watch?v=9ZfsOpSE104&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
 - 22-04-07: [Our first data dashboard: Interactive plots with Shiny](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-04-07_Shiny_FirstApp) by Kyla [(Youtube)](https://www.youtube.com/watch?v=Bb5Xol1oU_I&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
 - 22-04-21: [Create beautiful documents, presentations, and articles with RMarkdown](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-04-21_RMarkdown) by Julia [(Youtube)](https://www.youtube.com/watch?v=l12RpPbZJUA&list=PLPwprT5wdzX7NVDl4oYQ7c2_6ox0_1fyr&index=1)
+- 22-05-20: [Shiny Data Dashboards: Interactivity & Page Design](https://github.com/rladies/meetup-presentations_freiburg/tree/master/2022-05-19_Shiny_Eurovision) by Kyla [(Youtube)](https://youtu.be/UGTTqhxaICU)
 
 ### 2021
 - 21-12-08: [Level up your ggplot: How do I add labels, arrows and other annotations?](https://github.com/rladies/meetup-presentations_freiburg/blob/master/2021-12-08_ggplot_annotations/ggplot_annotations_KEY_RLadiesFreiburg.Rmd) by Kyla & Julia [(Youtube)](https://youtu.be/If3LgW69Tx4)
