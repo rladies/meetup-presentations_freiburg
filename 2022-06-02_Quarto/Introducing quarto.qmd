@@ -1,0 +1,114 @@
+---
+title: "Introducing Quarto"
+format:
+  html:
+    theme: default
+---
+
+# What is Quarto?
+- publishing system
+- lets you combine text, code, and code output
+- output formats: articles, presentations, websites, books, blogs...
+
+Sound familiar?
+- it's very similar to R Markdown
+-> if you know R Markdown, you'll find it easy to switch
+
+We recently did a workshop on R Markdown:
+https://youtu.be/l12RpPbZJUA
+
+- but: Quarto is designed to more seamlessly handle different output formats
+- and: Quarto can be used for other programming languages such as Python and Julia
+- ...as well as within other code editors like VS Code
+- it also seems to have some additional features
+
+## Installation
+If you want to follow along with my demonstrations/try Quarto for yourself later:
+- download Quarto at: https://quarto.org/docs/get-started/
+- ...and install
+
+# Getting started with Quarto in RStudio
+- once Quarto is installed, it'll be an option when you create a new document
+- enter title (and author)
+- lots of output options to choose from
+- can set theme and options like table of contents straight away (but this can also be changed/added later)
+
+## The same as in R Markdown
+- a lot of the YAML (sometimes, R Markdown uses an underscore where Quarto uses a hyphen)
+- text formatting options, e.g., headlines, bold and italics, lists
+- references (but Quarto automatically adds a headline that reads "References")
+- inserting pictures (but see layout options below)
+
+## Different to R Markdown
+
+### Labelling figures
+In the code block in which a graph is created or called, you can add options such as labels (#| label: ) and captions (#| fig-cap: )
+Both will be displayed underneath the graph.
+
+Pictures can also get a label: {#fig-label}
+
+The labels can be used for in-text references with @fig-label
+
+### On slides: Code isn't shown by default
+Use:
+```{r}
+#| echo: true
+```
+...in individual code blocks
+
+Or:
+echo: true
+in the YAML
+
+
+## New additions
+
+### Arranging pictures
+Pictures can still be inserted using:
+![Caption](file.png)
+
+Several pictures can be arranged more easily using layout-ncol or layout-nrow - for example:
+::: {layout-ncol=2}
+![Caption](file1.png)
+![Caption](file2.png)
+:::
+
+Custom layouts are also possible - more info:
+https://quarto.org/docs/authoring/figures.html
+
+
+### Callout blocks
+
+The five callout blocks:
+- note
+- tip
+- warning
+- caution
+- important
+
+Callout blocks are framed by :::{callout-TypeOfCallout} and :::
+
+More info: https://quarto.org/docs/authoring/callouts.html
+
+
+### Placing content in the margins
+
+To put footnotes and references in the margins of the document instead of at the bottom, we can add the following lines to the YAML:
+reference-location: margin
+citation-location: margin
+
+You can also add asides in the margins:
+[This is an aside, text that will be displayed in the margin.]{.aside}
+
+Figure captions can also be placed in the margin:
+```{r}
+#| cap-location: margin
+```
+
+
+# Other output formats
+
+Like R Markdown documents, Quarto documents can be rendered to Word and PDF
+
+For output formats such as Word and PDFs, page breaks can be added using:
+{{< pagebreak >}}

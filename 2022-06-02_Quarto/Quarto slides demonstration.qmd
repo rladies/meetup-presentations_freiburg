@@ -1,0 +1,216 @@
+---
+title: "Quarto demonstration"
+description: Showing some neat features of Quarto!
+date: today # other options: now, last-modified
+author: Julia Müller 
+format:
+  revealjs:
+    code-fold: false
+    theme: white
+    footer: "A nice presentation about penguins"
+    chalkboard: true
+bibliography: penguins.bib
+link-citations: yes
+csl: apa-single-spaced.csl
+---
+
+
+# Preparation
+
+## Choosing the data
+
+As everyone always says,
+
+> penguins are very cute!
+
+...so let's work with penguin data today.  
+
+:::{.callout-note}
+Note that the palmerpenguins dataset is meant as an alternative to the commonly used iris data.
+:::
+
+---
+
+More information on this data set is available on [Allison Horst's Github page.](https://allisonhorst.github.io/palmerpenguins/)  
+
+
+This data can also be used via the {palmerpenguins} package [@Horst.2020] and was originally introduced in @Gorman.2014  
+
+
+## Loading packages & reading data
+
+First, we need to:  
+
+::: {.incremental}  
+1. load **packages**  
+2. read in **data**  
+3. check if that data is *in the right format*  
+:::  
+
+::: aside
+By "right format", we mean that the data is tidy, and ready to be summarised and graphed.
+:::
+
+:::{.callout-tip}
+## Using the data without downloading it
+This same dataset is also available in the package palmerpenguins.
+:::
+
+---
+
+```{r library and data, warning = FALSE, message = FALSE}
+#| echo: true
+library(tidyverse)
+penguins <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-28/penguins.csv') %>% 
+  drop_na()
+head(penguins)
+```
+
+We've removed missing values here, which means that the data has `r nrow(penguins)` rows now[^1].
+
+
+## Some descriptive statistics {.smaller}
+
+::: {layout-ncol=2}
+![Penguin species drawing by Allison Horst](penguin_species.png){#fig-penguins}
+
+![Explaining bill dimensions](culmen_depth.png){#fig-bill}
+:::
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+The average bill length is `r mean(penguins$bill_length_mm)` mm and the average bill depth is `r mean(penguins$bill_depth_mm)` mm.
+:::
+
+::: {.column width="50%"}
+The data was collected between `r min(penguins$year)` and `r max(penguins$year)`.
+:::
+
+::::
+
+---
+
+### Comparing base R and tidyverse syntax
+
+Here's code to see data in a specific column:
+
+::: {.panel-tabset}
+#### base R
+``` {.r}
+penguins$bill_length_mm
+```
+
+#### tidyverse
+``` {.r}
+penguins %>% select(bill_length_mm)
+```
+
+:::
+
+
+## Graphs
+
+Some ideas for graphs:
+
+* penguin weight by flipper length  
+    + for the entire data  
+    + or separately for each species  
+    + and additionally by sex  
+* flipper and bill length  
+* bill length and depth  
+
+---
+
+## Weight and flipper length
+
+The following graphs are slightly simplified versions from the [vignette for the {palmerpenguins} package.](https://allisonhorst.github.io/palmerpenguins/articles/examples.html)
+
+---
+
+
+### Entire data
+```{r}
+#| echo: true
+mass_flipper <- ggplot(data = penguins,
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  theme_minimal() +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)") +
+  theme_minimal()
+```
+
+---
+
+```{r}
+#| label: fig-entire
+#| fig-cap: Penguin flipper length and body mass
+mass_flipper
+```
+
+Refer to @fig-bill for an explanation of the measurements.
+
+---
+
+### Separated by species
+```{r}
+#| echo: true
+#| code-line-numbers: 4-5
+mass_flipper_species <- ggplot(data = penguins,
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(aes(color = species,
+                 shape = species),
+             size = 3,
+             alpha = 0.8) +
+  theme_minimal() +
+  scale_color_manual(values = c("darkorange","purple","cyan4")) +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species") +
+  theme_minimal()
+```
+
+---
+
+```{r}
+#| label: fig-species
+#| fig-cap: Penguin flipper length and body mass, separately by species
+mass_flipper_species
+```
+
+@fig-entire does not separate the data by species, while @fig-species does.
+
+---
+
+### Separated by species and sex
+```{r}
+#| echo: true
+#| code-line-numbers: 2|3
+mass_flipper_species_sex <- 
+  mass_flipper_species +
+  facet_wrap(~sex)
+```
+
+---
+
+```{r}
+#| label: fig-sex
+#| fig-cap: Penguin flipper length and body mass, separately by species and sex
+mass_flipper_species_sex
+```
+
+
+[^1]: Note that this removes any rows with missing values!
+
+
+# References {background-color="lightgray"}
