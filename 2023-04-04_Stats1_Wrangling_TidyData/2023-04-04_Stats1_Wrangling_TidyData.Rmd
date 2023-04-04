@@ -119,8 +119,8 @@ artists %>%
 Or in a descending order with the additional wrapper desc():
 ```{r}
 artists %>% 
-  select(artist_name, artist_gender, year, space_ratio) %>% 
-  arrange(desc(space_ratio))
+  arrange(desc(space_ratio)) %>% 
+  select(artist_name, artist_gender, year, space_ratio) 
 ```
 
 ## mutate()
@@ -143,7 +143,7 @@ artists %>%
 
 Wrapping in () allows you to see a preview, even though you overwrite a df
 ```{r}
-(artists <- artists %>% 
+(artists %>% 
   mutate(space_ratio = round(space_ratio, 2)))
 ```
 
@@ -163,26 +163,28 @@ artists %>%
     space_ratio > 1 ~ "YES",
     space_ratio <= 1 ~ "NO",
     .default = "NO")
-  ) 
+  ) %>% 
+  select(artist_name, space_ratio, more_than_one_page)
 ```
 
 Can also use values in multiple other columns: 
 ```{r}
 artists %>% 
-  select(moma_count_to_year, whitney_count_to_year)
+  select(artist_name, year, moma_count_to_year, whitney_count_to_year)
 
 artists %>% 
   mutate(exhibition = case_when(
-    moma_count_to_year > 0 ~ "YES",
+    moma_count_to_year = 0 ~ "YES",
     whitney_count_to_year > 0 ~ "YES",
     .default = "NO")
-  ) 
+  ) %>% 
+  select(artist_name, year, moma_count_to_year, whitney_count_to_year, exhibition)
 ```
 
 ## filter()
 
 ```{r}
-knitr::include_graphics("img/dplyr_filter.png")
+knitr::include_graphics("img/dplyr_filter.jpg")
 ```
 
 Select rows that fit a certain logic or condition: 
@@ -207,9 +209,20 @@ artists %>%
 ```
 
 ```{r}
-artists <- artists %>% 
+artists %>% 
   filter(artist_gender != "N/A")
 ```
+
+```{r}
+artists %>% 
+  filter(artist_gender == "Female" | space_ratio >= 0.5)
+```
+
+```{r}
+artists %>% 
+  filter(str_detect(artist_name, "George"))
+```
+
 
 ## distinct()
 
@@ -243,6 +256,10 @@ See also: unite()
 
 Turns the df into a wider format, often used for summary tables:
 ```{r}
+artists_summary <- artists %>% 
+  group_by(year,artist_gender) %>% 
+  count()
+
 artists_summary %>% 
   pivot_wider(
     names_from = artist_gender,
@@ -298,16 +315,41 @@ This data set shows the colors used by Bob Ross in each season of his hit painti
 For each season, all color names are listed along with how many times (i.e. in how many paintings) he uses that color in the given season. 
 ```{r}
 (bob_ross <- read_csv("data/bob_ross_tidyex.csv"))
+
+bob_ross %>% 
+  pivot_longer(
+    cols = c(Black_Gesso:Alizarin_Crimson)
+  )
+
+bob_ross %>% 
+  pivot_longer(
+    cols = -season, 
+    names_to = "color",
+    values_to = "n"
+  )
 ```
 
 (B)
 ```{r}
 (cats_uk <- read_csv("data/cats_uk_tidyex.csv"))
+
+cats_uk %>% 
+  pivot_wider(
+    names_from = observed,
+    values_from = observed_n
+  )
 ```
 
 (C) 
 This dataset shows popular programming languages, their ranking in a survey, and their origin (when they first appear and who created them)
 ```{r}
 (languages <- read_csv("data/languages_tidyex.csv"))
+
+languages %>% 
+  separate(
+    col = origin,
+    into = c("year", "founder"),
+    sep = " - "
+  )
 ```
 
