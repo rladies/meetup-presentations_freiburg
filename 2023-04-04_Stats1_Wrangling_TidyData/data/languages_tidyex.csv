@@ -1,0 +1,4304 @@
+title,origin,language_rank
+Java,1995 - James Gosling,0
+JavaScript,1995 - Brendan Eich,1
+C,1972 - Dennis Ritchie,2
+Python,1991 - Guido van Rossum,3
+SQL,1974 - Donald D. Chamberlin and Raymond F. Boyce,4
+C++,1985 - Bjarne Stroustrup,6
+HTML,1991 - Tim Berners-Lee,5
+XML,1996 - NA,7
+PHP,1995 - Rasmus Lerdorf,8
+Perl,1987 - Larry Wall,9
+MATLAB,1984 - Cleve Moler,10
+Ruby,1995 - Yukihiro Matsumoto,12
+C#,2000 - Anders Hejlsberg,11
+MySQL,1995 - David Axmark and Michael Widenius,14
+Fortran,1957 - John Backus,13
+CSS,1996 - Håkon Wium Lie,19
+R,1993 - Ross Ihaka and Robert Gentleman,15
+JSON,2001 - Douglas Crockford,16
+Go,2009 - Rob Pike and Ken Thompson and Robert Griesemer,17
+Scala,2004 - Martin Odersky,20
+Swift,2014 - Chris Lattner,22
+Ada,1980 - Jean Ichbiah,21
+COBOL,1959 - Howard Bromberg and Norman Discount and Vernon Reeves and Jean E. Sammet and William Selden and Gertrude Tierney and Grace Hopper,18
+Rust,2010 - Graydon Hoare,25
+PostgreSQL,1986 - Marc G. Fournier,23
+Kotlin,2011 - Andrey Breslav,24
+Arduino Programming Language,2005 - NA,26
+PowerShell,2006 - Jeffrey Snover,27
+Pascal,1970 - Niklaus Wirth,28
+Haskell,1990 - Paul Hudak and John Hughes,30
+TypeScript,2012 - Anders Hejlsberg,31
+SAS,1976 - Anthony James Barr,35
+ARM,1985 - Sophie Wilson and Steve Furber and Acorn Computers,29
+Lisp,1958 - John McCarthy,32
+Lua,1993 - Roberto Ierusalimschy,33
+Julia,2012 - Jeff Bezanson and Alan Edelman and Stefan Karpinski and Viral B. Shah,34
+Prolog,1972 - Alain Colmerauer,38
+Node.js,2009 - Ryan Dahl,43
+HTTP,1989 - NA,36
+Objective-C,1984 - Brad Cox,42
+Clojure,2007 - Rich Hickey,40
+Scheme,1970 - Guy Steele and Gerald Jay Sussman,49
+Assembly language,1960 - NA,37
+Erlang,1986 - Joe Armstrong and Robert Virding and Mike Williams,47
+Bash,1989 - Brian Fox,39
+Mathematica,1988 - Stephen Wolfram,44
+ISBN,1970 - NA,41
+Elixir,2011 - José Valim,45
+CUDA,2007 - NA,48
+Dart,2011 - Lars Bak,50
+Modula-2,1978 - Niklaus Wirth,51
+Visual Basic,1991 - NA,46
+Tcl,1988 - John Ousterhout,52
+ActionScript,1998 - Gary Grossman,53
+VBA,1993 - NA,54
+BASIC,1964 - John G. Kemeny and Thomas E. Kurtz,59
+Verilog,1984 - NA,57
+awk,1977 - Alfred Aho and Peter J. Weinberger and Brian Kernighan,60
+Delphi,1995 - NA,61
+Solidity,2014 - Christian Reitwiessner and Alex Beregszaszi,56
+F#,2005 - Don Syme,64
+Regular Expressions,1951 - NA,55
+OCaml,1996 - Xavier Leroy,68
+ASP,1996 - NA,72
+Eiffel,1986 - Bertrand Meyer,70
+Crystal,2014 - Ary Borenszweig and Juan Wajnerman and Brian Cardiff,62
+Smalltalk,1972 - Alan Kay and Dan Ingalls and Adele Goldberg,76
+Yacc,1975 - NA,71
+Modula-3,1986 - NA,73
+Elm,2012 - Evan Czaplicki,66
+Racket,1994 - Matthias Felleisen and Matthew Flatt and Robert Bruce Findler and Shriram Krishnamurthi,74
+Groovy,2003 - James Strachan,78
+D,2001 - Walter Bright and Andrei Alexandrescu,80
+Common Lisp,1984 - Scott Fahlman and Richard P. Gabriel and David A. Moon and Kent Pitman and Guy Steele and Dan Weinreb,85
+Reason,2016 - NA,58
+UML,1996 - NA,82
+Sage,2005 - NA,83
+Maple,1982 - NA,65
+CoffeeScript,2009 - Jeremy Ashkenas,63
+VHDL,1983 - NA,88
+APL,1964 - Kenneth E. Iverson,90
+OpenCL,2009 - NA,93
+MediaWiki,2002 - NA,97
+YAML,2001 - NA,67
+DOI,2000 - NA,75
+REST,1996 - NA,77
+XQuery,2007 - NA,100
+PostScript,1982 - John Warnock and Chuck Geschke and Doug Brotz and Ed Taft and Bill Paxton,107
+Nginx,2004 - NA,91
+GraphQL,2012 - Lee Byron,86
+SPSS,1968 - NA,103
+PowerPC,1992 - NA,69
+TLS,1999 - NA,89
+FTP,1971 - NA,81
+SOAP,1998 - Dave Winer and Don Box and Bob Atkinson and Mohsen Al-Ghosein,84
+Literate CoffeeScript,2013 - Jeremy Ashkenas,105
+Rexx,1979 - Mike Cowlishaw,115
+X86,1978 - NA,79
+TCP,1974 - NA,95
+Nim,2008 - Andreas Rumpf,102
+ANTLR,1992 - NA,118
+Scratch,2002 - NA,96
+Pug,2010 - Tj Holowaychuk,113
+LFE,2008 - Robert Virding,117
+Smali,2010 - NA,92
+LaTeX,1985 - NA,87
+Markdown,2004 - John Gruber and Aaron Swartz,94
+Visual Basic .NET,2001 - NA,108
+Liquid,2008 - Tobias Lütke,104
+Forth,1970 - Charles H. Moore,120
+SMTP,1982 - NA,98
+PureBasic,1998 - NA,119
+ML,1973 - Robin Milner,123
+Haxe,2005 - Nicolas Cannasse,112
+VBScript,1996 - NA,125
+WebAssembly,2015 - Alon Zakai,114
+CIL,2000 - NA,127
+Chapel,2004 - David Callahan and Hans Zima and Brad Chamberlain and John Plevyak,109
+Oberon,1986 - Niklaus Wirth,129
+LabVIEW G,1986 - NA,99
+Applescript,1993 - NA,128
+Oz,1991 - Gert Smolka,126
+Lasso,1995 - Kyle Jessup,124
+fish,2005 - NA,121
+LLVM IR,2003 - NA,101
+ECMAScript,1997 - Brendan Eich,106
+Red,2011 - Nenad Rakocevic,111
+Simula,1965 - Ole-Johan Dahl,137
+Protocol Buffers,2008 - NA,135
+Idris,2014 - Edwin Brady,132
+Logo,1967 - NA,139
+SQLite,2000 - Dwayne Richard Hipp,110
+UDP,1980 - NA,116
+AMPL,1985 - Robert Fourer and David Gay and Brian Kernighan,136
+sed,1974 - Lee E. McMahon,140
+PicoLisp,1988 - Alexander Burger,141
+Tex,1978 - NA,131
+V,2019 - Alexander Medvednikov,143
+BCPL,1966 - Martin Richards,146
+PL/SQL,1991 - NA,147
+Standard ML,1990 - NA,150
+Dylan,1992 - NA,149
+REBOL,1997 - Carl Sassenrath,153
+Processing,2001 - NA,148
+Hack,2014 - Julien Verlaguet and Alok Menghrajani and Drew Paroski,152
+MIPS architecture,1985 - NA,122
+Algol,1958 - NA,160
+OWL,2004 - NA,156
+URL,1994 - Tim Berners-Lee,133
+Org,2003 - Carsten Dominik,154
+PureScript,2013 - Phil Freeman,138
+Brainfuck,1993 - Urban Müller,145
+SVG,2001 - NA,130
+DOT,2007 - NA,159
+FLUX,2014 - Paul O’Shannessy,157
+Fantom,2005 - NA,166
+Squirrel,2003 - Alberto Demichelis,167
+EuLisp,1985 - NA,175
+Monkey,2011 - Anthony Diamond,169
+FLEX,1987 - Vern Paxson,142
+Limbo,1995 - Rob Pike,171
+Agda,2007 - Ulf Norell and Catarina Coquand,172
+BlitzBasic,2000 - NA,173
+ABAP,1983 - NA,134
+MUMPS,1966 - Neil Pappalardo,180
+Occam,1983 - David May,181
+GAME,1977 - NA,155
+HAML,2006 - Hampton Lintorn-Catlin,151
+RDF,1997 - NA,144
+Emacs Lisp,1985 - Richard Stallman,184
+ColdFusion,1995 - Joseph J. Allaire,178
+Jinja,2006 - Armin Ronacher,163
+Coq,1989 - NA,182
+AutoIt,1999 - Jonathan Bennett,183
+x86 Assembly,1972 - NA,188
+Makefile,1976 - Stuart Feldman,192
+Vala,2006 - NA,200
+J,1990 - Kenneth E. Iverson and Roger Hui,187
+Nearley,2014 - NA,161
+NewLisp,1991 - Lutz Mueller,197
+Nemerle,2003 - NA,198
+MIME,1991 - Nathaniel Borenstein and Ned Freed,158
+Zig,2015 - Andrew Kelley,189
+XAML,2008 - NA,185
+Jison,2009 - NA,170
+MoonScript,2011 - NA,164
+Icon,1977 - Ralph Griswold,201
+Terra,2012 - NA,165
+TOML,2013 - Tom Preston-Werner,193
+X10,2004 - Kemal Ebcioğlu and Saravanan Arumugam and Vijay Saraswat and Vivek Sarkar,202
+Ballerina,2015 - Sanjiva Weerawarana and James Clark and Sameera Jayasoma and Hasitha Aravinda and Srinath Perera and Frank Leymann,176
+Scilab,1990 - NA,207
+Io,2002 - Steve Dekorte,209
+Flow,2014 - NA,203
+Turing,1982 - Ric Holt,204
+idyll,2017 - NA,162
+RPG,1959 - NA,210
+Mercury,1995 - Zoltan Somogyi,208
+Reverse Polish notation,1953 - NA,168
+QML,2009 - NA,205
+IDL,1977 - David Stern,213
+Frege,2011 - NA,179
+xBase,1986 - NA,214
+GNU Octave,1988 - NA,190
+Boo,2003 - Rodrigo B. De Oliveira,219
+JSP,1999 - NA,174
+PostCSS,2013 - NA,216
+Object Pascal,1986 - NA,234
+Slim,2011 - NA,196
+MicroPython,2014 - Damien P. George,221
+Hy,2013 - Paul Tagliamonte,195
+ALGOL 60,1960 - John Backus and Friedrich L. Bauer and Julien Green and Charles Katz and John McCarthy and Peter Naur and Alan Perlis and Heinz Rutishauser and Klaus Samelson and Adriaan van Wijngaarden and Bernard Vauquois and Joseph Henry Wegstein and Michael Woodger,239
+Zephir,2013 - Andres Gutierrez,199
+Arc,2001 - Paul Graham and Robert Morris,235
+SPARQL,2008 - NA,228
+Ceylon,2011 - Gavin King,224
+LOLCODE,2007 - Adam Lindsay,225
+Opa,2011 - NA,237
+SPARC,1987 - NA,177
+SuperCollider,1996 - NA,238
+SystemVerilog,2002 - NA,236
+QBasic,1991 - NA,222
+Clean,1987 - NA,230
+Lean,2015 - Leonardo de Moura,194
+SNOBOL,1962 - David J. Farber and Ralph E. Griswold,245
+Cython,2007 - NA,243
+RFC,1969 - Steve Crocker,186
+Bison,1985 - NA,247
+XPath,1999 - NA,191
+Inform,1993 - Graham Nelson,246
+CLIPS,1985 - NA,240
+reStructuredText,2002 - David Goodger,252
+Pony,2012 - NA,217
+RobotFramework,2013 - NA,232
+PL/pgSQL,1998 - Jan Wieck,259
+Factor,2003 - Slava Pestov,258
+Self,1987 - David Ungar,267
+Stata,1985 - William Gould,241
+Multi-User Forth,1995 - NA,253
+Nextflow,2013 - NA,215
+JSON5,2012 - Aseem Kishore,227
+SI,1960 - NA,223
+Pike,1994 - Fredrik Hübinette,264
+grep,1974 - NA,206
+EDN,2012 - NA,220
+PL/I,1964 - NA,212
+Isabelle,1986 - NA,268
+WSDL,2000 - NA,254
+NetLogo,1999 - Uri Wilensky,244
+MiniD,2006 - Jarrett Billingsley,273
+API Blueprint,2013 - NA,262
+RAML,2013 - NA,251
+HCL,2014 - NA,248
+Perl 6,2015 - Larry Wall,287
+Click,1999 - NA,218
+ATS,2013 - Hongwei Xi,278
+AutoLISP,1986 - David Betz,288
+S-algol,1979 - NA,285
+IA-32,1985 - NA,211
+Csound,1985 - NA,284
+F*,2014 - NA,229
+Ini,1987 - NA,250
+Sass,2006 - Hampton Lintorn-Catlin,257
+Turtle,2011 - NA,231
+Lex,1975 - NA,286
+AGC,1966 - NA,249
+Gnuplot,1986 - NA,296
+Xojo,1996 - NA,297
+Morse code,1837 - NA,265
+FoxPRO,1992 - NA,299
+FlatBuffers,2014 - NA,270
+ClojureScript,2011 - NA,282
+Ioke,2008 - Ola Bini,306
+INTERCAL,1972 - NA,302
+Java Bytecode,1995 - NA,226
+S-expressions,1960 - NA,233
+E,1997 - Mark S. Miller,308
+Alloy,1997 - NA,300
+Wren,2013 - Bob Nystrom,277
+odin,2016 - NA,269
+AXIOM,1992 - NA,256
+LiveScript,2011 - Jeremy Ashkenas and Satoshi Murakami and George Zahariev,310
+RDoc,2004 - NA,305
+CSP,1978 - NA,266
+Modelica,1997 - NA,312
+Embedded Crystal,2016 - NA,307
+Office Open XML,2006 - NA,255
+POV-Ray SDL,1991 - Chris Cason,263
+Microsoft BASIC,1975 - NA,242
+Clipper,1985 - NA,321
+ERB,2004 - NA,315
+YARA,2008 - Victor M. Alvarez,295
+Batchfile,1985 - NA,272
+MariaDB,2009 - NA,260
+Whitespace,2003 - NA,261
+GAMS,1963 - NA,314
+DNS,1985 - Paul Mockapetris,283
+SYMBOL,1971 - NA,275
+B,1969 - Ken Thompson and Dennis Ritchie,293
+AsciiDoc,2002 - NA,326
+BPMN,2004 - NA,271
+Pod,1997 - NA,325
+M4,1977 - Brian Kernighan and Dennis Ritchie,324
+Datalog,1977 - NA,327
+Objective-J,2008 - NA,322
+Marko,2014 - NA,313
+Dafny,2009 - K. Rustan M. Leino,280
+C--,1997 - Simon Peyton Jones,276
+Ninja,2012 - Evan Martin,290
+Dhall,2017 - NA,301
+Base64,1987 - NA,292
+Wolfram Language,1988 - Stephen Wolfram,332
+Oxygene,2002 - NA,335
+Gambas,1999 - Benoît Minisini,339
+JSON-LD,2010 - Dave Longley,309
+Q,2003 - Arthur Whitney,337
+PEG.js,2010 - David Majda,317
+HyperTalk,1987 - Dan Winkler,347
+TLA,1999 - Leslie Lamport,274
+SPARK,1988 - NA,336
+halide,2010 - NA,319
+Befunge,1993 - Chris Pressey,343
+Puppet,2005 - NA,291
+Speedie,2022 - Theodore H Smith,334
+Miranda,1985 - David Turner,351
+Bourne shell,1977 - NA,279
+C3,2019 - Christoffer Lernö,281
+Bicep,2020 - Anthony Martin,320
+Visual FoxPro,1995 - NA,304
+Seed7,2005 - Thomas Mertes,354
+x86-64,2000 - NA,329
+PowerBuilder,2010 - NA,345
+Twig,2009 - NA,355
+Less,2009 - Alexis Sellier,348
+XS,2002 - NA,353
+eC,2004 - Jérôme Jacovella-St-Louis,289
+SGML,1986 - NA,298
+Coconut,2014 - NA,328
+Simulink,1984 - NA,294
+G-code,1950 - NA,318
+Oberon-2,1991 - Niklaus Wirth and Hanspeter Mössenböck,362
+Genie,2008 - Jamie McCracken,368
+QuickBASIC,1985 - NA,374
+Maxima,1982 - NA,370
+Thrift,2007 - NA,367
+NATO phonetic alphabet,1956 - NA,346
+AutoHotkey,2003 - NA,316
+Classroom Object Oriented Language,1996 - Alexander Aiken,360
+PL/0,1976 - Niklaus Wirth,371
+GW-BASIC,1983 - NA,303
+SETL,1969 - Jacob T. Schwartz,384
+LINQ,2007 - NA,388
+JSON Schema,2010 - Kris Zyp,338
+Z notation,1974 - NA,311
+ECL,2000 - NA,323
+Falcon,2003 - Giancarlo Niccolai,392
+SaltStack,2011 - Thomas S Hatch,373
+ALGOL 68,1968 - NA,386
+XBase++,1997 - NA,381
+Netwide Assembler,1996 - NA,393
+Transact-SQL,1984 - NA,380
+CLU,1975 - Barbara Liskov,397
+Dc,1978 - NA,395
+LiveCode,2001 - NA,399
+COMTRAN,1957 - NA,350
+ASN.1,1984 - NA,341
+wisp,2012 - Santosh Rajan and Irakli Gozalishvili and LeXofLeviafan and Chris McCormick,330
+ink,2015 - Joseph Humfrey,359
+ABC,1980 - NA,403
+DIAGRAM,1980 - NA,344
+K,1993 - Arthur Whitney,409
+YASnippet,2008 - Zhang Chiyuan,365
+Scala.js,2013 - Martin Odersky,377
+Cap'n Proto,2013 - Kenton Varda,394
+Squeak,1996 - NA,413
+HyperCard,1987 - NA,331
+PRQL,2022 - Maximilian Roos,378
+Jython,2001 - NA,363
+Bluespec,2000 - NA,404
+Croc,2006 - Jarrett Billingsley,405
+KaTeX,2013 - Emily Eisenberg,376
+EJS,2010 - Tj Holowaychuk,390
+S,1976 - NA,333
+True BASIC,1983 - John George Kemeny and Thomas Eugene Kurtz,421
+WxBasic,2002 - NA,415
+Markwhen,2022 - Rob Koch,379
+Stylus,2010 - TJ Holowaychuk,419
+Ion,2016 - NA,416
+UrWeb,2008 - NA,349
+GAP,1986 - gap,356
+Vim script,1991 - NA,422
+Sather,1990 - Steve Omohundro,435
+FreeBASIC,2004 - Andre Victor,389
+MMX instruction set,1997 - NA,340
+JScript,1996 - NA,342
+unison,2015 - NA,400
+Pig Latin,2008 - NA,364
+TXL,1985 - James Cordy,432
+RMarkdown,2014 - JJ Allaire,402
+chrysaLisp,2015 - Chris Hinsley,382
+CIL,1994 - NA,445
+EML,1974 - NA,361
+starlark,2018 - Laurent Le Brun,387
+FASTQ,2000 - NA,366
+Punched tape,1943 - NA,352
+Latte,2008 - David Grudl,369
+Smarty,2006 - Monte Ohrt and Messju Mohr and Uwe Tews,446
+Nu,2007 - Tim Burks,449
+Multics,1967 - NA,357
+DTD,1996 - NA,358
+Malbolge,1998 - Ben Olmstead,372
+Xtend,2011 - Sven Efftinge and Sebastian Zarnekow,447
+Tiny BASIC,1975 - Dennis Allison,451
+ALGOL W,1966 - NA,457
+tornado,2009 - NA,460
+JFlex,2003 - NA,385
+DTrace,2005 - NA,398
+Ragel,2007 - NA,453
+AspectJ,2001 - NA,383
+Caml,1985 - Gérard Huet and Guy Cousineau and Ascánder Suárez and Pierre Weis and Michel Mauny,471
+Fortress,2004 - NA,472
+PARI/GP,1985 - NA,470
+jq,2012 - Stephen Dolan,461
+Pure Data,1996 - NA,430
+Max,1990 - NA,375
+muPad,1997 - NA,476
+HLSL,2002 - NA,466
+Unicon,2008 - Clint Jeffery,478
+RDFa,2004 - NA,410
+Ring,2016 - Mahmoud Fayed,468
+HOPE,1978 - NA,485
+Free Pascal,1997 - NA,391
+XSLT,1998 - NA,479
+RPL,1984 - NA,491
+Diff,1974 - NA,408
+mlir,2019 - NA,434
+Gosu,2002 - NA,487
+OpenVera,2001 - NA,488
+SIL,2012 - NA,489
+mermaid,2014 - NA,492
+High Level Assembly,2011 - Randall Hyde,483
+commonmark,2014 - John MacFarlane,424
+Atmel AVR,1996 - NA,396
+Eve,2016 - NA,454
+Cue,2018 - Marcel van Lohuizen,443
+Fennel,2016 - Calvin Rose,428
+JCL,1964 - NA,423
+RATFOR,1976 - NA,500
+GLSL,1992 - NA,497
+Curry,1990 - Michael Hanus and Sergio Antoy,498
+Slash,2012 - NA,401
+MusicXML,2004 - NA,496
+Enso,2015 - Wojciech Danilo,429
+Luna,2015 - Wojciech Danilo,433
+Golo,2012 - Webmaster,412
+NSIS,2001 - NA,407
+TreeSheets,2019 - Wouter van Oortmerssen,418
+Expect,1990 - NA,503
+BETA,1983 - Bent Bruun Kristensen and Ole Lehrmann Madsen and Birger Møller-Pedersen and Kristen Nygaard,504
+Action!,1983 - NA,505
+janet,2018 - Calvin Rose,455
+Ladder Logic,1994 - NA,420
+beef-lang,2019 - Brian Fiete,448
+Inno Setup,1997 - NA,508
+Dogescript,2013 - Zach Bruggeman,439
+PL/M,1973 - NA,512
+Cg,2003 - NA,514
+LilyPond,1996 - NA,516
+MPS,2010 - NA,425
+PEG,2002 - NA,406
+FASTA,2004 - NA,426
+datascript,2014 - NA,444
+Shakespeare,1993 - NA,414
+SWI Prolog,1987 - NA,417
+QB64,2007 - NA,518
+Korn shell,1983 - NA,431
+WDL,2012 - NA,442
+Imba,2014 - NA,484
+Koka,2012 - Daan Leijen,465
+Altair BASIC,1975 - NA,411
+Closure Templates,2009 - NA,440
+UNLAMBDA,1999 - David Madore,519
+IGOR Pro,1993 - NA,520
+PhyloXML,2009 - NA,521
+RISC-V,2010 - NA,437
+CWL,2014 - Luka Stojanovic,438
+Augmented Backus-Naur Form,2008 - NA,427
+gravity,2017 - NA,494
+Java EE version history,1998 - NA,525
+Ron,2015 - Juniper Tyree,475
+EBNF,1977 - Niklaus Wirth,462
+SourcePawn,2014 - NA,441
+Textile,2002 - netcarver,473
+Java Properties,1995 - NA,456
+OpenLisp,1988 - Christian Jullien,535
+Blitz3D,2001 - NA,529
+Ren'Py,2004 - NA,450
+Commodore BASIC,1977 - NA,436
+Taichi,2019 - Yuanming Hu,530
+PIR,2006 - NA,537
+LPC,1995 - Lars Pensjö,538
+Xtext,2006 - NA,480
+Reia,2008 - NA,458
+carp,2016 - Erik Svedäng,511
+GAMS,1988 - NA,541
+CWEB,1987 - Donald Knuth,536
+dynamo-visual-language,2011 - Ian Keough,481
+Euphoria,1993 - Jeremy Cowgar and Robert Craig and Matt Lewis and Derek Parnell,540
+Hjson,2014 - Christian Zangl,501
+BBCode,1998 - NA,452
+Microsoft Small Basic,2008 - NA,459
+Guile,1993 - Aubrey Jaffer and Tom Lord and Miles Bader,555
+Argdown,2014 - NA,467
+GeoJSON,2008 - NA,464
+Velocity,2003 - NA,561
+Qualcomm Hexagon,2006 - NA,463
+RUNOFF,1965 - NA,545
+Jule,2021 - Mertcan Davulcu,546
+Aith,2020 - Superstar64,547
+RoboMind,2005 - NA,565
+MDX,2017 - John Otander,543
+IMAP,1986 - NA,495
+Dockerfile,2013 - NA,562
+DDML,1999 - NA,550
+CFML,1995 - Jeremy Allaire,542
+KiXtart,1991 - NA,575
+Pizza,2001 - NA,568
+NewtonScript,1993 - Walter Smith,569
+AssemblyScript,2017 - NA,548
+Velato,2009 - NA,554
+Information Presentation Facility,1997 - NA,566
+Djot,2022 - John MacFarlane,490
+Emojicode,2016 - Theo Weidmann,524
+Rust MIR,2016 - NA,574
+Plain English,2018 - Gerry Rzeppa and Dan Rzeppa,560
+PIC microcontroller,1975 - NA,469
+LotusScript,1996 - NA,584
+DRAKON,1996 - Stepan Mitkin,477
+Microsoft Macro Assembler,1981 - NA,474
+beads-lang,2016 - Edward de Jong,573
+flowchart.fun,2021 - Rob Gordon,513
+Svelte,2019 - Rich Harris,556
+JADE,1996 - NA,587
+Pharo,2008 - NA,588
+PROMETHEUS,2012 - Matt T. Proud,557
+Ghostscript,1988 - NA,486
+Mirah,2009 - Charles Oliver Nutter,515
+Sqlalchemy,2006 - Michael Bayer,559
+CPL,1963 - Christopher Strachey,601
+Modula,1975 - Niklaus Wirth,602
+Asm.js,2013 - NA,482
+Microdata HTML,2013 - NA,509
+BlitzPlus,2003 - NA,594
+Bel,2019 - Paul Graham,595
+ACT-III,1956 - NA,598
+Papyrus,2015 - NA,551
+Clarion,1986 - NA,603
+VRML,1994 - NA,493
+progsbase,2018 - Martin F. Johansen,517
+Spin,2006 - NA,591
+Readable,2018 - Lépine Kong,592
+CSV,1972 - NA,607
+XeTeX,2004 - NA,608
+SQLPL,2009 - NA,609
+ThinBasic,2004 - NA,610
+KML,2007 - NA,502
+ARexx,1987 - NA,616
+CLOS,1988 - NA,617
+PAWN,2006 - NA,522
+Uno,2002 - NA,544
+Alice,2000 - NA,618
+Futhark,2013 - Troels Henriksen and Cosmin Oancea and Martin Elsman,539
+CSON,2011 - Benjamin Lupton,531
+JSON-stat,2011 - Xavier Badosa,599
+ALGOL 58,1958 - NA,499
+QR code,1994 - NA,577
+JAI,2014 - Jonathan Blow,534
+Nial,1981 - Mike Jenkins,624
+Yoix,2000 - Rich Drechsler and John Mocenigo,605
+S3,1986 - NA,619
+CodeQL,2018 - Pavel Avgustinov,582
+mgmt,2015 - James Shubin,567
+Simple Binary Encoding,2013 - NA,580
+Felix,2001 - John Skaller,526
+MBASIC,1983 - NA,506
+Troff,1973 - NA,507
+JavaCC,1996 - NA,510
+kaitai,2016 - Mikhail Yakshin,571
+FLOW-MATIC,1955 - Grace Hopper,629
+mustache,2009 - Chris Wanstrath,578
+NetLinx,2007 - NA,612
+Concise Encoding,2018 - Karl Stenerud,614
+blockml,2014 - NA,615
+Slope,2021 - Sloum,533
+Jakt,2022 - NA,558
+BNF,1956 - John Backus and Peter Naur,532
+Fuzzy Markup Language,2004 - NA,623
+P4,2014 - NA,528
+Nushell,2019 - Yehuda Katz,589
+Curl,1998 - Steve Ward,583
+Visual Prolog,1996 - NA,643
+GML,1969 - Charles Goldfarb and Edward Mosher and Raymond Lorie,644
+Aldor,1990 - Richard Dimick Jenks and Barry Trager and Stephen Watt and James Davenport and Robert Sutor and Scott Morrison,637
+Mathcad,1986 - NA,523
+mavo,2015 - Lea Verou,585
+Joy,2001 - Manfred von Thun,654
+QMake,2002 - NA,639
+ProvideX,1992 - Michael F. King,640
+XProc,1990 - NA,648
+Cobra,2006 - Charles Esterbrook,649
+Cyclone,2001 - NA,656
+Lisaac,2003 - NA,657
+UTC,1960 - NA,596
+Advanced Message Queuing Protocol,2003 - NA,549
+TI MSP430,2009 - NA,527
+LookML,2012 - NA,638
+Rockstar,2018 - Dylan Beattie,664
+JSFuck,2012 - Martin Kleppe,646
+Angelscript,2003 - Andreas Jönsson,563
+Dojo,2005 - Alex Russal,604
+Apex,2007 - NA,653
+Triton,2021 - Philippe Tillet,621
+Pop-11,1999 - NA,683
+Z shell,1990 - Paul Falstad,576
+MQL5,2005 - NA,553
+Volt,2011 - NA,579
+DM,1994 - NA,662
+BBC BASIC,1981 - NA,628
+Karel,1981 - Richard E. Pattis,678
+JSONiq,2011 - NA,679
+chaiscript,2009 - NA,622
+DIGITAL Command Language,1997 - NA,682
+Linden Scripting Language,2003 - NA,669
+Tea,1997 - NA,688
+NCAR Command Language,1994 - NA,572
+J#,2002 - NA,552
+GDScript,2008 - NA,681
+fay,2012 - Chris Done,597
+BeanShell,1999 - NA,705
+FutureBASIC,1992 - NA,706
+Eclipse Command Language,2008 - NA,690
+GOLD,2012 - NA,713
+CSS Doodle,2017 - Yuan Chuan,651
+PIC,1988 - NA,697
+PowerBASIC,1989 - NA,716
+Turbo Basic,1987 - NA,723
+ShaderLab,2000 - NA,703
+dat-protocol,2013 - Max Ogden,625
+Filebench WML,2011 - Vasily Tarasov,590
+BPEL,2001 - NA,564
+docopt,2012 - Vladimir Keleshev,626
+Meson,2013 - NA,718
+Vimwiki,2008 - Maxim Kim,627
+TSV,1993 - NA,570
+sizzle,2008 - NA,630
+Dartmouth BASIC,1964 - John G. Kemeny and Thomas E. Kurtz,729
+Up-arrow notation,1976 - Donald Knuth,586
+Desmos,2011 - Eli Luberoff,632
+edgedb,2017 - NA,634
+PCRE,1997 - Philip Hazel,581
+Gettext Catalog,1990 - NA,667
+StarOffice Basic,2000 - NA,730
+Creole,2007 - NA,600
+Semantic Versioning,2011 - Tom Preston-Werner,635
+noms-db,2015 - NA,636
+UPC,2003 - NA,695
+htmx,2020 - NA,641
+ISLISP,2007 - NA,752
+XL,2000 - Christophe de Dinechin,741
+Automatically Programmed Tool,1956 - NA,742
+Harbour,1999 - Antonio Linares,733
+Cryptol,2014 - Adam C. Foltzer,633
+Rholang,2016 - NA,668
+Network Time Protocol,1981 - NA,650
+pyret,2011 - Joe Gibbs Politz,631
+COMPONENT PASCAL,1997 - NA,738
+zephyr-asdl,1997 - NA,739
+SQL-92,1992 - NA,593
+Lightweight Directory Access Protocol,1997 - NA,655
+Refal,1968 - Valentin Turchin,756
+Yorick,1996 - David H. Munro,757
+Mask,2012 - NA,712
+Omgrofl,2006 - NA,746
+carth,2018 - Johan Johansson,747
+mckeeman-form,2020 - Bill McKeeman,748
+Bucklescript,2010 - Evan Martin,659
+Telnet,1969 - NA,661
+Mu,2014 - Kartik K. Agaram,642
+CartoCSS,2010 - NA,751
+IcedCoffeeScript,2009 - Max Krohn,665
+Logica,2020 - Evgeny Skvortsov,666
+OPL,1984 - NA,769
+Ravenscar profile,1997 - NA,770
+WML,2006 - NA,771
+TELCOMP,1966 - NA,772
+Jasmin,1997 - NA,758
+RenderScript,2011 - NA,759
+Literate Agda,2009 - NA,760
+Carbon,2020 - NA,647
+JOVIAL,1960 - NA,606
+SysML,2000 - NA,613
+Grammar,2017 - Breck Yunits,700
+Zuo,2022 - Matthew Flatt,674
+Motif,1989 - NA,720
+Thymeleaf,2011 - NA,611
+bosque,2019 - NA,676
+contracts.coffee,2011 - Tim Disney,677
+ICD-10-CM diagnosis,1983 - NA,680
+Game Maker Language,1999 - NA,768
+OpenSCAD,2010 - NA,652
+SAM file format,2009 - NA,620
+penrose,2016 - NA,684
+ToffeeScript,2013 - Miao Jiang,687
+BlackCoffee,2014 - Frank van Viegen,689
+heap.coffee,2012 - Roman I. Kuzmin,691
+MarkovJunior,2022 - Maxim Gumin,693
+JRuby,2001 - NA,658
+UberScript,2011 - James Strachan,696
+Caffeine,2012 - Roman I. Kuzmin,698
+Not Quite C,2017 - Nora Sandler,795
+CLIST,1990 - NA,792
+Context Diff,1981 - NA,793
+BlitzMax,2014 - NA,660
+Edje Data Collection,2010 - NA,786
+Objective C++,1993 - NA,787
+vyper,2016 - NA,702
+skulpt,2009 - Scott Graham,707
+hasklig,2012 - Ryan Stewart,708
+Speakeasy,2006 - Stanley Cohen,804
+ooc,2009 - Amos Wenger,675
+Rascal,2013 - NA,685
+Message Queuing Telemetry Transport,1999 - NA,710
+ALEF,1992 - Phil Winterbottom,814
+Neko,2005 - Nicolas Cannasse,686
+UNITY,1988 - NA,798
+omega,2005 - Tim Sheard,799
+BLISS,1969 - William Wulf,810
+Elvish,2013 - Qi Xiao,714
+TiddlyWiki,2004 - NA,645
+Euclidean geometry,-300 - NA,715
+Lily,2011 - NA,701
+Streem,2014 - Yukihiro Matsumoto,717
+m3db,2016 - Xi Chen,719
+Nit,2008 - Jean Privat,694
+OX,1996 - Jurgen A. Doornik,806
+Alpine Abuild,2006 - NA,807
+Slice,2011 - NA,808
+Beatnik,2001 - NA,809
+Security Assertion Markup Language,2001 - NA,721
+clay,2010 - KS Sreeram and Joe Groff,692
+Sweet.js,2012 - Tim Disney,722
+Perl Data Language,1996 - NA,833
+YoptaScript,2016 - Sam Gozman,734
+HTTP/2,2015 - NA,724
+ROFF,1971 - Joe Ossanna and Ken Thompson,821
+SimCode,1997 - NA,817
+walt,2017 - NA,726
+EmberScript,2012 - Michael Ficarra and Gordon L. Hempton,709
+ohm,2014 - NA,727
+xCard,2011 - NA,823
+Binary notation,1689 - Gottfried Leibniz,732
+SMIL,1997 - NA,663
+gleam,2016 - Louis Pilfold,735
+GCC Machine Description,2001 - NA,828
+Jupyter Notebook,2014 - NA,829
+ActiveVFP,2001 - NA,830
+TI-BASIC,1970 - NA,670
+Tree Notation,2017 - Breck Yunits,699
+Ante,2015 - Jake Fecher,743
+Atari BASIC,1983 - NA,673
+UCSD Pascal,1978 - NA,671
+Applesoft BASIC,1979 - NA,672
+groff,1990 - NA,846
+Cesil,1974 - NA,847
+Praat Script,1997 - NA,744
+Whiley,2009 - David J. Pearce,731
+Shen,2011 - Mark Tarver,840
+Fibonacci,1991 - Antonio Albano and Giorgio Ghelli and and Renzo Orsini,849
+skip,2018 - NA,765
+MVEL,2003 - NA,852
+AsciiDots,2017 - Aaron Janse,737
+ArkScript,2019 - Alexandre Plateau and Pierre Pharel and Natendrtfm,728
+chef,2002 - NA,848
+Melody,2022 - Yoav Lavi,749
+UCL,2013 - NA,763
+chisel,2015 - NA,753
+Brightscript,2010 - NA,855
+verona,2019 - NA,755
+Geography Markup Language,2000 - NA,704
+SCSS,2006 - Hampton Lintorn-Catlin,858
+MATHLAB,1964 - NA,711
+T,1980 - NA,874
+Stan,2012 - NA,740
+IP Pascal,1990 - Scott Moore,862
+Formulating On-Line Calculations in Algebraic Language,1968 - Richard Merrill,863
+Epigram,2004 - Conor McBride,871
+SugarSS,2016 - Andrey Sitnik,750
+Cell,2017 - NA,864
+JOSS,1966 - Cliff Shaw,888
+ColaScript,2012 - Dan Onoshko,764
+GraphIt,2017 - NA,745
+Cycript,2008 - NA,868
+Raku,2019 - Larry Wall,869
+Tap code,1941 - NA,725
+Strips,1969 - NA,880
+Pure,2008 - Albert Gräf,881
+Committee on Uniform Security Identification Procedures,1968 - NA,773
+Ch,2003 - Ge Wang,754
+LOGLAN,1982 - NA,775
+NetRexx,1996 - Mike Cowlishaw,885
+winxed,2009 - NA,877
+Caché Basic,1997 - NA,878
+svgbob,2016 - Jovansonlee Cesar,779
+rant,2014 - NA,782
+manhood,2014 - NA,783
+Fancy,2010 - NA,766
+PogoScript,2011 - NA,803
+DokuWiki,2004 - NA,736
+Real-time Transport Protocol,1996 - NA,788
+SMT,2003 - NA,891
+Ezhil,2007 - Muthu Annamalai,892
+Hindu-Arabic numeral system,825 - NA,789
+VML,1998 - NA,778
+Not eXactly C,2006 - NA,896
+Mary,1970 - NA,897
+checked-c,2015 - David Tarditi,790
+zz,2019 - Arvid E. Picciani,801
+WebIDL,2012 - NA,767
+Compiler-Compiler,1963 - NA,870
+Logtalk,1998 - Paulo Moura,901
+Mech,2018 - Corey Montella,902
+DOML,2017 - NA,903
+Open Data Protcol,2007 - NA,794
+storyscript,2017 - NA,776
+Cranelift,2016 - Jakob Olesen,797
+mun-lang,2019 - NA,813
+Nexus file,1997 - NA,910
+Creative Basic,2008 - NA,911
+FreeMarker,2000 - NA,796
+TI Program,1970 - NA,907
+Qalb,2012 - Ramsey Nasser,800
+Hyperscript,2012 - Dominic Tarr,827
+SRecode Template,2000 - NA,913
+Observable,2017 - Mike Bostock,761
+gluon,2014 - NA,802
+oil,2016 - NA,805
+Impala,2012 - NA,831
+Jargon,1987 - NA,811
+MAXScript,1996 - NA,916
+DOODLE,1992 - NA,812
+Esterel,1980 - NA,922
+PL360,1967 - Niklaus Wirth,923
+Pan,2011 - Charles Loomis,895
+LoomScript,2013 - NA,920
+P,2013 - NA,815
+Luna,2011 - TJ Holowaychuk,816
+Apache Lucene,1999 - NA,774
+Property list,2012 - NA,762
+invokator,2004 - Yann Orlarey,819
+Pep8,2009 - NA,926
+GFA BASIC,1986 - NA,940
+ActivityPub,2018 - Christine Lemmer-Webber and Jessica Tallon and Erin Shepherd and Amy Guy and Evan Prodromou,777
+Open Shading Language,2008 - NA,822
+Stencil,2018 - Kyle Fuller,824
+Vigil,2013 - Bob Nystrom,825
+Umple,2008 - NA,780
+mathics,2012 - NA,826
+OpenEdge ABL,2006 - NA,820
+kitten,2012 - Jon Purdy,832
+Spatial,2018 - David Koeplinger,899
+Type Language,2013 - NA,933
+Shakespeare,2001 - NA,934
+SQL/PSM,1996 - NA,784
+FP,1977 - John Backus,951
+Please Build,2016 - NA,835
+MOO,1993 - NA,938
+Treelang,1988 - NA,939
+Almquist shell,1989 - NA,781
+GRASS,1977 - NA,948
+Programming Language for Business,1972 - NA,945
+UBASIC,1991 - NA,946
+Unified Diff,1990 - Wayne Davison,947
+TIScript,2007 - Andrew Fedoniouk,836
+Parrot Assembly,2003 - NA,955
+Hackett,2017 - Alexis King,842
+Kodu Game Lab,2009 - NA,785
+XHTML,2000 - NA,838
+Gopher,1991 - Mark P. McCahill and Farhad Anklesaria and Paul Lindner and Daniel Torrey and Bob Alberti,839
+EXPRESS,2004 - NA,843
+ISWIM,1966 - Peter Landin,971
+ARC processor,1995 - NA,791
+Arden syntax,1992 - NA,952
+Stutter,2018 - NA,953
+Apache Cassandra,2008 - NA,841
+json-graph-format,2014 - NA,837
+JSON with Comments,2001 - Muhammad Muzzammil,834
+Post Office Protocol,1957 - NA,844
+Script.NET,2007 - NA,860
+Jolie,2006 - Claudio Guidi and Fabrizio Montesi,925
+bog,2020 - NA,961
+NATURAL,1971 - NA,962
+ColdFusion Components,1995 - NA,963
+HeLang,2022 - kifuan,850
+VHDL-AMS,1993 - NA,973
+Fable,2012 - NA,974
+Txt2tags,2001 - Aurelio Jargas and Florent Gallaire and Jendrik Seipp,986
+Blade,2011 - NA,978
+pasukon,2020 - Federico Ramirez,979
+Extensible Embeddable Language,2005 - David Olofson,980
+Operational Control Language,1986 - NA,981
+Sheep,2000 - Wouter Van Oortmerssen,982
+MATH-MATIC,1957 - NA,985
+TECO,1963 - NA,988
+Handel-C,1996 - NA,989
+Turbo Assembler,1989 - NA,818
+souper,2014 - NA,859
+M4Sugar,2003 - NA,990
+llhd,2016 - NA,991
+Opal,1994 - NA,994
+EGL,2008 - NA,995
+Touch,2020 - NA,996
+FML,2012 - Joe Groff,997
+C2,2012 - Bas van den Berg,851
+VCF,2011 - NA,879
+Cypher Query Language,2011 - NA,998
+Lingo,1988 - NA,1004
+MXML,2004 - NA,1005
+Hyperscript,2020 - NA,887
+plot,2019 - John Sundell,867
+BQN,2020 - Marshall Lochbaum,876
+HL7,1989 - NA,872
+Smiles,1988 - NA,873
+ACL2,1990 - Robert S. Boyer and J Strother Moore,1019
+Object Rexx,1988 - Simon C. Nash,1020
+Locomotive BASIC,1984 - NA,1021
+Quaint,2014 - Olivier Breuleux,1007
+Open Database Connectivity,1990 - NA,875
+SRL,2016 - Karim Geiger,882
+PEARL,1977 - NA,845
+XBLite,2001 - David Szafranski,1017
+SSI,2004 - NA,854
+WHOIS,1970 - NA,883
+Lamdu,2011 - Eyal Lotem and Yair Chuchem,884
+Google Apps Script,2009 - NA,857
+Jison Lex,2013 - Zachary Carter,936
+Maya Embedded Language,2013 - NA,1013
+Logos,2010 - NA,1014
+Carpet,1997 - Giandomenico Spezzano and Domenico Talia,1015
+Molfile,1979 - NA,1016
+erg,2022 - Shunsuke Shibayama,886
+Flix,2016 - Magnus Madsen,889
+Linotte,2005 - cpc6128,908
+I-expressions,2003 - Egil Möller,1035
+Speedcoding,1953 - John Backus,853
+Wasp,2019 - Martin Šošić,890
+ALGO,1958 - NA,1027
+SmallBASIC,2001 - NA,856
+crush,2020 - Axel Liljencrantz,893
+spry,2015 - Göran Krampe,898
+Query by Example,1969 - NA,866
+network embedded systems C,2002 - NA,909
+HiveQL,2011 - NA,1028
+Dak,2022 - Naitik Shah,1029
+comby,2019 - Rijnard van Tonder,894
+XC,2005 - NA,918
+BlooP,1979 - NA,1031
+Violent ES,2022 - Matheus Dias de Souza,1032
+YAWL,2006 - Dean Mao,1010
+Roc,2020 - Richard Feldman,900
+Newick format,1986 - NA,861
+IBM 1620,1959 - NA,865
+Genshi,2006 - NA,1044
+tiledb,2017 - NA,904
+ELLA,1979 - NA,1038
+Guix Workflow Language,2017 - NA,1039
+haste,2014 - Anton Ekblad,905
+Ternary numeral system,2001 - NA,906
+Cyber,2022 - NA,1037
+EEX,2012 - NA,1048
+JSX,2013 - NA,1049
+MACRO-10,1978 - NA,1050
+snakemake,2012 - NA,1051
+Flow9,2010 - Dmitry Solomennikov,928
+femtolisp,2008 - Jeff Bezanson,912
+Swallow,2021 - Saptak,914
+Glicol,2020 - Qichao Lan,937
+KRL,1976 - Daniel G. Bobrow and Terry Winograd,1057
+Q#,2017 - NA,1058
+roy,2011 - Brian McKenna,944
+Sweave,2002 - NA,1061
+Newspeak,2006 - Gilad Bracha,1062
+NS Basic,1994 - NA,1063
+kona,2010 - NA,917
+Lux,2014 - Eduardo Julián,919
+Plus,1976 - NA,1068
+exkited,2018 - Brandon Barber,1069
+Module Management System,2005 - NA,1070
+turnstile,2017 - Stephen Chang and Alex Knauth and Ben Greenman and Milo Turner and Michael Ballantyne,1071
+lobster,2011 - Wouter van Oortmerssen,924
+XML Binding Language,2000 - NA,915
+Superjson,2014 - Matthew Mueller,929
+clash,2015 - NA,930
+1C Enterprise Script,2002 - NA,1080
+tht,2017 - NA,1081
+monte,2014 - NA,1082
+dslx,2020 - NA,1083
+PLZ,1979 - NA,1084
+fetlang,2017 - NA,935
+General Purpose Simulation System,1960 - NA,1090
+CLISP,1973 - NA,1091
+Earl Grey,2014 - Olivier Breuleux,968
+Rc,1989 - Tom Duff,1094
+F,1996 - NA,1095
+rason,2015 - NA,1096
+Berry,2018 - 官文亮,942
+Ć,2011 - Piotr Fusik,943
+Xbasic,1988 - Max Reason,1088
+Markus,2020 - NA,1089
+Mesa,1970 - NA,927
+DNS over HTTPS,2018 - NA,949
+TAP,1988 - NA,966
+Sinclair BASIC,1979 - Steve Vickers,921
+PLANNER,1969 - Carl Hewitt,1114
+HP BASIC for OpenVMS,1982 - NA,1115
+SuperBASIC,1984 - NA,1116
+Differential Datalog,2018 - Leonid Ryzhyk,956
+Gentoo Ebuild,1999 - NA,1103
+Vale,2017 - Chris Hawblitzel,1104
+MIRC scripting language,1995 - Khaled Mardam-Bey,1105
+gentee,2018 - Alexey Krivonogov,1106
+PROMAL,1986 - NA,1107
+Executable JSON,2013 - Todd Davies,1108
+relax,2000 - Makoto Murata,1109
+Rescript,2020 - NA,1110
+dex,2018 - NA,957
+MASM,1981 - Thomas Jaeger,959
+miniML_error,2013 - NA,960
+harlan,2011 - NA,965
+sile,2012 - NA,967
+FOCUS,1997 - NA,941
+AsciiMath,2014 - Peter Krautzberger,969
+spider,2014 - Alon Gubkin,970
+XUML,2002 - NA,931
+Z-machine,1980 - NA,932
+Interlisp,1966 - Daniel G. Bobrow and Warren Teitelman and Ronald Kaplan,1086
+NestedText,2020 - Ken Kundert,1097
+Frost,2017 - Ethan Nicholas,1124
+Cali-Lang,2015 - NA,1125
+Em,2020 - NA,1126
+FAUST,2002 - NA,1132
+Template Attribute Language,2007 - NA,1133
+GLBasic,2003 - NA,1134
+EXEC,1966 - NA,1135
+Zonnon,2003 - Jürg Gutknecht,1136
+Knitr,2012 - NA,954
+Typed Lua,2019 - NA,975
+hobbes,2017 - Kalani Thielen,976
+Ch computer programming,2001 - NA,958
+WML,1998 - NA,950
+circle-lang,2019 - Sean Baxter,977
+Hocon,2011 - NA,1143
+CIR,2020 - NA,1144
+Parrot BASIC,2009 - NA,1145
+Autocode,1954 - NA,964
+lispyscript,2012 - Santosh Rajan,1022
+UnrealScript,1998 - NA,1139
+Grammatical Framework,1998 - NA,1140
+Parser 3,1997 - Konstantin Morshnev,1141
+BARE,2020 - NA,1142
+score,2013 - NA,987
+ferret,2017 - Nurullah Akkaya,1025
+International System of Quantities,2009 - NA,972
+XSD,2001 - NA,992
+COMAL,1973 - Børge R. Christensen and Benedict Løfstedt,1177
+AL,2016 - Microsoft,993
+Mako,2006 - NA,1157
+Rapira,1987 - Andrey Ershov,1158
+Simple Actor Language System and Architecture,2001 - NA,1159
+Adept,2018 - Isaac Shelton,1160
+Frink,2001 - NA,1161
+Nios II,2000 - NA,984
+bee,2019 - Elucian Moise,999
+Object Linking and Embedding,1990 - NA,1000
+NGS,2013 - Ilya Sher,1001
+.QL,2007 - NA,983
+fo,2018 - Alex Browne,1002
+BitBake,2004 - NA,1102
+Noweb,1989 - Norman Ramsey,1171
+Gherkin,2008 - NA,1172
+flagship,1986 - NA,1173
+Scroll,2020 - Breck Yunits,1182
+LUCID,1976 - Edward A. Ashcroft and William W. Wadge,1183
+Cayenne,1998 - NA,1184
+Fully Automated Compiling Technique,1959 - NA,1185
+Schema.org,2011 - NA,1043
+Pyret,2012 - Ben Lerner and Joe Gibbs Politz,1006
+curv,2016 - Doug Moen,1009
+Confluence,2004 - NA,1011
+XBRL,2003 - NA,1012
+mpl,1988 - NA,1187
+SATySFi,2015 - gfngfn,1018
+Sam Coupé,1989 - NA,1008
+Mond,2014 - Rohan Singh,1087
+Handlebars,2010 - NA,1193
+tcsh,1983 - NA,1194
+Orc,2004 - Jayadev Misra,1195
+Caltech Intermediate Form,1980 - NA,1196
+Recfiles,1994 - NA,1197
+ddfql,2016 - NA,1198
+BASIC Stamp,1990 - NA,1003
+Gerbil Scheme,2016 - NA,1023
+basic calculator,1975 - NA,1054
+Revolution,1993 - Mark Waddingham,1026
+Pomsky,2022 - Ludwig Stecher,1034
+Subleq,2009 - David Roberts,1207
+Qore,2006 - David Nichols,1208
+Avail,2010 - Mark van Gulik and Todd L. Smith,1209
+neeilang,2019 - Neeilan Selvalingam,1210
+hilvl,2015 - Holger Ludvigsen,1211
+PowerQuery M,2015 - NA,1212
+Ren,2013 - NA,1213
+Dale,2013 - tomhrr,1036
+BASIC Programming,1979 - Warren Robinett,1024
+Wyvern,2012 - NA,1085
+Connection Machine,1990 - NA,1030
+hamler,2019 - Feng Lee,1041
+xodio,2015 - Victor Nakoryakov,1042
+kitlang,2018 - Ben Morris,1045
+Passerine,2021 - Isaac Cayton (slightknack),1047
+Integer BASIC,1977 - NA,1033
+AMOS,1990 - NA,1227
+Z++,1991 - NA,1228
+CFScript,1999 - NA,1229
+SdlBasic,2002 - NA,1230
+Babylonian numerals,-2000 - NA,1052
+CSVw,2014 - Ivan Herman,1203
+Yet Another Scripting Language,2017 - NA,1218
+Aheui,2012 - NA,1219
+Formatted Table,1990 - NA,1220
+holyc,2005 - Terry A. Davis,1221
+hashlink,2015 - Nicolas Cannasse,1055
+Redcode,1984 - NA,1100
+Etoys,1996 - Alan Kay,1040
+JavaFX Script,2005 - NA,1235
+Caramel,2020 - Leandro Ostera,1056
+SFC,1993 - NA,1046
+International Chemical Identifier,2005 - NA,1060
+neut,2018 - NA,1113
+vdscript,2000 - Avery Lee,1064
+firrtl,2015 - NA,1065
+SQF,2002 - NA,1237
+txr,2009 - Kaz Kylheku,1238
+Zimpl,2004 - NA,1239
+Genero Business Development Language,2010 - NA,1240
+Snap!,2011 - Brian Harvey,1053
+CORAL,1964 - NA,1257
+SISAL,1983 - James McGraw,1258
+bloom,2010 - NA,1072
+Semantic Patch Language,2006 - Yoann Padioleau,1120
+djangoql,2017 - Denis Stebunov,1073
+mochi,2014 - NA,1074
+General feature format,2006 - NA,1059
+koara,2016 - Andy Van Den Heuvel,1075
+fe,2019 - NA,1076
+Oxyl,2019 - J Rain De Jager,1077
+RELAX NG,2001 - NA,1131
+Cirru,2012 - ChenYong,1252
+Nymph,2017 - Brandon Barber,1253
+Ubercode,2005 - NA,1254
+Jsonnet,2014 - Dave Cunningham,1255
+Boron,2009 - Karl Robillard,1256
+Atmel AVR instruction set,1996 - NA,1066
+S-PLUS,1988 - NA,1067
+Tuple space,1988 - NA,1205
+Michigan Algorithm Decoder,1959 - NA,1261
+WDDX,1998 - NA,1262
+Liberty BASIC,1992 - Carl Gundel,1280
+Spec Sharp,2004 - NA,1281
+COWSEL,1964 - NA,1282
+Lisp Machine Lisp,1974 - NA,1078
+muon,2019 - NA,1138
+F-Script,2009 - Philippe Mougin,1079
+Catala,2019 - Denis Merigoux,1092
+TELOS,1990 - NA,1098
+Egison,2013 - Satoshi Egi,1099
+Lustre,1993 - NA,1289
+GNU Data Language,2004 - Marc Schellens,1290
+NESL,1993 - NA,1291
+TextMate Language,2004 - NA,1292
+OCL,1997 - NA,1101
+Grace,2010 - NA,1272
+Crema,2014 - Jacob Torrey and Jared Wright,1273
+Mouse,1970 - NA,1274
+NWScript,2004 - NA,1275
+p4p,2010 - NA,1276
+Language Server Index Format,2019 - Dan Adler,1277
+Hare,2020 - NA,1278
+Ligo,2019 - NA,1279
+HAGGIS,2010 - NA,1152
+Flavors,1980 - NA,1093
+noulith,2022 - Brian Chen,1112
+JSON Query Language,2019 - Jakub Martin,1117
+Livr,2012 - Viktor Turskyi,1151
+QuakeC,1996 - John Carmack,1296
+Amiga E,1993 - Wouter Van Oortmerssen,1297
+Potion,2007 - Jonathan Gillette,1118
+spiral,2017 - NA,1119
+Adventure Game Studio Script,2001 - NA,1300
+C shell,1978 - NA,1301
+Charity,1992 - NA,1302
+MIMIC,1964 - NA,1303
+Pawn,1998 - NA,1304
+dlvm,2017 - Chris Lattner,1305
+epsilon,1967 - NA,1306
+lav-format,2004 - NA,1307
+GraphQL Schema Definition Language,2018 - NA,1308
+noisecraft,2021 - Maxime Chevalier-Boisvert,1122
+Edge Side Includes,2001 - NA,1111
+raptorjit,2009 - Mike Pall,1123
+visdown,2016 - Amit Kapoor,1181
+Marp,2018 - NA,1127
+eff,2012 - NA,1128
+Linda,1986 - David Gelernter,1121
+XML Metadata Interchange,2015 - NA,1137
+CMS-2,1968 - Vincent Cecil Secades and David Clark Rummler,1234
+OPS5,1977 - NA,1241
+Scribe,1980 - NA,1264
+ark-lang,2014 - NA,1146
+jayfor,2014 - Felix Angell,1147
+RDF Schema,1998 - NA,1150
+DAX,2009 - NA,1190
+Z,2012 - Chris Done,1314
+Kit,2012 - NA,1320
+PeopleCode,2008 - NA,1321
+JS++,2011 - Roger Poon and Anton Rapetov,1322
+Flowgorithm,2014 - NA,1148
+PILOT,1962 - NA,1326
+SCRIPT markup,1999 - NA,1327
+Yacas,1999 - NA,1328
+Q,1991 - Albert Gräf,1329
+Kid templating language,1999 - NA,1330
+REDUCE,2011 - NA,1331
+Pact,2016 - Stuart Popejoy,1154
+Acorn Atom,1980 - NA,1129
+Sibelius,1998 - NA,1130
+Vale,2020 - NA,1155
+tsquery,2018 - NA,1156
+SIMSCRIPT,1963 - NA,1337
+ink-lang,2019 - Linus Lee,1204
+POP-2,1967 - NA,1309
+sixten,2014 - Olle Fredriksson,1164
+MACRO,1979 - NA,1165
+oden,2016 - Oskar Wickström,1166
+Family BASIC,1984 - NA,1149
+abs,2018 - Alessandro Nadalin,1214
+Groovy Server Pages,2008 - NA,1333
+Fun,2010 - Marcus Westin,1334
+Uniform eXchange Format,2022 - Mark Summerfield,1335
+HMMM,2006 - NA,1336
+VisualWorks,1985 - NA,1162
+05AB1E,2015 - NA,1174
+Plankalkul,1948 - Konrad Zuse,1175
+WATFIV,1968 - NA,1167
+Cadence SKILL,1990 - NA,1153
+MiniZinc,2012 - NA,1217
+Parallax Propeller,2006 - NA,1163
+Jank,2015 - NA,1180
+MUSIC/SP,1972 - NA,1169
+Watcom,1988 - NA,1168
+JSLT,2017 - Lars Marius Garshol,1186
+Oak,1991 - NA,1170
+hacspec,2018 - Franziskus Kiefer,1345
+manool,2018 - Alex Protasov,1346
+Judoscript,2001 - James Jianbo Huang,1347
+parasail,2009 - Seth Tucker Taft,1348
+ArchieML,2015 - NA,1349
+Finite State Language,2016 - NA,1350
+Soy,2008 - NA,1351
+GraphML,2001 - NA,1176
+Umka,2020 - Vasiliy Tereshkov,1188
+pie-lang,2018 - David Christiansen,1189
+StarLogo,2008 - NA,1178
+Morfik,2000 - NA,1179
+Go!,2003 - Francis McCabe and Keith Clark,1222
+astro,2016 - NA,1199
+AmigaBASIC,1985 - NA,1200
+XPL,1967 - NA,1201
+MSX BASIC,1984 - NA,1202
+Facelets,2005 - NA,1374
+ToonTalk,1995 - Ken Kahn,1375
+TOM object-oriented,1999 - NA,1376
+RSS,1999 - Dan Libby and Ramanathan V. Guha,1377
+Note,2012 - Breck Yunits,1378
+CHIP-8,1970 - NA,1206
+Property Specification Language,2004 - NA,1191
+HAL/S,1972 - NA,1192
+Business Basic,1970 - NA,1295
+PBASIC,1988 - NA,1372
+KRC,1981 - David Turner,1373
+Thue,2004 - NA,1366
+GEL Genius,1997 - NA,1367
+silk,2019 - NA,1368
+Augeas,2007 - NA,1369
+Claro,2021 - Jason Steving,1370
+Vely,2022 - NA,1371
+QUEL,1976 - Michael Stonebraker,1266
+Casio BASIC,2006 - NA,1352
+TRAC,1964 - Calvin Mooers,1383
+Structured text,2019 - NA,1215
+partiql,2019 - James Siri,1216
+Fjölnir,1986 - Snorri Agnarsson,1387
+Nice,2006 - Daniel Bonniot,1388
+z80,1976 - NA,1389
+JSON Graph Spec,2013 - Byron Ruth,1390
+owen-lang,2019 - Paw Møller,1391
+Zot,2015 - Adam Treat,1392
+Sublime Syntax Test Lang,2008 - NA,1393
+verifpal,2019 - NA,1394
+StruQL,1999 - Mary Fernández and Dan Suciu and and Igor Tatarinov,1395
+Yedalog,2015 - Brian Chin and Daniel von Dincklage and Vuk Ercegovac and Peter Hawkins and Mark S. Miller and Franz Och and Chris Olston and Fernando Pereira,1396
+Coco,2010 - Satoshi Murakami,1223
+pikelet,2017 - Brendan Zabarauskas,1226
+forest-lang,2017 - NA,1231
+k-framework,2013 - (no author),1232
+Standard Portable Intermediate Representation,2014 - NA,1225
+Sketchpad,1962 - NA,1236
+scribble,1997 - Matthew Flatt,1269
+Newsqueak,1990 - Rob Pike,1233
+hazel,2016 - Cyrus Omar,1265
+Li-Chen Wang,1976 - NA,1224
+Janus,1982 - Christopher Lutz and Howard Derby and Tetsuo Yokoyama and and Robert Glück,1420
+NeXML format,2007 - NA,1421
+Basic-256,2007 - NA,1422
+XOTcl,2000 - Gustaf Neumann and Uwe Zdun,1423
+JSL,1989 - NA,1424
+[x]it!,2022 - Jan Heuermann,1242
+Metalang99,2021 - Sima Kinsart,1244
+Hodor,2015 - Drew Morris,1283
+BASIC-PLUS,1975 - NA,1247
+VSXu,2004 - NA,1245
+popr,2012 - NA,1407
+Alma,2014 - Carl Mäsak,1408
+IBM i Control Language,1993 - NA,1409
+Battlestar,2014 - Alexander Rødseth,1410
+kai,2016 - NA,1411
+Toi,2015 - NA,1412
+BANCStar,1996 - NA,1413
+BuddyScript,2002 - NA,1414
+latino,2015 - Primitivo R. Montero,1415
+fizz,2017 - NA,1416
+BALGOL,1959 - Bob Barton,1417
+LOLA,1991 - NA,1418
+net-format,2006 - NA,1419
+lemon,2017 - Zhicheng Wei,1248
+Information Processing Language,1954 - NA,1243
+Hush,2021 - Gabriel Bastos,1250
+co-dfns,2012 - Aaron Hsu,1251
+Strongtalk,1994 - NA,1426
+Joule,1996 - E. Dean Tribble,1435
+Euler,1965 - NA,1249
+MultiDimensional eXpressions,1997 - Mosha Pasumansky,1259
+httplang,2015 - NA,1263
+VisSim,1989 - NA,1246
+IBM POWER Instruction Set Architecture,1998 - NA,1260
+ldpl,2019 - Martín del Río,1437
+pointless,2020 - Avery N. Nortonsmith,1438
+JSON Lines,2013 - Ian Ward,1439
+FaCT,2017 - Deian Stefan,1440
+MDL,1971 - NA,1441
+zenscript,2014 - Stan Hebben,1442
+Gödel (Goedel),1992 - John Lloyd and Patricia Hill,1443
+parenthetic,2012 - Cameron McKinnon,1444
+cor,2016 - Yosbel Marin,1445
+OEM,1995 - NA,1446
+UCG,2017 - Jeremy Wall,1447
+Invisible XML,2020 - Steven Pemberton,1448
+Xidoc,2021 - Adam Blažek,1449
+Project Mentat,2016 - Richard Newman,1450
+Velocity Template Language,2000 - NA,1451
+Conceptual,2019 - NA,1452
+Aime,2013 - Ciprian Niculescu,1453
+GAML,1991 - NA,1454
+myia,2017 - NA,1268
+Bro,1994 - NA,1316
+ASDF,2015 - Perry Greenfield and Michael Droettboom and Erik M. Bray,1270
+Forsyth-Edwards Notation,1883 - NA,1271
+Algebraic modeling language,1980 - NA,1267
+Mangle,2022 - Mangle Team,1287
+multiaddr,2014 - Juan Batiz-Benet,1288
+MyBB,2002 - NA,1284
+RAPID,1994 - NA,1285
+FRACTRAN,1996 - John Conway,1286
+HP Time-Shared BASIC,1969 - NA,1313
+Coco/R,1990 - NA,1397
+NELIAC,1958 - NA,1466
+RTL/2,1972 - John Barnes,1474
+STOS BASIC,1988 - NA,1293
+Sibilant,2010 - Jacob Rothstein,1294
+Function block diagram,2001 - NA,1298
+Gwion,2016 - NA,1299
+BPML,2002 - NA,1310
+micro-mitten,2020 - NA,1311
+JSON lambda,2017 - Chris Done,1312
+Lil,2022 - NA,1342
+fleck,2019 - Chris McCormick,1315
+TriG syntax,2007 - NA,1480
+cat,2016 - Christopher Diggins,1481
+DataWeave,2014 - NA,1482
+Easytrieve,1969 - NA,1483
+Lite-C,2007 - NA,1484
+dyvil,2014 - NA,1485
+Draco,1987 - Chris Gray,1486
+File Oriented Interpretive Language,1967 - NA,1487
+M2001,2001 - NA,1488
+Zimbu,2009 - Bram Moolenaar,1489
+Promela,1997 - NA,1490
+Z-flat,2021 - Adam Hutchings,1491
+Incipit,2021 - Lucas de Sena,1492
+Mscgen,2016 - NA,1493
+Picat,2012 - Neng-Fa Zhou and Jonathan Fruhman,1494
+Explorer,2020 - Hannah Ritchie and Breck Yunits and Shahid Ahmad,1495
+orca-pl,2018 - NA,1317
+A#,2004 - Dr. Martin C. Carlisle and Lt Col Ricky Sward and Maj Jeff Humphries,1318
+topshell,2018 - Joakim Ahnfelt-Rønne,1319
+AIMMS,1993 - Johannes J. Bisschop and Marcel Roelofs,1323
+LinearML,2010 - Julien Verlaguet,1324
+Cone,2017 - Jonathan Goodwin,1325
+N-Triples,2014 - NA,1332
+COMIT,1957 - Victor Yngve,1530
+Basic4ppc,2005 - Erel Uziel,1531
+hakaru,2014 - NA,1381
+Rouge,2012 - Arlen Cuss,1512
+cuneiform,2015 - NA,1513
+tao3d,2003 - Christophe de Dinechin,1514
+Caché ObjectScript,1997 - NA,1515
+elena,2013 - Alex Rakov,1516
+Sophia,2018 - Robert Virding,1517
+Document Structure Description,2000 - NA,1518
+Breccia,2019 - Michael Allan,1519
+Atomese,2007 - NA,1520
+Jevko,2021 - NA,1521
+mint,2018 - NA,1522
+Goal,2022 - NA,1523
+Manchester syntax,2006 - NA,1524
+Maude,1990 - NA,1525
+WMLScript,1998 - NA,1340
+april,2017 - NA,1338
+plam,2017 - Sandro Lovnički,1341
+POPLOG,1992 - NA,1358
+Quicken Interchange Format,2000 - NA,1343
+Executive Systems Problem Oriented Language,1967 - NA,1404
+Color BASIC,1980 - Bill Gates,1533
+QtScript,2008 - NA,1339
+Bython,2016 - NA,1344
+Tao,2020 - Joshua Barretto,1353
+HuJSON,2019 - David Crawshaw,1354
+Kal,2012 - NA,1355
+Visual Objects,1994 - NA,1357
+THEOS,1977 - NA,1359
+titan,2017 - NA,1356
+bamboo,2016 - Yoichi Hirai,1360
+Wu,2018 - niql,1361
+LC-3,2003 - NA,1362
+mirth,2019 - NA,1363
+dedukti,2009 - NA,1548
+Uniface,1994 - NA,1549
+tangledown,2011 - Nicholas Bollweg,1550
+Pod6,2019 - Aliaksandr Zahatski,1551
+Fuzuli,2012 - Mehmet Hakan Satman,1552
+Topaz,2021 - m-schm,1553
+concurnas,2018 - NA,1554
+PML,1986 - Christian Neumanns,1555
+tremor-query,2019 - NA,1556
+Austral,2018 - NA,1364
+Turbo-Basic XL,1985 - NA,1386
+stoneknifeforth,2008 - NA,1365
+minikanren,2013 - NA,1379
+PTX,2009 - NA,1471
+FL,1989 - John Backus,1560
+Jeeves,2013 - Jean Yang,1380
+MAGMA,1993 - NA,1542
+TAL,2008 - NA,1583
+ASIC,1992 - NA,1584
+Zeek,1994 - NA,1585
+buzz,2021 - Benoit Giannangeli,1384
+Pyrex,2002 - NA,1382
+AUTOCODER,1955 - NA,1399
+ulisp,2016 - David Johnson-Davies,1385
+KUKA Robot Language,2010 - NA,1398
+Structured Query Reporter,1980 - NA,1502
+orange,2014 - Robert Fratto,1568
+reforth,2013 - NA,1569
+Heron,2016 - Christopher Diggins,1570
+taf,2012 - Manuel Simoni,1571
+Blacklight,2015 - Anthony M. Cook,1572
+jiyu,2019 - Josh Huelsman,1573
+gura,2012 - Yutaka Saito,1574
+Visual Tool Markup Language,1997 - NA,1575
+CEEMAC,1980 - Brooke Boering,1576
+swizzle,2018 - Robert Swierczek,1577
+hoon,2011 - NA,1578
+Filterscript,2012 - NA,1579
+xTAO Modeling Language,2005 - NA,1580
+t2b,2018 - NA,1400
+pipelines,2018 - NA,1401
+Links,2006 - NA,1402
+Model 204,1972 - NA,1403
+Matrix protocol,2014 - NA,1405
+Notation3,1998 - Tim Berners-Lee,1406
+Euclid,1970 - Butler Lampson,1558
+Semantic Web Rule Language,2004 - NA,1463
+OK,2021 - Jesse Duffield,1594
+ELFE,2003 - Christophe de Dinechin,1595
+Parlog,1983 - Steve Gregory and Keith L. Clark,1596
+CSpydr,2021 - Spydr06,1597
+Ripple,2014 - Yuya Watari,1598
+maraca-lang,2018 - Jon Whitehead,1599
+Ook,2005 - David Morgan-Mar,1600
+Data Communications ALGOL,1970 - NA,1601
+jcard,2014 - NA,1602
+jplace,2012 - NA,1603
+Reactive Plan Language,1993 - NA,1604
+GorillaScript,2013 - Cameron Knight,1425
+baysick,2009 - Michael Fogus,1427
+Balanced ternary,1544 - NA,1428
+C/AL,1987 - Michael Nielsen,1429
+HyTime,1991 - NA,1430
+Linden Scripting Language,2003 - NA,1431
+PLEX,1975 - NA,1432
+datafun,2015 - Michael Arntzenius,1433
+son,2017 - Ian Grant Jeffries,1434
+GEORGE,1957 - NA,1614
+Matrix Market Coordinate Format,1996 - NA,1615
+praxis-lang,2011 - Richard Evans,1616
+SYNAPSE,1990 - NA,1436
+Optimized Systems Software,1981 - NA,1470
+NEWP,1985 - NA,1465
+fructure-editor,2017 - NA,1455
+GNU Guix,2013 - NA,1456
+SDF,1989 - NA,1457
+HyPhy,2008 - NA,1479
+mimium,2019 - Tomoya Matsuura,1582
+Quake,2001 - NA,1625
+Ohayo,2017 - Breck Yunits,1626
+SMX,1998 - NA,1627
+Action Code Script,2004 - NA,1628
+CobolScript,1999 - NA,1629
+Đ,2019 - Compl Yue,1630
+Truth,2019 - Paul Gordon,1631
+DAP FORTRAN,1975 - NA,1632
+Project MAC’s SYmbolic MAnipulator,1968 - NA,1633
+BeBasic,2009 - BBK,1634
+Aardvark,2020 - Hg0428 and JustCoding123 and CompilingCoder and TheBoys619 and PlasDev and ZDev1,1635
+LispWorks,1989 - NA,1459
+Processor Technology,1975 - NA,1460
+ko,2018 - Petar Maymounkov,1458
+X BitMap,1989 - NA,1461
+Gremlin,2009 - Marko A. Rodriguez,1462
+Winbatch,1989 - NA,1500
+Small-C,1980 - NA,1464
+Functional PHP Preprocessor,2018 - Sascha-Oliver Prolic,1467
+Conway chained arrow notation,1996 - John Conway,1468
+crmsh,2008 - Dejan Muhamedagic,1469
+juvix,2017 - Christopher Goes,1472
+Lucid,2014 - Chris Done,1473
+Kuroko,2020 - K. Lange,1475
+DML,2005 - NA,1507
+Parenscript,2009 - Manuel Odendahl and Edward Marco Baringer,1476
+Virgil,2006 - Ben L. Titzer,1477
+hexagony,2015 - Martin Büttner,1547
+Scala Markup Language,2010 - NA,1648
+ODRL,2000 - NA,1649
+Forte 4GL,1994 - NA,1650
+XPL0,1976 - NA,1651
+GLMS,2022 - Sebastian Karlsson,1652
+kumir,2011 - NA,1653
+ISETL,1989 - Jacob T. Schwartz,1654
+P*,2013 - Atle Solbakken,1655
+Boogie,2008 - NA,1656
+BrightScript,2008 - NA,1657
+Hspec,1990 - NA,1658
+Markdeep,2015 - NA,1659
+opengraph,2010 - NA,1660
+rosette-lang,2013 - Emina Torlak and Rastislav Bodik,1661
+xsharp,2015 - NA,1662
+rbs,2020 - NA,1663
+Short Code computer language,1949 - NA,1478
+Simplicity,2017 - NA,1496
+Edinburgh IMP,2002 - NA,1562
+never,2018 - NA,1497
+expresso,2012 - Tim Williams,1499
+Gist,1977 - NA,1498
+WinWrap Basic,1993 - NA,1503
+Sawzall,2003 - NA,1674
+Irvine Dataflow,1975 - NA,1675
+ALGOL 68-R,1970 - NA,1676
+jeebox,2012 - Theodore H. Smith,1677
+ARM Templates,2017 - NA,1678
+Continuity of Care Document,2008 - NA,1501
+CBASIC,1982 - NA,1528
+Atlas Autocode,1965 - NA,1529
+solid,2013 - NA,1505
+DATABUS,1972 - NA,1506
+OGNL,2007 - NA,1504
+Sublime Syntax,2008 - NA,1671
+sporth,2015 - NA,1508
+Pycket,2022 - Sam Tobin-Hochstadt,1509
+Energy Systems Language,1950 - NA,1510
+Flowcode,2002 - NA,1511
+Kuin,2016 - NA,1526
+Rocky Mountain BASIC,1988 - NA,1534
+Python for S60,2006 - Guido van Rossum,1535
+Pharen,2009 - Tamreen Khan,1527
+A+,1988 - Arthur Whitney,1532
+Clinical Document Architecture,1996 - NA,1536
+Axiom,1992 - NA,1537
+Vyxal,"2020 - ""lyxal""",1644
+xxl,2016 - NA,1687
+Literate Haskell,1991 - NA,1701
+RHTML,2004 - NA,1702
+Homa,2018 - John Ousterhout,1703
+Gellish,2005 - NA,1704
+ObjectScript,2012 - unitpoint,1705
+Candy,2020 - Jonas Wanke and Marcel Garus,1706
+Pnuts,1997 - NA,1707
+Interactive C Interpreter,1980 - NA,1708
+ApeScript,1995 - NA,1709
+Speech Synthesis Markup Language,2010 - NA,1710
+Céu,2011 - Francisco Sant'Anna,1711
+Bla,1994 - Wouter Van Oortmerssen,1712
+D2,1995 - NA,1713
+dbml,2019 - NA,1714
+False,1993 - Wouter Van Oortmerssen,1715
+Lexon,2018 - NA,1716
+Low*,2008 - NA,1717
+Sitemap,2001 - NA,1718
+2-pak,1975 - NA,1719
+Portable Bit Map Format,1986 - NA,1720
+Graphics BASIC,1983 - NA,1694
+IMP,1968 - Edgar T. Irons,1695
+Lazy ML,1980 - NA,1696
+Mortran,1973 - NA,1697
+EXEC 2,1970 - NA,1698
+Phel,2020 - Jens Haase,1538
+ΜC++,1992 - pabuhr,1539
+Instruction list,2000 - NA,1540
+DDA,1979 - NA,1541
+Synon,1986 - NA,1543
+XCAS,2001 - NA,1544
+PL/P,1978 - NA,1545
+categorical-query-language,2019 - NA,1546
+Simons' BASIC,1983 - NA,1559
+MetaComCo,1981 - NA,1721
+jinx,2016 - JamesBoer,1557
+Tabloid,2020 - Linus Lee,1561
+Laning and Zierler system,1953 - NA,1725
+Armed Bear Common Lisp,2008 - NA,1563
+redprl,2016 - Jonathan Sterling,1564
+SAC,1994 - Sven-Bodo Scholz and Clemens Grelck,1590
+IDL specification language,1980 - NA,1586
+yeti,2007 - NA,1565
+inko,2015 - Yorick Peterse,1670
+tampio,2017 - Iikka Hauhio,1673
+Glyph,2007 - NA,1700
+WebDNA,1995 - NA,1727
+Scsh,2002 - NA,1728
+Kamby,2022 - Henrique Gogó,1729
+Nickle,2001 - NA,1730
+Sugar,2006 - Sébastien Pierre,1731
+ten,2019 - Ray Stubbs,1732
+Nuua,2018 - NA,1733
+Toy,2018 - Kayne Ruse,1734
+Urbiscript,2003 - Jean-Christophe Baillie,1735
+Mudlle,1998 - MUME user,1736
+blz,2015 - NA,1737
+FOAF,2007 - NA,1738
+G-Portugol,2005 - Thiago Silva,1739
+YESS,2022 - Paul Gordon,1740
+Macchiato,2019 - Eddie aka. tamamu,1741
+The Dog Programming Language,2011 - NA,1742
+world,2011 - NA,1743
+ca65 Assembly,1998 - NA,1744
+ctalk-lang,1989 - NA,1745
+GUIDE,1994 - NA,1746
+v8torque,2018 - NA,1747
+Zork Implementation Language,1988 - NA,1748
+MLAB,1975 - NA,1566
+g-fu,2019 - NA,1567
+CHICKEN,1994 - Felix Winkelmann,1581
+3D Manufacturing Format,2015 - NA,1588
+little,2016 - Larry McVoy,1589
+Yabasic,1995 - NA,1587
+MHEG-5,1997 - NA,1591
+Chinese BASIC,1980 - NA,1605
+lift,2014 - NA,1592
+Basic4android,2011 - NA,1593
+SequenceL,1989 - NA,1606
+Atari Microsoft BASIC,1981 - NA,1622
+Le-Lisp,1984 - NA,1623
+PL/C,1973 - NA,1624
+Google Data Protcol,2007 - NA,1607
+Frank,2017 - Sam Lindley and Conor McBride and Craig McLaughlin and Lukas Convent,1608
+clarity,2019 - NA,1609
+Pyth,2014 - NA,1610
+TMTP,2017 - NA,1611
+De Bruijn index,1972 - Nicolaas Govert de Bruijn,1612
+Pro*C,1996 - NA,1613
+SP/k,1974 - Ric Holt and D.B. Wortman and D.T. Barnard and James Cordy,1756
+FloScript,2013 - Samuel Smith,1617
+hr-code,2019 - Han Tuzun,1618
+Atari ST BASIC,1985 - NA,1757
+Obliq,1993 - NA,1758
+CYCL,1988 - NA,1619
+Wing,2022 - Elad Ben-Israel,1640
+A++,1996 - NA,1685
+Prograph,1983 - NA,1775
+Gren,2012 - evancz,1776
+ATLAS Transformation Language,2005 - NA,1777
+Tandem Advanced Command Language,1999 - NA,1778
+Stockholm format,1997 - NA,1779
+Miva,1996 - NA,1780
+CLAIRE,2004 - Yves Caseau,1781
+Rebeca Modeling Language,2004 - Marjan Sirjani,1782
+CLPR,1986 - NA,1783
+ProbeVue,2008 - NA,1784
+iCalendar,1998 - NA,1785
+Space,2013 - Breck Yunits,1786
+dllup,2015 - Daniel Lawrence Lu,1787
+Dashrep,2011 - Richard Fobes,1788
+Acme,1994 - NA,1789
+AspectC++,2001 - NA,1790
+frame,2013 - NA,1791
+Plot,2006 - David A. Moon,1792
+4th Dimension,1987 - NA,1793
+Fortran 90,1990 - NA,1794
+Netpbm grayscale image format,1988 - NA,1795
+ESC/P,1992 - NA,1620
+OQL,1986 - NA,1621
+Hotdog,2001 - NA,1636
+Meta Expressions,1960 - NA,1637
+Kaffeine,2010 - Jonah Fox,1638
+General-purpose macro processor,1995 - NA,1639
+SenseTalk,2001 - Douglas Simons,1806
+CodeGear Delphi,1995 - NA,1807
+Ruby Document format,1995 - NA,1808
+Dink Smallwood,1998 - Seth Robinson,1641
+Nadesiko,2008 - kujirahand,1642
+MAI Basic Four,1974 - NA,1664
+Crystallographic Information File,1991 - NA,1645
+candor,2012 - Fedor Indutny,1646
+Dasm,1988 - NA,1647
+ARITH-MATIC,1954 - NA,1680
+IBM BASICA,1981 - NA,1681
+ABC 80,1978 - NA,1643
+Lawvere,2021 - James Henri Haydon,1665
+Margin,2019 - Alex Gamburg,1666
+ecsharp,2008 - NA,1667
+SpiderBasic,2015 - NA,1668
+Schematron,1999 - NA,1669
+METAPOST,1994 - John D. Hobby,1684
+IBM Informix-4GL,1985 - NA,1816
+zolang,2018 - Þorvaldur Rúnarsson,1818
+video,2016 - Leif Andersen,1835
+Wart,2010 - Kartik K. Agaram,1837
+hamdown,2018 - NA,1838
+MUDDL,1988 - Lars Brinkhoff,1839
+Dolittle,1952 - NA,1840
+Sing Sharp,2005 - NA,1841
+Leda,1995 - NA,1842
+MACRO-11,1974 - NA,1843
+json->url,2017 - Tim Bray,1844
+MakeDoc,2000 - NA,1845
+Namespace-based Validation Dispatching Language,2006 - NA,1846
+Chrome,2008 - NA,1847
+Nord Programming Language,1974 - NA,1848
+funl,2020 - Anssi Halmeaho,1849
+FCL,1989 - NA,1850
+TI-89 series,1998 - NA,1851
+plink-ped-format,2007 - NA,1852
+texti,2017 - Gerald Bauer,1853
+Blox,2018 - NA,1854
+Binary Lambda Calculus,2004 - John Tromp,1855
+myrddin,2016 - NA,1856
+nimrod,2013 - NA,1857
+OMG IDL,2018 - NA,1858
+stella,1999 - NA,1859
+bml,2014 - NA,1860
+chain-format,2013 - NA,1861
+Y,1981 - NA,1862
+elymas,2012 - NA,1672
+Chipmunk Basic,1989 - NA,1686
+FXML,2011 - NA,1679
+Daisy Systems,1983 - NA,1682
+Preferred Executable Format,1994 - NA,1683
+SCM,1990 - Aubrey Jaffer,1691
+Split-C,1995 - NA,1692
+RapidQ,2000 - NA,1693
+tamgu,2019 - Claude Roux,1688
+arret,2017 - Ryan Cumming,1689
+GRAAL,1986 - NA,1690
+Charcoal,2016 - somebody1234,1699
+Beta BASIC,1983 - NA,1726
+CECIL,1992 - Craig Chambers,1874
+Meditech Interpretive Information System,1986 - NA,1875
+Ease,1991 - Steven Ericsson-Zenith,1876
+JOSS Extended and Adapted for Nineteen-hundred,1960 - NA,1877
+ELAN,1974 - NA,1878
+IPTSCRAE,1994 - NA,1879
+moinmoin,2000 - NA,1880
+CodeStudAssembler,2017 - NA,1881
+Run BASIC,2008 - NA,1724
+Magik,1989 - NA,1815
+moya,2015 - Will McGugan,1884
+TUTOR,1969 - Paul Tenczar and Richard Blomme,1897
+Refer,1978 - NA,1898
+RLaB,1998 - NA,1899
+Flatline,2013 - NA,1900
+OptimJ,2006 - NA,1901
+Kaleidoscope,1994 - NA,1902
+Small,1980 - Nevil Brownlee,1903
+3APL,1998 - NA,1904
+Enterprise Mashup Markup Language,2001 - NA,1905
+System Automatycznego Kodowania Operacji,1960 - NA,1906
+mimix-stream-language,2018 - Rommel MARTINEZ,1907
+TQL,2023 - Breck Yunits,1908
+AmbientTalk,2006 - NA,1909
+Devicetree,2009 - NA,1910
+Objective-S,1980 - NA,1911
+protium,2007 - Diarmuid Pigott,1912
+><>,2009 - NA,1913
+Robots.txt,1994 - Martijn Koster,1914
+WHIRL,1997 - NA,1915
+Augment,1974 - NA,1722
+IBM BASIC,1981 - NA,1723
+DarkBASIC,2000 - NA,1759
+Apple BASIC,1978 - NA,1834
+Cambridge Algebra System,1973 - NA,1885
+PACT I,1955 - NA,1886
+LINC 4GL,1980 - NA,1750
+Spice Lisp,1980 - Scott Fahlman,1772
+Dataflex,1982 - NA,1766
+wah,2017 - Tom MacWright,1803
+semicolon,2012 - Pavan Kumar Sunkara,1817
+lever,2015 - NA,1864
+Wonkey,2021 - NA,1895
+Kalyn,2020 - Radon Rosborough,1935
+Piet,1990 - NA,1936
+obsidian,2018 - Michael Coblenz,1938
+Text Executive Programming Language,1979 - NA,1939
+Wirth syntax notation,1977 - NA,1940
+Formula language,1989 - NA,1941
+NilScript,2013 - Ricci Adams,1942
+OBJ,1976 - NA,1943
+CMS Pipelines,1986 - NA,1944
+DEVIL,2000 - NA,1945
+SQRL,2018 - Josh Yudaken and Pete Hunt and Julian Tempelsman and Paul Mou and Yunjing Xu and David Newman,1946
+X PixMap,1989 - NA,1947
+mdl,2019 - Reid Tatge,1948
+JCOF,2022 - Martin Dørum,1949
+IPL,2013 - Johan Georg Granström,1950
+Astatine,2022 - Spydr06,1951
+jasper,2014 - Emanuel Rylke,1952
+emfatic,2004 - NA,1953
+LARP,2003 - Marco Lavoie,1954
+Lazy K,2002 - NA,1955
+Liso,2014 - Olivier Breuleux,1956
+CBOR data definition language,2017 - NA,1957
+hop,2006 - NA,1958
+Ion Schema Language,2018 - NA,1959
+ppm-format,1988 - NA,1960
+Portable Standard Lisp,1980 - NA,1767
+Polymorphic Programming Language,1969 - NA,1768
+Cullinet,1968 - NA,1761
+Knowledge Interchange Format,1990 - NA,1762
+Nimskull,2021 - Andreas Rumpf,1749
+clike,2014 - NA,1751
+Tynker,2012 - NA,1752
+XBEL,2006 - NA,1753
+HP-GL,1986 - NA,1754
+Game Oriented Assembly Lisp,1993 - Andy Gavin,1755
+P′′,1964 - Corrado Böhm,1760
+Ecstasy,2015 - Cameron Purdy,1763
+Steinhaus-Moser notation,1969 - NA,1764
+Content Assembly Mechanism,2002 - NA,1765
+ColorForth,1992 - Charles H. Moore,1799
+ZBasic,1980 - NA,1823
+SIGNAL,1982 - NA,1805
+MARK IV,1985 - NA,1963
+TTM,1968 - Steven M. Caine and E. Kent Gordon,1964
+Corman Common Lisp,1995 - Scott Fahlman and Richard P. Gabriel and David A. Moon and Kent Pitman and Guy Steele and Dan Weinreb and Roger Corman,1965
+QUIKSCRIPT,1965 - NA,1966
+co2,2016 - Dave Griffiths,1769
+Ren-C,2012 - NA,1770
+rhine,2014 - Ramkumar Ramachandra,1771
+ISBL,1980 - NA,1804
+Croma,2005 - NA,1773
+Mobl,2010 - Zef Hemel,1774
+cperl,2017 - Reini Urban,1796
+Tree and Tabular Combined Notation,1992 - NA,1797
+keli,2018 - Wong Jia Hau,1798
+BASIC A+,1983 - NA,1829
+Mallard BASIC,1985 - NA,1830
+Janus,1990 - Ken Kahn,1831
+LISP 2,1963 - NA,1832
+Ratfiv,1980 - NA,1833
+mlatu,2021 - Caden Haustein,1800
+a Lisp Environment,2019 - Thomas Bradford,1801
+Steel Bank Common Lisp,1999 - NA,1802
+Just Another Scripting Syntax,2009 - NA,1809
+Forml,2011 - Andrew Stein,1962
+Ciel,2010 - Ron Garret,1985
+Ciao,1984 - NA,1986
+PICO,1997 - NA,1987
+Slideshow,2000 - Matthew Flatt and Robert Bruce Findler,1988
+Join Java,2000 - G. Stewart von Itzstein,1989
+juniper,2016 - Caleb Helbling,1990
+RascalMPL,2010 - NA,1991
+TScript,2012 - NA,1992
+huginn,2015 - Marcin Konarski,1993
+Alumina,2021 - NA,1994
+tuplemarkup,2012 - John Judnich,1995
+VlibTemplate,2003 - NA,1996
+Dern,2008 - NA,1997
+YAMP,2019 - NA,1998
+HCard,2009 - NA,1999
+Amazon Redshift,2012 - NA,2000
+strat,2018 - NA,2001
+Fardlang,2022 - CompilingCoder and JustCoding123 and zplusfour and Hg0428,2002
+lila-lang,2019 - NA,2003
+HUGO,1995 - Juhana Leinonen,2004
+BML,2007 - NA,2005
+coherence,2009 - NA,2006
+Procfile,2012 - NA,2007
+quorum,2013 - NA,2008
+USD,2016 - NA,2009
+wescheme,2009 - NA,2010
+Worst,2001 - NA,2011
+Joyfully Universal Language for (Inline) Assembly,2016 - NA,2012
+LIFE,1987 - NA,2013
+Myghty,2006 - NA,2014
+UIML,2005 - NA,1824
+Chomski,2007 - NA,1825
+Visual Test,1992 - NA,1826
+Argus,1982 - NA,1827
+GameMonkey Script,2002 - NA,1828
+LiteScript,2013 - Lucio M. Tato,1810
+Om,2012 - Jason Erb,1811
+Avionics Architecture Design Language,2003 - NA,1812
+Trellis,1985 - NA,1813
+Kawa,1996 - Per Bothner,1814
+Data General Business Basic,1970 - NA,1890
+SnapTag,2011 - NA,1819
+Transaction Language 1,1984 - NA,1820
+Gene transfer format,2006 - NA,1821
+MEDUSA,2002 - NA,1822
+ana,2018 - NA,1836
+Savi,2018 - Joe Eli McIlvain,1863
+Aztec C,1980 - NA,1872
+ΛProlog,1986 - NA,1873
+Scratchpad,1971 - NA,1865
+l2,2017 - NA,1866
+Vilnius BASIC,1986 - NA,1896
+Jisp,2014 - Nelo Mitranim,1867
+mys,2020 - Erik Moqvist,1868
+Integrated Data Store,1964 - NA,1869
+DYNAMO,1959 - NA,1870
+Eurisko,1978 - NA,1871
+RamdaScript,2016 - Yosbel Marín,1882
+hivemind,2015 - Alexander Ivanov,1883
+Gforth,1992 - NA,1887
+mythryl,2006 - NA,1888
+tablam,2020 - Mario Montoya,1889
+Alma-0,1997 - NA,1920
+CHILL,1980 - NA,1969
+Abbreviated Test Language for All Systems,1984 - NA,2048
+Ante,2013 - Michael Dvorkin,2049
+Proteus,1998 - NA,2050
+Rita,2019 - Šarūnas Navickas,2051
+JSONScript,2016 - Evgeny Poberezkin,2052
+CGOL,1973 - Vaughan Ronald Pratt,2053
+ZENO,1995 - NA,2054
+Z,2019 - NA,2055
+Little Implementation Language,1974 - P. J. Plauger,2056
+Daplex,1979 - NA,2057
+NXT-G,2006 - NA,2058
+vCard,1998 - NA,2059
+h,2019 - Christine Dodrill,2060
+Blue,1977 - NA,2061
+pinto,2016 - Peter Graf,2062
+TAO,2020 - NA,2063
+nydp,2014 - NA,2064
+JLang,2016 - Joao Marcelo Brito,2065
+Link,2021 - Lance Pollard,2066
+lain,2017 - NA,2067
+luau,2020 - NA,2068
+Marine Trading Markup Language,2000 - NA,2069
+Trex,2001 - James Clark,2070
+z2,2015 - NA,2071
+APL2,1984 - NA,2072
+bioscript,2019 - NA,2073
+blue,2009 - NA,2074
+EFL,1979 - NA,2075
+Emerald,1987 - NA,2076
+QCL,2005 - NA,2077
+sora,2019 - NA,2078
+specrtl,2011 - NA,2079
+SubX,2019 - Kartik K. Agaram,2080
+B32 Business Basic,1986 - NA,1937
+UPIC,2018 - NA,1891
+MAPPER,1960 - NA,1892
+WFL,1961 - NA,1925
+AgentSpeak,1994 - Anand Rao,1926
+BCX,1999 - Kevin Diggins and Robert Wishlaw,1927
+Cornell University Programming Language,1967 - NA,1928
+MacBASIC,1985 - NA,1981
+Jet Propulsion Laboratory Display Information System,1973 - NA,2039
+FastTrack Scripting Host,2006 - NA,2040
+PS-algol,1981 - NA,2041
+vivaldi,2015 - NA,1893
+PascalABC.NET,2002 - S.S. Mikhalkovich and Ivan Bondarev and A.V. Tkachuk and S.O. Ivanov,1894
+kei,2019 - Tiago Campos,1916
+mages,2016 - Florian Rappl,1917
+BASICODE,1980 - NA,1972
+Knowledge Query and Manipulation Language,1993 - NA,1973
+Harwell-Boeing file format,1989 - NA,2081
+SPITBOL,1971 - NA,2082
+Ikarus Scheme implementation,2007 - Abdulaziz Ghuloum,2083
+LYaPAS,1964 - Arkady D.Zakrevskij,2084
+ObjectLOGO,1993 - NA,2085
+SAOL,1999 - NA,2086
+Southampton BASIC System,1960 - NA,2087
+Extended ML,1985 - NA,2088
+BASIC-E,1976 - NA,2089
+UniVerse,1997 - NA,2090
+Post production,1941 - Emil Post,2091
+6gunz,2018 - Matthew Steel,2092
+edgelisp,2008 - Manuel Simoni,1918
+jonprl,2015 - Jonathan Sterling,1919
+D data language specification,1994 - NA,1921
+CONVERT,1966 - NA,1922
+GeneXus,1988 - NA,1923
+unseemly,2016 - Paul Stansifer,1924
+txtzyme,2010 - Ward Cunningham,1929
+typecobol,2015 - Laurent Prud'hon,1930
+Alternate Instruction Set,2001 - NA,1931
+loci,2013 - Stephen Cross,1932
+r4,2009 - NA,1933
+Lava,2001 - NA,1934
+ScriptBasic,1999 - NA,1970
+Fenix Project,2006 - NA,1971
+BASIC09,1978 - NA,1980
+Encore,2014 - Stephan Brandauer and Elias Castegren and Dave Clarke,1961
+Brain-Flak,2016 - DJMcMayhem,1967
+R++,1990 - NA,1968
+hrqr,2015 - Valentin Heun,2023
+Election Markup Language,2001 - NA,2127
+RenderMan Shading Language,1989 - NA,2128
+DragonBASIC,2003 - Ulrich Hecht,2129
+Langage Sans Espoir,1971 - NA,2130
+fp,2022 - Joona Piirainen,2131
+Flapjax,2006 - NA,2132
+Little b,2004 - Aneil Mallavarapu,2133
+CheetahTemplate,2001 - NA,2134
+Lithe,1982 - NA,2135
+Plaid,2009 - Jonathan Aldrich,2136
+adamant,2018 - Jeff Walker,2137
+nianiolang,2015 - Andrzej Gasienica-Samek,2138
+flua,2012 - Eduard Urbach,2139
+Ferite,2000 - NA,2140
+KAML,2018 - NA,2141
+Kami,2022 - Katie Ampersand,2142
+alan,2018 - NA,2143
+avro,2012 - NA,2144
+beautiful-report-language,2003 - NA,2145
+Copilot,2021 - NA,2146
+MathLingua,2019 - NA,2147
+Nasal,2002 - Andy Ross,2148
+plantuml,2010 - NA,2149
+s-lang,1992 - John E. Davis,2150
+Sweet Expressions,2013 - David A. Wheeler and Alan Manuel K. Gloria,2151
+verve,2017 - NA,2152
+CP,1987 - NA,2153
+rise,2020 - NA,2154
+SHIFT,1997 - NA,2155
+webql,2001 - NA,2156
+Continuity of Care Record,2007 - NA,1974
+AUI,2002 - NA,1975
+Amigas,1989 - NA,1976
+SPIP,1977 - NA,1977
+Hopscotch,2016 - NA,1978
+Nomad software,1976 - NA,1979
+Visual Smalltalk Enterprise,1992 - NA,2024
+PV-Wave,1988 - NA,2025
+APLX,1985 - NA,2026
+ABSET,1969 - NA,2027
+Agora,1993 - NA,2028
+MapBasic,1997 - NA,2029
+TMG,1968 - Robert M. McClure,2030
+Bounce,2016 - NA,1982
+Pascal Script,2000 - NA,1983
+ircis,2019 - Arjun Nair,1984
+Elliott ALGOL,1962 - NA,2042
+SNOOP,1988 - NA,2015
+Concurrent ML,1993 - NA,2016
+DML,1992 - NA,2017
+THINK C,1986 - NA,2018
+OpenROAD,1990 - NA,2019
+GUIDO music notation,1998 - Holger H. Hoos and Keith Hamel,2020
+SIMPL,1990 - NA,2021
+EasyLanguage,1995 - NA,2022
+Data Catalog Vocabulary,2014 - NA,2031
+Meta II,1962 - NA,2032
+Omnis Studio,1982 - NA,2033
+V,2016 - DJMcMayhem,2034
+Easy Programming Language,2004 - NA,2035
+Systems Biology Markup Language,2006 - NA,2036
+ITL,1981 - NA,2037
+Protel,1975 - NA,2038
+Agilent VEE,1991 - NA,2101
+Digital Interactive Business Oriented Language,1970 - NA,2126
+lambda-zero,2018 - Chris Clark,2179
+Algebraic Logic Functional,1990 - NA,2191
+Onyx,1989 - Jason Evans,2192
+D4,2001 - NA,2193
+zl,2012 - Kevin Atkinson,2194
+Texy!,2004 - NA,2195
+Alphard,1974 - NA,2196
+OpenComal,2006 - Christian Pietsch,2197
+nylo,2017 - NA,2198
+CLiX markup,1998 - NA,2199
+LEAP,1969 - NA,2200
+orca,1985 - Lee Ki-Yeul,2201
+RTF,1987 - Richard Brodie and Charles Simonyi and David Luebbert,2202
+rpscript,2018 - NA,2203
+awl,2014 - Zaven Muradyan,2204
+juicy,2017 - Jonathan Avery,2205
+leaf,2013 - NA,2206
+RapidBatch,2017 - Jan Max Meyer,2207
+starpial,2012 - NA,2208
+kerf,2015 - Kevin Lawler,2209
+GolfScript,2007 - NA,2210
+Indental,2017 - NA,2211
+LES,2012 - David Piepgrass,2212
+The New Hampshire X Format,1999 - NA,2213
+Patient-Oriented Prescription Programming Language,2015 - NA,2214
+PromQL,2014 - NA,2215
+slim,2010 - NA,2216
+srv,2010 - NA,2217
+Eden,1995 - NA,2218
+emoticon,2004 - NA,2219
+kivy-lang,2010 - NA,2220
+mmix,1999 - NA,2221
+Red,1972 - John Backus,2222
+Structured Control Language,1998 - NA,2223
+ALGOL N,1967 - NA,2099
+Galaksija BASIC,1983 - NA,2100
+APSE,1980 - NA,2095
+String diagram,2007 - NA,2043
+Intuit Interchange Format,2004 - NA,2044
+PALASM,1980 - NA,2045
+WOL,1997 - NA,2046
+Framework office suite,1983 - NA,2047
+Star,2021 - ALANVF,2093
+Jazz,2019 - playXE,2094
+Twelf,2006 - Frank Pfenning and Carsten Schürmann,2096
+TASM,1989 - NA,2097
+Tosh,2015 - NA,2098
+Statsplorer,2014 - Krishna Subramanian and Chat Wacharamanotham,2111
+FpgaC,1996 - NA,2115
+Object-Z,1991 - NA,2116
+SYMPL,1970 - NA,2117
+Basic4GL,2002 - NA,2172
+GNU E,1991 - NA,2173
+Nested Context Language,2000 - NA,2174
+SAM76,1970 - NA,2175
+SuperTalk,1989 - NA,2176
+CommonLoops,1986 - NA,2225
+CA-Realizer,1992 - NA,2226
+FLACC,1977 - NA,2227
+Object Oberon,1990 - NA,2228
+Ramis software,1960 - NA,2229
+Batari Basic,2007 - NA,2230
+Bywater BASIC,1992 - NA,2231
+NorthStar BASIC,1977 - Charles A. Grant and Mark Greenberg,2232
+Todotxt,2006 - NA,2233
+Visual DataFlex,1982 - NA,2113
+Rexon,1978 - NA,2114
+Structured Product Labeling,2004 - NA,2102
+aplette,2014 - NA,2103
+RuleML,2002 - NA,2104
+GARP,1988 - NA,2105
+CS-Script,2004 - NA,2106
+PROIV,1976 - NA,2107
+SLIP,1960 - NA,2108
+DEMOS,1978 - NA,2109
+Flex language,1967 - Alan Kay,2110
+AlphaBasic,1976 - NA,2157
+BASIC-11,1976 - NA,2158
+mycroft,2013 - NA,2112
+glush,2019 - Magnus Holm,2118
+Taijilang,2014 - Simeon Chaos,2119
+ralph,2010 - Bastian Müller,2120
+CMU Common Lisp,1980 - NA,2121
+Common Lisp with Arc Macros and Procedures,2014 - NA,2160
+I,2012 - Marshall Lochbaum,2167
+TOM,2001 - NA,2239
+Langage Implementation Systeme,1980 - NA,2256
+rainbow,2009 - NA,2261
+fjs,2013 - Mark Hahn,2262
+phorth,2016 - Joe Jevnik,2263
+z-lang,2019 - NA,2264
+PLEXIL,2005 - NA,2265
+WCPS,2008 - NA,2266
+BRUIN,1968 - NA,2267
+icarus,2015 - NA,2268
+Ham,2013 - James Keane,2269
+DIANA,1980 - NA,2270
+WSFN,1983 - NA,2271
+badlanguage,2017 - Martin Capodici,2272
+rel-lang,2015 - NA,2273
+KonsolScript,2005 - NA,2274
+gintonic,2018 - Christian Budde Christensen,2275
+jedlang,2015 - James Edwards,2276
+blur-markup-language,2017 - Andrew Yoon,2277
+formality,2019 - Victor Maia,2278
+ramen,2017 - Cedric Cellier,2279
+ASP.NET,2002 - NA,2280
+corescript,2018 - Stephan Bruny,2281
+MathML,1998 - NA,2282
+Namespace Routing Language,2003 - NA,2283
+lezer,2019 - Marijn Haverbeke,2284
+emesh,2014 - NA,2285
+flownote,2019 - NA,2286
+oopsilon,2017 - NA,2287
+U,2013 - Yassen Bantchev,2288
+elegance,2017 - Nathan Merrill,2289
+albatross,2015 - NA,2290
+empirical,2019 - NA,2291
+hecl,2004 - David N. Welton and Wolfgang Kechel,2292
+qed-lang,2015 - NA,2293
+Slick,2020 - Kye W. Shi,2294
+Bossam Rule Language,2004 - NA,2295
+CSL,1966 - NA,2296
+phylip,1991 - NA,2297
+REALBasic (now Xojo),1996 - NA,2298
+VAL,1980 - NA,2122
+Robot Battle,1994 - NA,2123
+INFER,1992 - NA,2124
+S/SL,1980 - NA,2125
+ALCOR,1959 - NA,2168
+Larceny Scheme implementation,2017 - NA,2169
+Acornsoft Logo,1985 - NA,2170
+Napier88,1989 - NA,2171
+Tymshare SuperBasic,1968 - NA,2224
+sham,2016 - NA,2159
+Dexterity,1991 - NA,2161
+DARPA Agent Markup Language,1999 - NA,2162
+PASCAL/MT+,1988 - NA,2163
+LIMDEP,1980 - NA,2164
+SASL,1972 - David Turner,2165
+Atom,2007 - Thomas Hawkins,2166
+grid-notation,2013 - Cameron McEfee,2177
+fork-lang,2014 - NA,2178
+MewMew,2020 - Palash Bauri,2180
+Snit,2002 - NA,2235
+NCAR Command Language,1990 - NA,2236
+Khepri,2012 - Matt Bierner,2181
+Typographical Number Theory,1979 - Douglas Hofstadter,2182
+SISC,2007 - NA,2183
+Scheme 2-D,2021 - elucent,2184
+Secure Operations Language,1970 - NA,2185
+UNCOL,1958 - NA,2186
+sugartex,2018 - NA,2187
+Alpha,1971 - NA,2188
+ALTRAN,1968 - W. Stanley Brown,2189
+PowerHouse,1988 - NA,2190
+y-lang,2019 - Sander Mertens,2234
+Calypso,2020 - ThePuzzlemaker,2237
+Mama,2010 - NA,2238
+ZigZag,1965 - NA,2240
+Actor,1988 - NA,2241
+Gello Expression Language,2001 - NA,2242
+OMeta,2007 - NA,2243
+NPL,1977 - NA,2244
+SR,1988 - NA,2245
+IFPS,1970 - NA,2246
+Matita,1999 - NA,2247
+Abstract State Machine Language,2001 - NA,2248
+CA-Telon,1981 - NA,2249
+Lynx,1984 - NA,2250
+PIKT,1998 - NA,2251
+Snowball,1971 - NA,2252
+whack,2018 - Onchere Bironga,2253
+Distributed Application Specification Language,1999 - NA,2254
+preforth,2018 - Ulrich Hoffmann,2255
+Smalltalk MT,1994 - NA,2257
+MINC,1985 - NA,2258
+OWBasic,2000 - NA,2259
+Phoenix Object Basic,2001 - NA,2260
+Occam π,2005 - NA,2309
+quaint-lang,2015 - NA,2313
+Gauche Scheme implementation,1998 - NA,2318
+Ecological Metadata Language,1997 - NA,2326
+muMath,1978 - NA,2327
+PALcode,1996 - NA,2328
+PICT,1992 - NA,2329
+YAP,1985 - NA,2330
+IBM HAScript,1990 - NA,2333
+PL-11,1971 - NA,2334
+ROOP,1995 - NA,2335
+ZOPL,1979 - NA,2336
+Kermeta,2012 - NA,2337
+FX-87,1987 - NA,2338
+JAWS Scripting Language,2008 - NA,2339
+MacroML,2001 - NA,2340
+remix,2016 - Jay McCarthy,2341
+ShEx,2012 - NA,2342
+Business Object Notation,1989 - NA,2343
+CYBIL,1980 - NA,2344
+Datapoint's Advanced Systems Language,1982 - NA,2345
+FORMAC,1993 - Jean E. Sammet,2346
+neutron,2019 - NA,2347
+emerald-lang,2019 - Zach Perkitny,2348
+Ad-hoc,2017 - NA,2349
+polymath,2020 - JL,2350
+Edina,2022 - Cerus,2351
+rocket,2018 - NA,2352
+Jammy,2021 - Mark,2353
+nlpl,2018 - Daniel Garcia,2354
+lsd,2016 - NA,2355
+Calc4,2018 - Yuya Watari,2356
+eskew,2019 - NA,2357
+Serious,2021 - lorentzj,2358
+boa,2013 - NA,2359
+c-talk,1999 - Konstantin Knizhnik,2360
+Freefem,2000 - NA,2361
+hilbert,2014 - NA,2362
+Lush,2002 - Leon Bottou and Yann Le Cun,2363
+pikachu,2017 - NA,2364
+Spice,2021 - NA,2365
+ttsneo,2006 - NA,2366
+Typoscript,1998 - NA,2367
+Algae,1997 - NA,2368
+ASCII Armor,2007 - NA,2369
+Homespring,2003 - NA,2370
+PLAIN,1976 - NA,2371
+Post-X,1980 - P.A.C. Bailes and L.H. Reeker,2372
+prompter,2011 - Graham Nelson,2373
+ssl-lang,1976 - NA,2374
+Squire,2021 - Sam Westerman,2299
+Subtext,2005 - NA,2300
+CAL Actor Language,2001 - NA,2301
+FuzzyCLIPS,1995 - NA,2302
+Tektronix 4050,1980 - NA,2303
+Information Algebra,1962 - NA,2304
+PVS,1992 - NA,2305
+Real-time Cmix,1992 - NA,2306
+Strand,1989 - NA,2307
+Actor-Based Concurrent Language,1986 - NA,2308
+SBASIC,1983 - NA,2314
+Tiger-BASIC,1986 - NA,2315
+IBM Rational SQABasic,1996 - NA,2316
+High Tech BASIC,1988 - NA,2332
+Mentat,1987 - Andrew S. Grimshaw and Jane W.S. Liu,2395
+BlazeX,2020 - RoMeAh,2310
+setlx,2011 - NA,2311
+Knight,2021 - Sam Westerman,2312
+Hook,2021 - Fabio de Souza Villaca Medeiros,2317
+Hummingbird QuickScript,1990 - NA,2331
+Stratego/XT,1998 - NA,2319
+DAML+OIL,2001 - NA,2320
+SIMPLE,1980 - NA,2321
+XCore Architecture,2007 - NA,2322
+Advanced Continuous Simulation Language,1967 - NA,2323
+Averest,2005 - NA,2324
+EUMEL,1979 - NA,2325
+Secure Scuttlebutt,2014 - NA,2388
+flame-ir,2015 - NA,2375
+toki sona,2021 - Dylan Madisetti,2376
+CokeScript,2015 - Batiste Bieler,2377
+Common Log Format,1995 - NA,2389
+Ethernet,1973 - NA,2390
+Open Financial Exchange,1997 - NA,2391
+patch,1985 - Larry Wall,2392
+Autoconf,1991 - NA,2393
+Interpress,1986 - NA,2394
+XGMML,2006 - NA,2378
+FILETAB,1966 - NA,2379
+Service Modeling Language,2009 - NA,2380
+SA-C,1998 - NA,2381
+BEFLIX,1963 - NA,2382
+Data Access Language,1990 - NA,2383
+CorVision,1986 - NA,2384
+IAL,1958 - NA,2385
+Joe-E,2004 - David A. Wagner,2386
+O-Matrix,1994 - NA,2387
+CHIP,1985 - NA,2406
+DATATRIEVE,1970 - NA,2407
+AIML,2001 - NA,2409
+System 2,2008 - NA,2410
+AMBIT,1964 - Carlos Christensen,2420
+Insitux,2021 - Patrick Bowen,2421
+o:XML,2002 - NA,2422
+Cane,2022 - Jack Clarke,2423
+sill,2015 - Dennis Griffith,2424
+Business application language,1974 - NA,2425
+IITRAN,1969 - NA,2426
+r3,2021 - Pablo H. Reda,2427
+Tefkat,2004 - NA,2428
+Compact Application Solution Language,1997 - NA,2429
+FXScript,2002 - NA,2430
+ProSet,1990 - NA,2431
+runiq,2015 - NA,2432
+20-GATE,1961 - NA,2433
+Citrine,2014 - NA,2434
+PCrap,2021 - valkarias,2435
+RigC,2021 - Poeta Kodu,2436
+Chika,2019 - Patrick,2437
+latte-js,2012 - Sean Micklethwaite,2438
+duro,2003 - NA,2439
+Lesma,2022 - Alin Ali Hassan,2440
+HuwCode,2018 - Huw Pritchard,2441
+penguor,2020 - Carl Schierig,2442
+taxa,2014 - Dan Motzenbecker,2443
+acorn-lang,2015 - Jonathan Goodwin,2444
+newclay,2011 - Joe Groff,2445
+Idio,2015 - Ian Fitchet,2446
+Mewl,2022 - Palash Bauri,2447
+codeflow,2014 - NA,2448
+Storymatic,2022 - Zachary Sakowitz,2449
+Esoteric Reaction,2020 - NA,2450
+Horse64,2020 - Ellie,2451
+passambler,2015 - NA,2452
+rockstar-rkt,2019 - NA,2453
+Workfl,2019 - Adam Dullage,2454
+GamerLanguage,2021 - Dilan Nair,2455
+Entropy,2021 - Daniel Temkin,2456
+links,2016 - NA,2457
+Loom,1987 - NA,2458
+o42a,2010 - Ruslan Lopatin,2459
+operon,2018 - NA,2460
+Planguage,2001 - NA,2461
+runic,2017 - NA,2462
+SARL,2013 - NA,2463
+Suneido,2000 - Andrew McKinlay,2464
+whalecalf,2000 - Alexander Okhotin,2465
+DAS,1962 - NA,2466
+g-expressions,2012 - NA,2467
+Metaweb Query Language,2006 - NA,2468
+Newton,1977 - NA,2469
+Pandora,1989 - NA,2470
+PSI,2013 - NA,2471
+rapidgen-rpl,1983 - NA,2472
+rbscript,1996 - NA,2473
+Rust HIR,2015 - NA,2474
+WebAssembly Text Format,2015 - NA,2475
+xduce,2003 - Haruo Hosoya and Benjamin C. Pierce,2476
+euboea,2018 - NA,2396
+WLambda,2019 - Weird Constructor,2397
+zlang,2017 - NA,2398
+Nuprl,1984 - Robert Lee,2399
+ABSYS,1966 - NA,2400
+KL0,1982 - NA,2401
+AIL,2016 - NA,2402
+cql,1998 - NA,2403
+nulan,2012 - NA,2404
+QUTE,1986 - NA,2405
+Hot Cocoa Lisp,2013 - Sam Auciello,2408
+XDR Schema,1998 - NA,2411
+Schema for Object-Oriented XML,1998 - NA,2412
+COFFEE Cinema 4D,1992 - NA,2413
+Visual DialogScript,2000 - NA,2414
+Bayer Expressions,2018 - Dave Bayer,2501
+ed script,1973 - NA,2502
+Datomic,2012 - NA,2416
+cytosol,2020 - tiatomee,2418
+IpTables Rope,2005 - NA,2419
+Sort Merge Generator,1951 - NA,2477
+CLX,1985 - NA,2478
+Scriptol,2001 - NA,2479
+Adenine,1999 - NA,2480
+Lagoona,1997 - NA,2481
+TACPOL,1976 - NA,2482
+MARIA XML,2009 - NA,2483
+BBj,2001 - NA,2415
+BBx,1985 - NA,2417
+Yakou Lang,2021 - KyleLin921021,2484
+Typecast.js,2013 - Bishop Zareh,2485
+Curly,2021 - jenra,2486
+Rye,2019 - Janko Metelko,2487
+R2ML,2003 - NA,2488
+JSML,2001 - NA,2489
+SYMBOLIC ASSEMBLY,1956 - NA,2490
+SheerPower4GL,2000 - NA,2491
+FleXML,2001 - NA,2492
+GRML,2003 - NA,2493
+Robic,1975 - NA,2494
+ThingLab,1979 - NA,2495
+51forth,1980 - NA,2496
+Concurrent METATEM,1993 - NA,2497
+LispMe,2008 - NA,2498
+Met-English,1950 - NA,2499
+ObjectPAL,1993 - NA,2500
+Tag Line Commands,2015 - Michael Chance,2518
+daonode,2011 - Simeon Chaos,2503
+RustScript,2021 - Mikail Khan,2504
+mawk,1991 - NA,2505
+shadama,2017 - Yoshiki Ohshima and Dan Amelang and Bert Freudenberg,2506
+rio,2017 - NA,2507
+RicScript,2019 - Rickard,2508
+RunRev,2003 - NA,2509
+XMTC,1990 - NA,2510
+APE100,1995 - NA,2511
+BasicX,1998 - NA,2512
+RASP,1988 - NA,2513
+CaPSL,1989 - NA,2514
+CorbaScript,1998 - NA,2515
+Bizubee,2015 - Gabe and Gabe,2516
+KavaScript,2021 - Maxime Chevalier-Boisvert,2517
+Octune,2021 - Gary Feng,2520
+Baby modula-3,1993 - NA,2525
+Hbasic,2007 - NA,2526
+mlpolyr,2016 - Nicolas Ojeda Bar,2527
+Multi-user BASIC,1980 - NA,2528
+Riff,2020 - Darryl Abbate,2533
+Cotton,2021 - Mado Nanika,2599
+ForthScript,2020 - Yuriy Zamyatin,2600
+lamderp,2013 - James Keane,2601
+Iode,2015 - Danilo Lekovic,2602
+PearScript,2016 - Ondřej Kocián,2603
+woe,2009 - NA,2604
+H++,2013 - Harold L. Marzan,2605
+Jingo,2020 - Owez,2606
+Hina,2020 - Mark,2607
+microl,2021 - Mike Redko,2608
+Fern,2022 - Spencer Comin,2609
+MeanscriptCLI,2020 - jussehoo,2610
+cosh,2022 - NA,2611
+mountain,2019 - NA,2612
+lambcalc,2019 - William Rutherford,2613
+Broccoli,2020 - CoconutMacaroon,2614
+draconian,2021 - Hextanium,2615
+mai,2019 - Ahmed Khaled,2616
+8th,2014 - NA,2617
+arvelie-format,2017 - NA,2618
+converge,2004 - NA,2619
+Flare,2001 - Dmitriy Myshkin and Eliezer Yudkowsky and Mike Li and Michael Baj and Richard Walker,2620
+michelson,2017 - Grégoire Henry,2621
+MINI OBJECT-ORIENTED LANGUAGE,2010 - NA,2622
+plasma,2015 - NA,2623
+Timpani,2017 - Pouya Kary,2624
+AArch64,2011 - NA,2625
+CLASS,1970 - NA,2626
+Edison,1992 - NA,2627
+Electre,1983 - NA,2628
+EverParse3D,2022 - Nikhil Swamy and Tahina Ramananandro and Aseem Rastogi and Irina Spiridonova and Haobin Ni and Dmitry Malloy and Juan Vazquez and Michael Tang and Omar Cardona and Arti Gupta,2629
+GRIN,1977 - NA,2630
+guru,2009 - NA,2631
+iikuse,2010 - NA,2632
+manticore,2009 - NA,2633
+Nelua,2019 - NA,2634
+PLEASE,1984 - NA,2635
+Seq,2019 - NA,2636
+strudel,2011 - NA,2637
+V,1997 - Mikhail Auguston and Alfredo Delgado,2638
+XML Query Language,1998 - NA,2639
+xt3d,2000 - Shriram Krishnamurthi and Kathryn E. Gray and Paul T. Graunke,2640
+MathJax,2008 - NA,2532
+nirvana,2018 - NA,2519
+truck,2019 - Anmol Gautam,2521
+X-BASIC,1987 - NA,2522
+t-lang,2019 - Justin Hu,2523
+Xupdate,2000 - NA,2524
+LSP,2016 - NA,2534
+JMAP,2019 - NA,2535
+PSYCO,2007 - NA,2536
+alfred,1972 - NA,2537
+Linoleum (L.in.oleum),1996 - Alessandro Ghignola,2538
+GraphQL+-,2017 - NA,2529
+mockingbird-notation,1996 - David C. Keenan,2530
+kernel,2009 - NA,2531
+Attic numerals,-600 - NA,2539
+Feynman diagram,1948 - NA,2540
+Greek numerals,-300 - NA,2541
+Roman numerals,-900 - NA,2542
+SPARQCode,2010 - NA,2543
+ALOHAnet,1971 - NA,2544
+CueCat,2000 - NA,2545
+Etruscan numerals,-700 - NA,2546
+Liber Abaci,1202 - NA,2547
+Visual J++,1996 - NA,2548
+SK8,1988 - NA,2549
+Vienna Development Method Specification Language,1996 - NA,2550
+Address,1955 - Kateryna Lohvynivna Yushchenko,2551
+HCCB,2007 - NA,2552
+HLASM,1992 - NA,2553
+Ingres database,1974 - NA,2554
+IPv4,1984 - NA,2555
+Language H,1962 - NA,2556
+OpenDoc,1993 - NA,2557
+PL/I,1981 - NA,2558
+Set-builder notation,1942 - NA,2559
+SYBYL line notation,1997 - NA,2560
+Wiswesser line notation,1949 - NA,2561
+InterPlanetary File System,2015 - NA,2562
+nroff,1972 - Joe Ossanna,2563
+QFX file format,1997 - NA,2564
+Razor,2010 - NA,2565
+Schoonschip,1963 - NA,2566
+STRINGCOMP,1967 - NA,2567
+ALGOL X,1963 - NA,2568
+Lincos,1961 - NA,2569
+Molecular Query Language,2007 - NA,2570
+Semi-Thue,1914 - Axel Thue,2571
+Superplan,1951 - Heinz Rutishauser,2572
+Advice Taker,1958 - John McCarthy,2573
+BBN-LISP,1960 - NA,2574
+eqn,1974 - NA,2575
+HyperFun,1999 - NA,2576
+Kyma,1986 - NA,2577
+Macintosh Common Lisp,1984 - NA,2578
+Object Definition Language,1991 - NA,2579
+ObjVlisp,1984 - NA,2580
+PM2,1989 - NA,2581
+Prolog++,1994 - NA,2582
+FLANG,1988 - NA,2583
+General Activity Simulation Program,1961 - NA,2584
+Iota-and-jot,2001 - NA,2585
+Little Smalltalk,1987 - NA,2586
+Optimization Programming Language,1999 - Pascal Van Hentenryck,2587
+Shared Dataspace Language,1988 - NA,2588
+DAD,2015 - Scott Ambler and Mark Lines,2589
+Gofer,1994 - NA,2590
+Programming Language for the University of Maryland,1978 - NA,2591
+Interscript,1984 - NA,2592
+Nyquist,1997 - Roger Dannenberg,2593
+Rosetta-2,2006 - Apple Inc,2594
+Definite clause grammar,1980 - NA,2595
+Language for Your Remote Instruction by Computer,1966 - NA,2596
+ZPL,1993 - NA,2597
+Swym,2012 - Laurie Cheers,2598
+LOGIN,1986 - NA,2641
+Bistro,1999 - Nikolas S. Boyd,2648
+gfoo,2020 - NA,2649
+SMILES arbitrary target specification,1987 - David Weininger,2689
+Moescript,2012 - Renzhi Li aka. Belleve Invis,2691
+tridash,2018 - NA,2692
+wats,2017 - Pierre Rossouw,2693
+weebasic,2021 - Maxime Chevalier-Boisvert,2694
+FutureScript,2015 - Zhenzhen Zhan,2696
+TextFrame,2008 - Mark Norman Francis,2697
+Broccoli,2008 - Fogus,2698
+stacklang,2018 - Justin Hu,2699
+psyche,2018 - NA,2700
+Broccoli,2022 - Mathieu CAROFF,2701
+clox,2020 - NA,2702
+rlox,2004 - NA,2703
+Biological Expression Language,2003 - NA,2704
+datev,2017 - Markus Voelter and Sergej Koˇsˇcejev,2705
+eta,2017 - NA,2706
+foundry,2013 - NA,2707
+grain,2017 - NA,2708
+habit,2016 - NA,2709
+Linked Markdown,2022 - Luis Cuende,2710
+liquidity,2017 - NA,2711
+mypy,2012 - NA,2712
+ScriptEase,2001 - NA,2713
+tablatal,2017 - NA,2714
+Afnix,2003 - NA,2715
+arrow,2015 - NA,2716
+axt-format,2004 - NA,2717
+Browser Extensible Data Format,2004 - NA,2718
+DUEL,1993 - NA,2719
+EQS,1978 - NA,2720
+EZ,1984 - NA,2721
+Interleaved Notation,2022 - Michael Homer,2722
+OASIS,1994 - NA,2723
+PAMELA,1992 - NA,2724
+Titanium,1998 - NA,2725
+w,2019 - NA,2642
+Moby,1998 - NA,2643
+algobox,2011 - NA,2644
+COMSOL Script,1998 - NA,2645
+Nosica,2002 - David Jobet,2646
+beagle,2019 - Alex Couch,2647
+BitC,2004 - NA,2650
+Boxx,2002 - NA,2651
+Hyper Basic,1985 - NA,2652
+MetaL,2001 - NA,2653
+Monesa,2002 - NA,2654
+Scieneer Common Lisp,2002 - NA,2655
+Smalltalk YX,2007 - NA,2656
+Tibbo BASIC,2000 - NA,2657
+TouchDevelop,2012 - NA,2658
+UJML,2000 - NA,2659
+WinDev,1993 - NA,2660
+Wlanguage,1992 - NA,2661
+XProfan,1990 - NA,2662
+Bigwig Programming Language,1998 - NA,2663
+Deesel,2005 - NA,2664
+Seph,2010 - NA,2665
+Simkin,1995 - NA,2666
+Timber,1999 - NA,2667
+Micro-PROLOG,1980 - NA,2668
+Superx++,2001 - NA,2669
+CHAIN,1981 - NA,2670
+Escapade,1977 - NA,2671
+Izibasic,2004 - NA,2672
+M,2008 - NA,2673
+Mocklisp,1981 - NA,2674
+Moonrock Basic Compiler,1994 - Rowan Crowe,2675
+Omikron BASIC,1985 - NA,2676
+PROC procedure language,1986 - NA,2677
+Bon,1967 - NA,2678
+Marmot,2000 - NA,2679
+Portal langage,1978 - NA,2680
+PowerLanguage,1997 - NA,2681
+HTTP/3,2018 - NA,2682
+MUSP,1960 - NA,2683
+NGL,2001 - NA,2684
+Klerer-May System,1964 - NA,2685
+Legal Knowledge Interchange Format,2007 - NA,2686
+OPL,1989 - NA,2687
+iScript,2008 - NA,2688
+SNOBOL4,1967 - NA,2726
+tsar,2019 - adam-mcdaniel,2690
+RoyalScript,2016 - Josh Weinstein,2695
+dreamlisp,2019 - NA,2727
+Tawa,2021 - Jan Blackquill,2728
+Sugi,2021 - sugi-lang,2730
+calc,2013 - NA,2942
+darklang,2019 - NA,2943
+dio,2020 - NA,2944
+enso,2011 - Alex Loh,2945
+Extempore,2011 - NA,2946
+goose,2018 - NA,2947
+imp-lang,2019 - NA,2948
+JMESPath,2013 - NA,2949
+juttle,2014 - NA,2950
+kilo-lisp,2019 - NA,2951
+lasp,2015 - NA,2952
+PacmanConf,2019 - NA,2953
+Omega,2019 - NA,2954
+pgql,2016 - NA,2955
+PickCode,2021 - NA,2956
+PkgConfig,2000 - NA,2957
+plumb,2014 - NA,2958
+PSeInt,2003 - NA,2959
+robotc,2005 - NA,2960
+rosie,2015 - NA,2961
+versioned-text-markup-language,1999 - NA,2962
+ABEL,1979 - NA,2964
+BOLT,1981 - NA,2965
+CCS,1999 - NA,2966
+Chimera,1994 - NA,2967
+Descartes,1983 - NA,2968
+DINO,1990 - NA,2969
+DLP,1992 - NA,2970
+HScript,1996 - NA,2971
+Lila,2017 - NA,2972
+Lorel,1996 - Serge Abiteboul and Dallan Quass and Jason McHugh and Jennifer Widom and Janet L. Wiener,2973
+MDL,1992 - NA,2974
+PAISley,1982 - NA,2975
+Relational Data File,1965 - NA,2976
+RAISE Specification Language,1992 - NA,2977
+SCAN,1987 - NA,2978
+Statement List,1993 - NA,2979
+Timeless Instruction Set (TL ISA),2022 - NA,2980
+UnQL,2000 - Peter Buneman and Mary Fernandez and Dan Suciu,2981
+WATFOR,1966 - NA,2982
+Wikitax,2002 - NA,2983
+IT,1955 - Alan Perlis,2963
+SQHTML,2022 - Katrina Grace,2729
+Hedy,2020 - NA,2731
+Floral,2020 - NA,2732
+unlws,2010 - NA,2733
+thune,2014 - NA,2734
+BIPLAN,2017 - Giovanni Blu Mitolo,2735
+bytecode-modeling-language,2008 - NA,2736
+coi-protocol,2019 - NA,2737
+Datalisp,2020 - ilmu,2738
+Farcaster,2021 - NA,2739
+iqr,1994 - NA,2740
+lunar,2017 - David A. Moon,2741
+marten,1980 - NA,2742
+Plush,2017 - Maxime Chevalier-Boisvert,2743
+rsharp,2003 - NA,2744
+scopes,2016 - Leonard Ritter,2745
+stx,1999 - NA,2746
+unicon-adl,1996 - NA,2747
+Vortex,2020 - Christopher Lewis,2748
+aubit-4gl,2001 - NA,2749
+BScript,1999 - NA,2750
+chicken-lang,2013 - NA,2751
+cixl,2018 - NA,2752
+clickpath,2011 - NA,2753
+Coral,2017 - NA,2754
+domino,1989 - NA,2755
+frtime,2004 - NA,2756
+hac,2007 - NA,2757
+hsaml-format,2013 - NA,2758
+Imandra Protocol Language,2017 - NA,2759
+klisp,1958 - NA,2760
+Lanai,2016 - NA,2761
+listdown,2017 - NA,2762
+Mascara,2009 - Olav Junker Kjær,2763
+paperalgo,2014 - Kragen Javier Sitaker,2764
+powerloom-knowledgeBase,1999 - NA,2765
+rlmeta,2018 - Rickard Lindberg,2766
+sepi,2012 - NA,2767
+shade,2012 - NA,2768
+shml,2015 - NA,2769
+SmartGameFormat,1987 - NA,2770
+SNBT,2011 - NA,2771
+tab,2015 - NA,2772
+teal,1987 - NA,2773
+underlay,2018 - NA,2774
+yinyang,2013 - NA,2775
+Arturo,2019 - Yanis Zafirópulos,2776
+BRL,1997 - NA,2777
+business-rule-language,2012 - NA,2778
+bx,1990 - NA,2779
+Cheri,2010 - NA,2780
+ctalk,2006 - Robert Kiesling,2781
+dec64,2009 - NA,2782
+gemini-protocol,2020 - NA,2783
+Gnome Basic,1999 - NA,2784
+General purpose,2015 - NA,2785
+helium,2003 - NA,2786
+holonforth,1989 - NA,2787
+objective-modula-2,2009 - NA,2788
+qbe,2015 - NA,2789
+Radish,2022 - NA,2790
+readable-lisp,2013 - NA,2791
+rhoscript,2013 - NA,2792
+Restricted Python,2007 - NA,2793
+sharpscript,2019 - NA,2794
+sierra,2018 - NA,2795
+slim-pl,1999 - Herman Venter,2796
+tengo,2019 - NA,2797
+Lambda Diagrams,2014 - John Tromp,2798
+uml2-sp,2018 - NA,2799
+Wolfram Data Framework,2014 - NA,2800
+atomo,2010 - NA,2801
+B3 IR,2016 - NA,2802
+blank,2018 - NA,2803
+Blueprints,2014 - NA,2804
+C^3,2009 - NA,2805
+c-smile,2002 - Andrew Fedoniouk,2806
+calc_var,2013 - NA,2807
+chaos-lang,2020 - NA,2808
+Cobol.NET,2002 - NA,2809
+coffeepp,2017 - NA,2810
+dfns,2014 - NA,2811
+dss,2018 - NA,2812
+emu,2019 - NA,2813
+fmj,2003 - NA,2814
+Genshi Text,2020 - NA,2815
+klong,2015 - NA,2816
+kogut,2004 - NA,2817
+koi,2010 - NA,2818
+minihaskell,2013 - NA,2819
+miniprolog,2013 - NA,2820
+mir,2015 - NA,2821
+mlite,2004 - NA,2822
+piccola,2002 - NA,2823
+pyke,2008 - Paul Haesler and Bruce Frederiksen,2824
+Python Format Specification,2008 - NA,2825
+ra,2015 - Omar Ahmad,2826
+redscript,2013 - NA,2827
+retroforth,2000 - Charles Childers,2828
+The Synthetic Biology Open Language,2010 - NA,2829
+sentient,2016 - NA,2830
+seph,2013 - NA,2831
+simit,2016 - NA,2832
+singular,1987 - NA,2833
+skookumscript,2004 - NA,2834
+socialite,2015 - NA,2835
+SOQL,2006 - NA,2836
+souffle,2019 - NA,2837
+soul,2000 - NA,2838
+squiggle,2015 - NA,2839
+sub,2013 - NA,2840
+tern,2019 - NA,2841
+terse,1986 - NA,2842
+tetra,2017 - NA,2843
+texpr,2013 - NA,2844
+thorn,2014 - NA,2845
+tilton,2000 - Douglas Crockford,2846
+typedefs,2017 - NA,2847
+Zoem,2005 - NA,2848
+AIR,2016 - NA,2849
+BUSH,2002 - NA,2850
+chirp,2008 - NA,2851
+cloe,2018 - NA,2852
+comm,2013 - NA,2853
+CorelScript,1994 - NA,2854
+crack,2011 - NA,2855
+Descript,2018 - Jakob Hain,2856
+D++,1999 - Daniel Smith,2857
+DRAGOON,1989 - NA,2858
+flux-lang,2006 - NA,2859
+fox,2017 - NA,2860
+GSQL,2015 - NA,2861
+JSGF,1998 - NA,2862
+lambda,2013 - NA,2863
+levy,2013 - NA,2864
+loglo,2020 - NA,2865
+miniml,2013 - NA,2866
+New AWK,1993 - NA,2867
+oforth,2009 - NA,2868
+orca-lang,2014 - Karl Robillard,2869
+polly,2016 - NA,2870
+poly,2013 - NA,2871
+raptor,2015 - NA,2872
+RQL,2017 - NA,2873
+ru,2015 - NA,2874
+shill,2014 - NA,2875
+Smithy,2016 - NA,2876
+SOSL,2006 - NA,2877
+stringbean,2016 - NA,2878
+subscript,2012 - NA,2879
+Table Query Language,1997 - NA,2880
+toadskin,2003 - NA,2881
+TWiki,1998 - NA,2882
+ugnis,2017 - NA,2883
+Visual Logic,2005 - NA,2884
+woofjs,2016 - NA,2885
+xmpp-protocol,2003 - NA,2886
+antha,2014 - NA,2887
+arend,2019 - NA,2888
+bjou,2019 - NA,2889
+charly,2017 - NA,2890
+circa,2012 - NA,2891
+cleanlang,2017 - Santosh Rajan,2892
+cx,2015 - NA,2893
+edgeql,2017 - NA,2894
+Elpi,2014 - Enrico Tassi,2895
+eno,2018 - NA,2896
+GNS,2018 - NA,2897
+helena,2017 - NA,2898
+hello,2015 - NA,2899
+Hilltop,2018 - Dan Swirsky,2900
+joker,2018 - NA,2901
+kima,2018 - NA,2902
+l,2013 - NA,2903
+min,2017 - NA,2904
+neralie-format,2017 - NA,2905
+none,2015 - Leonard Ritter,2906
+Ordered graph data language,2002 - NA,2907
+OpenSpice,2005 - Stephen Leach,2908
+par,2018 - NA,2909
+pisc,2017 - NA,2910
+plink-bim-format,2007 - NA,2911
+plink-fam-format,2007 - NA,2912
+potential,2010 - Tim Carstens,2913
+prodel,2014 - NA,2914
+sdf-format,2012 - NA,2915
+statebox,2008 - NA,2916
+syndicate,2016 - NA,2917
+Typst,2022 - Laurenz Mädje,2918
+urn,2017 - NA,2919
+C∀,2018 - NA,2920
+Clausal Language,1997 - NA,2921
+ctr,2017 - NA,2922
+Dimensional Script,2012 - NA,2923
+Fawlty,2006 - NA,2924
+goby,2017 - NA,2925
+kayia,1999 - David Broderick,2926
+ki,2014 - NA,2927
+libsvm-format,2011 - NA,2928
+merd,2002 - Yoann Padioleau,2929
+morfa,2015 - NA,2930
+nectar,2016 - NA,2931
+np,2013 - NA,2932
+NU-Prolog,1988 - NA,2933
+panther-lang,2010 - NA,2934
+paxScript,2011 - Alexander Baranovsky,2935
+pliant,1999 - NA,2936
+plink-map-format,2007 - NA,2937
+shakti,2019 - NA,2938
+skew,2015 - Evan Wallace,2939
+T3X,1995 - NA,2940
+tiddler,2004 - NA,2941
+Alma,1997 - NA,2991
+AlpHard,1996 - NA,2992
+BABEL,1990 - NA,2993
+COPE,1977 - NA,2994
+cT,1989 - NA,2995
+EDUCE,1986 - NA,2996
+Friendly Enough Expression Language,2015 - NA,2997
+gnu-rtl,1987 - NA,2998
+INQUIRE,1969 - NA,2999
+Lighttpd configuration file,2003 - NA,3000
+MADCAP VI,1972 - NA,3001
+McLeyvier Command Language,1982 - NA,3002
+Modified Integration Digital Analog Simulator,1963 - NA,3003
+O++,1989 - NA,3004
+order,2003 - Vesa Karvonen,3005
+Perfectscript,1995 - NA,3006
+PO,2000 - NA,3007
+PROSPER,1989 - NA,3008
+SBA,1977 - NA,3009
+School,1990 - NA,3010
+SNQL: A Social Network Query and Transformation Language,2011 - NA,3011
+Spill,1997 - NA,3012
+UnQL,2011 - Richard Hipp and Damien Katz,3013
+WebGPU Shading Language,2020 - NA,3014
+XE,1988 - NA,3015
+XQL,1998 - Hiroshi Ishikawa and Kazumi Kubota and Yasuhiko Kanemasa,3016
+Cish,2022 - NA,2988
+SIMAN,1983 - NA,2989
+Zeta,2008 - Russ Cox and Tom Bergan† and Austin T. Clements and Frans Kaashoek and Eddie Kohler,2990
+SNOBOL3,1996 - NA,2984
+Vienna Definition Language,1965 - NA,2985
+CDL,1995 - Christian Hochberger,2986
+FORTRAN 77,1977 - NA,2987
+ACCENT,1990 - NA,3017
+Argos,1992 - NA,3018
+BridgeTalk,1987 - Jeffrey G. Bonar and Blaise W. Liffick,3019
+DDF,2016 - NA,3020
+DEMETER,1995 - NA,3021
+Dribble,2003 - NA,3022
+ETC,1971 - NA,3023
+Fable,1983 - NA,3024
+Generic Expression Language,2008 - NA,3025
+GLOSS,1971 - NA,3026
+Herbrand,1995 - NA,3027
+JACL,1997 - Ioi K. Lam and Brian Smith,3028
+KB,1990 - NA,3029
+LESK,1975 - NA,3030
+Lisp Object-Oriented Programming System,1983 - NA,3031
+MENDEL,1985 - NA,3032
+nML,1991 - NA,3033
+Patchwork,1996 - Ronen Barzel and David Salesin,3034
+PLAN2D,1976 - NA,3035
+Pluk,1995 - Bart van der Werf,3036
+RLISP,1970 - NA,3037
+SCROLL,1970 - NA,3038
+sh,1971 - NA,3039
+Tick C,1997 - NA,3040
+Tiki Wiki Markup,2002 - NA,3041
+topaz,2011 - NA,3042
+torchscript,2018 - NA,3043
+Tutorial D,1994 - NA,3044
+AMTRAN,1966 - NA,3045
+ANNA,1987 - NA,3046
+APL-GPSS,1988 - NA,3047
+aQasm,2017 - NA,3048
+Arc Assembly,1947 - Kathleen Booth,3049
+bawk,1994 - Bob Brodt,3050
+BIRD,2021 - NA,3051
+CDL++,1999 - Christian Hochberger,3052
+CMIX,1980 - Paul Lansky,3053
+COMMEN,1967 - NA,3054
+cooC,2000 - NA,3055
+TypeScript Type Declarations,2012 - NA,3056
+EXPLAN,1994 - NA,3057
+EXPLOR,1972 - NA,3058
+FORTRAN assembly program,1959 - NA,3059
+FAR,2000 - NA,3060
+flowlog,2014 - NA,3061
+Giotto,2001 - NA,3062
+Heron,2008 - NA,3063
+hoot-smalltalk,2018 - Nikolas S. Boyd,3064
+IBEX,2002 - NA,3065
+IFO,1987 - NA,3066
+Knowledge Acquisition and Representation Language,1993 - NA,3067
+L6,1963 - NA,3068
+LISP 1.5,1959 - NA,3069
+Lorel,1974 - NA,3070
+MADCAP,1960 - NA,3071
+MAPS,1993 - NA,3072
+MOOSE,1994 - NA,3073
+MSL,1977 - NA,3074
+NAKL,1982 - NA,3075
+NODAL,1972 - NA,3076
+o2,1989 - NA,3077
+OOPS+,1988 - Els Laenens and Dirk Vermeir,3078
+PACTOLUS,1964 - NA,3079
+Pascal-XSC,1991 - NA,3080
+Petr,1999 - NA,3081
+PopAsm,2003 - Helcio Bezerra de Mello,3082
+PUFFT,1965 - NA,3083
+quexal,2007 - NA,3084
+RATSNO,1977 - NA,3085
+Rapid Development and Maintenance Language,2005 - NA,3086
+Real-Time Concurrent C,1991 - NA,3087
+Real-Time Mentat,1989 - NA,3088
+Regina,2001 - NA,3089
+REGULUS,1977 - NA,3090
+RPL,1988 - NA,3091
+RPT,1961 - NA,3092
+SHADOW,1958 - NA,3093
+SHEEP,1978 - NA,3094
+SLANG,1960 - NA,3095
+SPADE,2018 - NA,3096
+SquidConf,1996 - NA,3097
+TAO,1983 - NA,3098
+Verse,2022 - Simon Peyton Jones and Tim Sweeney and Lennart Augustsson and Koen Claess,3099
+Water,2002 - NA,3100
+xs,2019 - Sturm Mabie,3101
+3D Logo,1986 - NA,4075
+ABLE,1981 - NA,4076
+ADAM,1964 - NA,4077
+ALPAK,1963 - NA,4078
+APACHE,1961 - NA,4079
+APL/HP,1986 - NA,4080
+Arctic,1984 - NA,4081
+ARTSPEAK,1974 - NA,4082
+ASHMEDAI,1967 - NA,4083
+ASPOL,1973 - NA,4084
+Atomos,2006 - NA,4085
+Aurora,1988 - NA,4086
+AUTOLOFT,1962 - NA,4087
+Automator,2005 - NA,4088
+AUTOmatic PROgramming of Machine Tools,1961 - NA,4089
+B-LINE,1968 - NA,4090
+BACK,1988 - NA,4091
+BaLinda Lisp,1996 - NA,4092
+baltazar,1993 - NA,4093
+Barrel,1980 - NA,4094
+BASEBALL,1961 - NA,4095
+BASEL,1968 - NA,4096
+BEEF,1961 - NA,4097
+BETA Project,1961 - NA,4098
+Biferno,2003 - NA,4099
+BIGMAC,1981 - NA,4100
+BIGWIG,1998 - NA,4101
+Birkbeck Assembly,1947 - Kathleen Booth,4102
+BLAZE 2,1989 - NA,4103
+BrouHaHa,1987 - NA,4104
+C flat,1991 - Bill McKeeman,4105
+CafeObj,1997 - NA,4106
+CAJOLE,1978 - NA,4107
+CCal,1987 - NA,4108
+CIRCAL,1985 - NA,4109
+CLANGER,1995 - NA,4110
+ClassiC,1998 - NA,4111
+CLEAR,1976 - NA,4112
+Coherent Parallel C,1988 - NA,4113
+COL,1989 - NA,4114
+Combined Log Format,2002 - NA,4115
+COMFY,1997 - NA,4116
+COMPUTEST,1964 - NA,4117
+COMSKEE,1973 - NA,4118
+Concurrent C++,1988 - NA,4119
+Concurrent Prolog,1983 - NA,4120
+CONLAN,1980 - NA,4121
+Connection Machine LISP,1986 - NA,4122
+CONSIM,1977 - NA,4123
+CONSTRAINTS,1978 - NA,4124
+Consul,1981 - NA,4125
+CST,1988 - NA,4126
+CUBE,1992 - NA,4127
+CUPID,1975 - NA,4128
+DAMN,1970 - NA,4129
+DEBL,1988 - NA,4130
+DECLARE,1997 - NA,4131
+DEL,1971 - NA,4132
+Delirium,1991 - NA,4133
+Delta Prolog,1984 - NA,4134
+DIALOG,1966 - NA,4135
+DICE,1991 - NA,4136
+DIET,1975 - NA,4137
+Dipe-R,2002 - NA,4138
+DISC,1989 - NA,4139
+DISPEL,1981 - NA,4140
+DNA,1980 - NA,4141
+$,1983 - NA,4142
+DOPL,1982 - NA,4143
+DUAL,1953 - NA,4144
+Durra,1986 - NA,4145
+Elegant,1987 - NA,4146
+ELLPACK,1983 - NA,4147
+EMMA,1999 - NA,4148
+Eva,1990 - NA,4149
+EXEL,1973 - NA,4150
+Extended Pascal,1987 - NA,4151
+FLIC,1987 - NA,4152
+FlowNet,1993 - Erann Gat and Mike Ciholas,4153
+FORK,1992 - NA,4154
+FORTRANSIT,1956 - NA,4155
+FRANK,1985 - NA,4156
+Frenetic,2011 - NA,4157
+Fresco,1993 - NA,4158
+Galileo,1983 - NA,4159
+GCLA II,1992 - NA,4160
+GEM,1985 - NA,4161
+GCC GENERIC,2003 - NA,4162
+Gerald,1989 - NA,4163
+GERMINAL,1974 - NA,4164
+Glish,1993 - NA,4165
+Golog,1993 - NA,4166
+GOQL,1997 - NA,4167
+GOSPEL,1977 - NA,4168
+GPS,1957 - NA,4169
+GPSS/85,1985 - NA,4170
+Grapheasy,1975 - NA,4171
+Green,1998 - NA,4172
+GROOVE,1970 - NA,4173
+Hancock,1999 - NA,4174
+HARVEY,1972 - NA,4175
+HELPER,1969 - NA,4176
+henk,1997 - NA,4177
+Hi-Visual,1992 - NA,4178
+Holo,2001 - NA,4179
+Hybrid,1987 - NA,4180
+HyCom,1975 - NA,4181
+Ibuki CL,1992 - NA,4182
+ICML,2008 - NA,4183
+ILU,1994 - NA,4184
+ILX,2002 - NA,4185
+IMAGE,1975 - NA,4186
+imf,2008 - NA,4187
+Ina Jo,1985 - NA,4188
+INC,1987 - NA,4189
+INFOLOG,1986 - NA,4190
+INSIGHT,1983 - NA,4191
+INTERACTIVE,1983 - NA,4192
+ISAC,2003 - NA,4193
+JavaML,2000 - NA,4194
+JOSIE,1991 - NA,4195
+Joyce,1987 - NA,4196
+JOYCE+,1990 - NA,4197
+JPL,1991 - NA,4198
+JR,2004 - NA,4199
+KATE,1979 - NA,4200
+Keep It Short and Simple,1959 - NA,4201
+KL1,1988 - NA,4202
+Klaim,1997 - NA,4203
+KRIS,1991 - NA,4204
+LAMINA,1988 - NA,4205
+Language for Class Description,1964 - NA,4206
+LAP,1987 - NA,4207
+LARIS,2000 - NA,4208
+LASS,1982 - NA,4209
+LDL,1984 - NA,4210
+Lemick,2004 - Alexei Iliasov,4211
+LG,1969 - NA,4212
+Lisptalk,1988 - NA,4213
+LNF,1985 - NA,4214
+LO,1990 - NA,4215
+LOGAL,1977 - NA,4216
+LOGLISP,1980 - NA,4217
+LOGOL,1968 - NA,4218
+LogoWriter,1986 - NA,4219
+LOL,1994 - NA,4220
+LOOPN++,2000 - NA,4221
+LORE,1985 - NA,4222
+Lucid representations,1991 - NA,4223
+Lygon,1995 - NA,4224
+MIT Algebraic Compiler,1957 - NA,4225
+MADS,1964 - NA,4226
+Magic Paper,1963 - Jean E. Sammet,4227
+MAPQUERY,1982 - NA,4228
+MARSYAS,1970 - NA,4229
+MAVIS,1992 - NA,4230
+MELD,1989 - NA,4231
+META/PLUS,1971 - NA,4232
+MetaH,1988 - NA,4233
+Modula-2+,1984 - NA,4234
+Modula-3*,1993 - NA,4235
+Morphe,1992 - NA,4236
+MPSX,1978 - NA,4237
+MUSYS,1969 - NA,4238
+N-Prolog,1985 - NA,4239
+Nail,1986 - NA,4240
+NetBasic,1999 - NA,4241
+Netscript,2016 - NA,4242
+NIL,1983 - NA,4243
+NSL,1991 - NA,4244
+NUA-Prolog,1991 - Douglas Frank Palmer,4245
+NUT,1986 - NA,4246
+O,1986 - NA,4247
+OFL,1995 - NA,4248
+OLDAS,1968 - NA,4249
+OLIVER,1976 - NA,4250
+olog,1997 - NA,4251
+OMAR,1999 - NA,4252
+One-man-language,1977 - NA,4253
+OOLP,1989 - NA,4254
+OOPS,1986 - Els Laenens and Dirk Vermeir,4255
+OpenAda,2000 - Patrick Rogers and Andy Wellings,4256
+Orient84/K,1986 - NA,4257
+Object-oriented Structured Query Language,1990 - NA,4258
+P/CL,1984 - NA,4259
+PACT IA,1957 - NA,4260
+Paragon,1991 - NA,4261
+Pascal-FC,1990 - NA,4262
+PASCAL-I,1980 - NA,4263
+Pascal-S,1975 - NA,4264
+PHOCUS,1987 - NA,4265
+PICASSO,1988 - NA,4266
+PIE,1988 - NA,4267
+PIN,1975 - NA,4268
+PIT,1958 - NA,4269
+PIXIN,1974 - Malcolm Phillip Atkinson,4270
+PL/I-FORMAC,1968 - NA,4271
+PL/LL,1983 - NA,4272
+PL4,1974 - NA,4273
+PLACA,1993 - NA,4274
+POSE,1967 - NA,4275
+PRIZ,1983 - NA,4276
+ProFIT,1994 - NA,4277
+Progol,1993 - NA,4278
+PROPHET,1974 - NA,4279
+proto-GNOSIS,1987 - NA,4280
+ProVerif,2014 - Bruno Blanchet,4281
+Proxy,1992 - NA,4282
+Py,1991 - David Cuny,4283
+QAS,1978 - NA,4284
+QUADRIL,1976 - NA,4285
+Quanta,2003 - NA,4286
+Quick Macros,1997 - NA,4287
+QUILT,1970 - NA,4288
+RACK,1990 - NA,4289
+RC++,2001 - NA,4290
+Real-Time Euclid,1986 - NA,4291
+Rebus,1982 - NA,4292
+Refined C,1984 - Henry G. Dietz,4293
+REL English,1975 - NA,4294
+REL,1968 - Peter C. Lockemann and Frederick B. Thompson,4295
+Relix,1984 - NA,4296
+Reuse Description Language,2005 - NA,4297
+RoboTalk,1985 - NA,4298
+ROS Message,2010 - NA,4299
+Statemate,1998 - NA,4300
+Unicode,1955 - NA,4301
+Virt,1998 - NA,4302
+Siri,1991 - NA,3102
+Socrata Query Language,2012 - NA,3103
+synergist,1986 - NA,3104
+uscript,2016 - NA,3105
+uscript2,2018 - NA,3106
+2lisp,1982 - NA,3107
+arbortext-command-language,2009 - NA,3108
+Argon,2022 - NA,3109
+chappe-code,1792 - NA,3110
+concordance,1994 - NA,3111
+CSV++,2016 - NA,3112
+LinkText,2022 - NA,3113
+runescript,2001 - NA,3114
+shiv,2018 - NA,3115
+Simple Stackless Lisp,2022 - NA,3116
+sugarj,2012 - NA,3117
+TeaSharp,2022 - NA,3118
+ACSI-Matic,1959 - NA,3119
+ALEPH,1992 - NA,3120
+ALGOL 68-RT,1979 - NA,3121
+ALJABR,1991 - NA,3122
+Altibase,1999 - NA,3123
+amalthea,2002 - NA,3124
+Amazon DynamoDB,2012 - NA,3125
+Amazon RDS,2009 - NA,3126
+AMTRAN 70,1969 - NA,3127
+Apache Derby,2004 - NA,3128
+Apache Phoenix,2014 - NA,3129
+APLO,1989 - NA,3130
+ArangoDB,2011 - NA,3131
+ARTA,1970 - NA,3132
+AUTOCODER II,1958 - NA,3133
+BEAM Bytecode,2017 - NA,3134
+BeeBasic,2013 - NA,3135
+BER,1988 - NA,3136
+BullFrog,2005 - NA,3137
+Celsius WebScript,2006 - NA,3138
+Cigale,1986 - NA,3139
+COGO,1962 - NA,3140
+concept-script,1879 - Gottlob Frege,3141
+ConCurr,1979 - NA,3142
+Couchbase Mobile,2010 - NA,3143
+Couchbase,2011 - NA,3144
+Cymbal,1999 - NA,3145
+Decision Model & Notation,2015 - NA,3146
+DinnerBell,1990 - NA,3147
+EqL,1989 - NA,3148
+EXAPT,1967 - NA,3149
+Firebase Realtime Database,2011 - NA,3150
+Google Cloud SQL,2011 - NA,3151
+Greenplum,2005 - NA,3152
+IBM DB2,1983 - NA,3153
+InfluxDB,2013 - NA,3154
+InterBase,1985 - NA,3155
+InterSystems Caché,1997 - NA,3156
+ji,2019 - NA,3157
+kernel-e,1994 - NA,3158
+MariaDB ColumnStore,2016 - NA,3159
+MarkLogic,2001 - NA,3160
+Memcached,2003 - NA,3161
+Microsoft Access,1992 - NA,3162
+Microsoft Azure Cosmos DB,2017 - NA,3163
+Microsoft SQL Server,1989 - NA,3164
+MODEL-K,1993 - NA,3165
+Mushroom,1988 - NA,3166
+NEBULA,1960 - NA,3167
+Neo4j,2007 - NA,3168
+oniguruma,2002 - NA,3169
+Oracle,1979 - NA,3170
+OrientDB,2010 - NA,3171
+PCLOS,1993 - NA,3172
+PGen,2015 - NA,3173
+IBM Programming Language/Advanced Systems,1976 - NA,3174
+ROSCOE,1979 - NA,3175
+Rosetta SMALLTALK,1979 - NA,3176
+Rosette,2000 - NA,3177
+RPG III,1968 - NA,3178
+RT-ASLAN,1986 - NA,3179
+RT-CDL,1989 - NA,3180
+RT-Z,1999 - NA,3181
+Ruri,2000 - NA,3182
+SAAL,1966 - NA,3183
+SAC-1,1967 - NA,3184
+SAC-2,1969 - NA,3185
+Sampletalk,1991 - NA,3186
+SAP HANA,2010 - NA,3187
+SARTEX,1985 - NA,3188
+Sassy,1999 - NA,3189
+SAUSTALL,1982 - NA,3190
+SB-ONE,1990 - NA,3191
+SCALPEL,1971 - NA,3192
+SCAT,1957 - NA,3193
+SCHEMAL,1983 - NA,3194
+SCIL-VP,1992 - NA,3195
+Sclipting,2011 - NA,3196
+Scratchpad II,1980 - NA,3197
+SCREAMER,1993 - NA,3198
+Scrimshaw,1993 - NA,3199
+ScriptX,1995 - NA,3200
+SDMS,2001 - NA,3201
+SEGRAS,1985 - NA,3202
+SEMANOL,1969 - NA,3203
+Seque,1988 - NA,3204
+SEQUEL 2,1976 - NA,3205
+Sequential Pascal,1970 - NA,3206
+SESPATH,1985 - NA,3207
+SESPOOL,1977 - NA,3208
+SetLog,1991 - NA,3209
+SEVAL,1981 - NA,3210
+Seymour,1989 - NA,3211
+ShapeUp,1984 - NA,3212
+Shared Prolog,1990 - NA,3213
+SheerPower 4GL,2006 - NA,3214
+SI Library,1998 - NA,3215
+SIDOPS+,1997 - NA,3216
+SIGMA 76,1976 - NA,3217
+SIMAN IV,1990 - NA,3218
+SIMCAL,1986 - NA,3219
+SIMDIS,1985 - NA,3220
+SIMFACTORY,1990 - NA,3221
+SIML/I,1979 - NA,3222
+SIMNET,1988 - NA,3223
+SIMPAS,1980 - NA,3224
+SimpleScript,2013 - NA,3225
+SIMUL,1973 - NA,3226
+SIMULA 67,1967 - NA,3227
+Sketchpad III,1966 - NA,3228
+SL5,1975 - NA,3229
+SLAM II,1980 - NA,3230
+SLEUTH,1962 - NA,3231
+SLPL,1976 - NA,3232
+SMALGOL,1961 - NA,3233
+Small Euclid,1988 - NA,3234
+SMALL-X,1985 - NA,3235
+Smalltalk-76,1976 - NA,3236
+Smalltalk-80,1980 - NA,3237
+SmallVDM,1993 - NA,3238
+SMoLCS,1986 - NA,3239
+SNOBAT,1976 - NA,3240
+Soar Markup Language,2014 - NA,3241
+SOLMAR,1978 - NA,3242
+SORCA,1983 - NA,3243
+SPECL,1973 - NA,3244
+SPECOL,1968 - NA,3245
+SPIL,1973 - NA,3246
+spir-v,2015 - NA,3247
+SPLAW,1998 - NA,3248
+Symbolic Programming System,1959 - NA,3249
+SQURL,1981 - NA,3250
+STAGE2,1970 - NA,3251
+Standard Lisp,1979 - NA,3252
+STAPLE,1975 - NA,3253
+*Prolog,1989 - NA,3254
+status-quo-script,2001 - NA,3255
+StoneCutter,2020 - John D. Leidel and David Donofrio and Frank Conlon,3256
+STRCMACS,1977 - NA,3257
+STREMA,1976 - NA,3258
+STRESS,1963 - NA,3259
+STRUDL,1965 - NA,3260
+SW2,1986 - NA,3261
+SYNGLISH,1980 - NA,3262
+SYNPROC,1970 - NA,3263
+SYNTOL,1960 - NA,3264
+TABLOG,1984 - NA,3265
+TABSOL,1960 - NA,3266
+TABTRAN,1967 - NA,3267
+TAC,1959 - NA,3268
+Tarmac,1990 - NA,3269
+Taxis,1980 - NA,3270
+tcc,1997 - NA,3271
+TCOZ,2002 - NA,3272
+TCSP,1995 - NA,3273
+TDFL,1990 - NA,3274
+TDMS,1970 - NA,3275
+telefile-assembly,1952 - NA,3276
+TELSIM,1966 - NA,3277
+Templar,1993 - NA,3278
+Temporal Prolog,1983 - NA,3279
+Teradata Aster,2005 - NA,3280
+Teradata,1979 - NA,3281
+TFL,1996 - NA,3282
+The Message System,1967 - NA,3283
+THREADED LISTS,1959 - NA,3284
+TICS,1973 - NA,3285
+TiDB,2015 - NA,3286
+Timed CSP,1986 - NA,3287
+Tinkertoy,1988 - NA,3288
+TOOLBUS,1998 - NA,3289
+TPDL*,1991 - NA,3290
+Trafola-H,1991 - NA,3291
+Traits,1982 - NA,3292
+TRAMP,1968 - NA,3293
+TRANQUIL,1966 - NA,3294
+Transforma,1985 - NA,3295
+TREET,1964 - NA,3296
+triroff,1983 - NA,3297
+TSL,1985 - NA,3298
+TSQL2,1996 - NA,3299
+Turing Plus,1987 - NA,3300
+turnstile-plus,2020 - NA,3301
+Tyco,1998 - NA,3302
+TyRuBa,1998 - NA,3303
+U-Datalog,1997 - NA,3304
+UAN,1990 - NA,3305
+Ubik,2000 - NA,3306
+UFL,1986 - NA,3307
+UFO,1992 - NA,3308
+UMTA,1974 - NA,3309
+UNICORN,1986 - NA,3310
+UNISIM,1964 - NA,3311
+UNRAVEL,1973 - NA,3312
+USSA,1992 - NA,3313
+Utopia 84,1979 - NA,3314
+V-Promela,1999 - NA,3315
+VAL II,1983 - NA,3316
+VARLIST,1975 - NA,3317
+Vector PASCAL,1998 - NA,3318
+VENUS,1967 - NA,3319
+Vienna Fortran,1992 - NA,3320
+VIPTRAN,1973 - NA,3321
+Viron,1983 - NA,3322
+VisaVis,1994 - NA,3323
+Visual Eiffel,1993 - NA,3324
+Visual Occam,1997 - NA,3325
+VIVA,1990 - NA,3326
+viz,1990 - NA,3327
+VPL,1991 - NA,3328
+VSPL,2000 - NA,3329
+VULCAN,1987 - NA,3330
+WCL,1991 - NA,3331
+WebL,2000 - NA,3332
+Whirlwind,1951 - NA,3333
+WRITEACOURSE,1968 - NA,3334
+WYLBUR,1973 - NA,3335
+X-KLAIM,2000 - NA,3336
+X11-Basic,1991 - NA,3337
+xADL,2000 - NA,3338
+XCY,1980 - NA,3339
+XML-GL,1998 - Stefano Ceri and Sara Comai and Ernesto Damiani and Piero Fraternali and Stefano Paraboschi and Letizia Tanca,3340
+The Algebra,2001 - NA,3341
+XPOP,1964 - NA,3342
+XSIM,1977 - NA,3343
+XTRAN,1958 - NA,3344
+YugabyteDB,2018 - NA,3345
+ZCCS,1997 - NA,3346
+ZGRASS,1978 - NA,3347
+1.pak,1973 - NA,3348
+2OBJ,1995 - NA,3349
+3-LISP,1982 - NA,3350
+3DComposer,1999 - NA,3351
+3RIP,1977 - NA,3352
+ABAL,1974 - NA,3353
+ABCL/c+,1988 - NA,3354
+ABCL/f,1994 - NA,3355
+ABC++,1994 - NA,3356
+Abstracto,1979 - NA,3357
+AC Toolbox,1992 - NA,3358
+ACL,1972 - NA,3359
+Acore,1988 - NA,3360
+ACORN,1990 - NA,3361
+ACOS,1988 - NA,3362
+ACSL,1979 - NA,3363
+ACT ONE,1983 - NA,3364
+Actalk,1989 - NA,3365
+Active Language I,1963 - NA,3366
+Active-U-Datalog,1997 - NA,3367
+Actus,1979 - NA,3368
+Ada 95,1995 - NA,3369
+Ada 9X,1988 - NA,3370
+Ada/TL,1990 - NA,3371
+ADABTPL,1987 - NA,3372
+Adagio,2007 - NA,3373
+Adaplex,1983 - NA,3374
+Aditi,1992 - NA,3375
+AED,1963 - NA,3376
+AEPL,1971 - NA,3377
+AESOP,1967 - NA,3378
+Agent-K,1994 - NA,3379
+AGL,1975 - NA,3380
+AIDA,1986 - NA,3381
+AKL,1991 - NA,3382
+ALADIN,1971 - NA,3383
+Alambik,2011 - NA,3384
+ALBA,1993 - NA,3385
+Aldat,1989 - NA,3386
+Aldwych,2000 - NA,3387
+ALEC,1967 - NA,3388
+Algebraic Compiler,1958 - NA,3389
+ALGEM,1966 - NA,3390
+ALGERNON,1990 - NA,3391
+ALGOL-E,1972 - NA,3392
+ALGY,1961 - NA,3393
+Alma-O,1998 - NA,3394
+ALMIR,1968 - NA,3395
+Alonzo,1994 - NA,3396
+AlphaPop,1986 - NA,3397
+ALTAC,1959 - NA,3398
+Amanda,1988 - NA,3399
+AMBIT/G,1968 - NA,3400
+AMBIT/L,1970 - NA,3401
+AMPPL-II,1969 - NA,3402
+Andorra,1988 - NA,3403
+arezzo-notation,1033 - NA,3404
+AUTOCODER III,1958 - NA,3405
+axcess,1983 - NA,3406
+Bison++,1998 - NA,3407
+Blade,2022 - NA,3408
+Bolin,2022 - NA,3409
+brooks-programming-language,2003 - NA,3410
+Candy Codes,2022 - NA,3411
+Cedar,1983 - NA,3412
+checkout,2011 - NA,3413
+Chicon,1998 - NA,3414
+CONA,1977 - NA,3415
+Cosmos,2022 - NA,3416
+CVL,1993 - NA,3417
+dalvik-bytecode,2008 - NA,3418
+Data Package,2007 - Paul Walsh and Rufus Pollock,3419
+Distributed Smalltalk,1980 - NA,3420
+DM-1,1967 - NA,3421
+ebg,1999 - NA,3422
+Elasticsearch Query DSL,2010 - NA,3423
+english-programming-language,1973 - NA,3424
+ESP,1983 - NA,3425
+EXTRAN,1978 - NA,3426
+filetab-d,1978 - NA,3427
+floorplan,2019 - NA,3428
+FORTRAN III,1958 - NA,3429
+FORTRAN IV,1962 - NA,3430
+GAEA,1998 - NA,3431
+Gaiman,2022 - NA,3432
+hackppl,2019 - NA,3433
+HAYSTAQ,1959 - NA,3434
+ibm-system-38-language,1978 - NA,3435
+iota,1985 - NA,3436
+Just,2021 - NA,3437
+kaukatcr,2018 - NA,3438
+Konna,2021 - NA,3439
+lambda-obliv,2020 - NA,3440
+Low Level Lisp,2014 - NA,3441
+local,2019 - NA,3442
+metalex,2002 - NA,3443
+microPLANNER,1970 - NA,3444
+modl,1987 - NA,3445
+N,1990 - Gael de La Croix Vaubois and Catherine Moulinoux and BenoIt Derot,3446
+Noms GraphQL,2017 - NA,3447
+NJCL,1974 - NA,3448
+Navigational User's Language,1976 - NA,3449
+OMNITAB II,1970 - NA,3450
+OMNITAB,1963 - NA,3451
+Oxide,2021 - NA,3452
+Parse Tree Notation,1994 - NA,3453
+Pegasus AUTOCODE,1959 - NA,3454
+Peridot,2022 - NA,3455
+PL/S-II,1974 - NA,3456
+PL/S,1968 - NA,3457
+PL-X,1994 - NA,3458
+Pλ⍵NK,2020 - NA,3459
+Protosynthex,1964 - NA,3460
+Pygmalion,1974 - NA,3461
+QUIKTRAN,1964 - NA,3462
+RAND-ABEL,1990 - NA,3463
+RAPIDWRITE,1962 - NA,3464
+RPG II,1965 - NA,3465
+RUNCIBLE,1958 - NA,3466
+RUSSELL,1970 - NA,3467
+RUTH,1987 - NA,3468
+SA,1977 - NA,3469
+SALE,1959 - NA,3470
+SALEM,1967 - NA,3471
+Sapphire,2008 - NA,3472
+Sather-K,1995 - NA,3473
+Scenic,2019 - NA,3474
+SCOOP,1988 - NA,3475
+SEARCH,1973 - NA,3476
+SIMODULA,1988 - NA,3477
+Sim++,1991 - NA,3478
+Siprol,1980 - NA,3479
+SKIL,1996 - NA,3480
+SKY,2000 - NA,3481
+SL,1988 - NA,3482
+SLIPS,1984 - NA,3483
+SLOG,1985 - NA,3484
+Smalltalk/V,1986 - NA,3485
+SMART,1964 - NA,3486
+SMDL,2010 - NA,3487
+SMOKE,1992 - NA,3488
+SMSL,1995 - NA,3489
+Snostorm,1984 - NA,3490
+Symbolic Optimal Assembly Program,1955 - NA,3491
+SoQL,2009 - NA,3492
+Spec,1990 - NA,3493
+SPRINT,1967 - NA,3494
+SQLMP,1991 - NA,3495
+SQUARE,1975 - NA,3496
+SR,1988 - NA,3497
+STOICAL,2000 - NA,3498
+StreamIt,1992 - NA,3499
+Sue,1971 - NA,3500
+SUMMER,1980 - NA,3501
+SuperForth,2022 - NA,3502
+SUPERMAC,1979 - NA,3503
+SVL,1994 - NA,3504
+SYMBAL,1972 - NA,3505
+SymbMath,1999 - NA,3506
+SYNTEX,1972 - NA,3507
+TACTICS,1972 - NA,3508
+TALE,1986 - NA,3509
+TALL,1962 - NA,3510
+TeLa,2000 - NA,3511
+TEMPO,1995 - NA,3512
+TOMAL,1975 - NA,3513
+TRACE,1967 - NA,3514
+TRANSCODE,1953 - NA,3515
+TRANSLANG,1970 - NA,3516
+TRIO,1990 - NA,3517
+TRIPLE,2002 - NA,3518
+TS,1988 - NA,3519
+TWO-D,1971 - NA,3520
+twoducks,2006 - NA,3521
+UC,1995 - NA,3522
+VEX,1995 - Wayne Citrin and Richard Hall and Benjamin Zorn,3523
+Visual,2000 - NA,3524
+WIZOR,1962 - NA,3525
+Xmind Format,2007 - NA,3526
+ycp,2005 - NA,3527
+yoga,2020 - Trevor Blackwell,3528
+Zed,1978 - NA,3529
+zish,2017 - Tony Locke,3530
+A51 Assembly,1988 - NA,3531
+Aardappel,1997 - Wouter Van Oortmerssen,3532
+ABC ALGOL,1973 - NA,3533
+Actors,1971 - NA,3534
+ADES II,1955 - NA,3535
+ADES,1955 - NA,3536
+ADLIB,1980 - NA,3537
+AIDS,1970 - NA,3538
+ALDES,1976 - NA,3539
+ALLO,1995 - NA,3540
+ALPS,1988 - NA,3541
+Amber,1984 - NA,3542
+AMBUSH,1971 - NA,3543
+AMPPL-I,1968 - NA,3544
+Amulet,1996 - NA,3545
+And/Or,1980 - NA,3546
+Andante,1980 - NA,3547
+Andorra-I,1991 - NA,3548
+ANS MUMPS,1977 - NA,3549
+ANSI BASIC,1980 - NA,3550
+APAR,1958 - NA,3551
+APAREL,1969 - NA,3552
+APL/Z80,1979 - NA,3553
+APLGOL-2,1973 - NA,3554
+APLGOL,1972 - NA,3555
+APOSTLE,1996 - NA,3556
+APPL/A,1995 - NA,3557
+APPLOG,1986 - NA,3558
+APROL,1998 - NA,3559
+AQL,1977 - NA,3560
+Aquarius Prolog,1989 - NA,3561
+ARABLAN,1995 - NA,3562
+ARCHI,1986 - NA,3563
+Arjuna,1989 - NA,3564
+ARK,2002 - NA,3565
+Armani,1999 - NA,3566
+ASF+SDF,1993 - NA,3567
+ASPEN,1977 - NA,3568
+associons,1972 - NA,3569
+Asspegique,1985 - NA,3570
+ASTLOG,1997 - NA,3571
+ATOL,1979 - NA,3572
+AUTASIM,1974 - NA,3573
+AUTODRAFT,1965 - NA,3574
+AUTOGRP,1972 - NA,3575
+AUTOMAST,1966 - NA,3576
+Avalon/Common LISP,1990 - NA,3577
+B4Tran,1975 - NA,3578
+BALG,1975 - NA,3579
+BALM,1969 - NA,3580
+BALSA,1998 - NA,3581
+Baltík,1996 - NA,3582
+Bartok,2001 - NA,3583
+Basic PDP-1 Lisp,1963 - NA,3584
+BASIL,1979 - NA,3585
+BC NELIAC,1962 - NA,3586
+BDL,1987 - NA,3587
+BEDSOCS,1973 - NA,3588
+BESYS,1958 - NA,3589
+Beta-Prolog,1992 - NA,3590
+BGRAF2,1975 - NA,3591
+BHSL,1966 - NA,3592
+Bigloo,1995 - NA,3593
+BIOMOD,1970 - NA,3594
+BIOSSIM,1978 - NA,3595
+BLAZE,1985 - NA,3596
+BLOOMS,1997 - NA,3597
+BMD,1961 - NA,3598
+Bob,1991 - NA,3599
+BOIL,1998 - NA,3600
+Booster,1989 - NA,3601
+Borneo,1998 - NA,3602
+Bounce,1994 - NA,3603
+Boxer,1985 - NA,3604
+BPL,1978 - NA,3605
+Basic Petri Net Programming Notation,1992 - NA,3606
+Brisk,1995 - NA,3607
+BSML,1996 - NA,3608
+BSP,1989 - NA,3609
+BUGSYS,1964 - NA,3610
+Butterfly Common LISP,1993 - NA,3611
+ByteLisp,1965 - NA,3612
+C Header Files,1972 - NA,3613
+CABAL,1997 - NA,3614
+Cactus,1998 - NA,3615
+cado-systems-technical-information,1973 - NA,3616
+CAGES,1973 - NA,3617
+CAISYS,1973 - NA,3618
+CAMAC,1979 - NA,3619
+CAMIL,1978 - NA,3620
+Cantor,1987 - NA,3621
+Common Authentication Protocol Specification Language,1996 - NA,3622
+Capsule,1981 - NA,3623
+CASSANDRE,1967 - NA,3624
+Catalysis,1998 - NA,3625
+CAYLEY,1975 - NA,3626
+CCEL,1993 - NA,3627
+Cedar Fortran,1984 - NA,3628
+CELIP,1990 - NA,3629
+CELLSIM,1973 - NA,3630
+Ceprol,1985 - NA,3631
+CHAMP,1968 - NA,3632
+CHARM++,1993 - NA,3633
+Charrette Ada,1980 - NA,3634
+CHARYBDIS,1967 - NA,3635
+ChemTrains,1992 - NA,3636
+Chronolog,1985 - NA,3637
+ChronologMC,1996 - NA,3638
+ChronologZ,1993 - NA,3639
+cimfast,1991 - NA,3640
+CIMS PL/I,1970 - NA,3641
+CL-I,1960 - NA,3642
+Clascal,1983 - NA,3643
+Classic-Ada,1992 - NA,3644
+Clear Language for Expressing Orders,1963 - NA,3645
+CLeogo,1998 - NA,3646
+CLEOPATRA,1973 - NA,3647
+CLOVER,1996 - NA,3648
+CLP*,1989 - NA,3649
+CMN,1990 - NA,3650
+COBLOC,1964 - NA,3651
+CODIL,1970 - NA,3652
+CogMap,1992 - NA,3653
+COLASL,1962 - NA,3654
+COLD-K,1989 - NA,3655
+Complex-Prolog,1989 - NA,3656
+Computer Compiler,1969 - NA,3657
+COMSL,1970 - NA,3658
+ConC,1991 - NA,3659
+Concert/C,1993 - NA,3660
+CONCUR,1981 - NA,3661
+Concurrent Pascal,1972 - NA,3662
+conGolog,1994 - NA,3663
+ConMan,1988 - NA,3664
+CONNIVER,1973 - NA,3665
+ConstraintLisp,1992 - NA,3666
+CONTRANS,1960 - NA,3667
+COPAS,1981 - NA,3668
+CORAL 64,1964 - NA,3669
+Coral++,1993 - NA,3670
+CORC,1963 - NA,3671
+CosmicOS,2000 - NA,3672
+COSMO,2001 - NA,3673
+CQLF,1982 - NA,3674
+CQL++,1992 - NA,3675
+CSMP,1965 - NA,3676
+CSP-OZ-DC,2002 - NA,3677
+CSP-OZ,1997 - NA,3678
+CSSA,1979 - NA,3679
+Culler-Fried System,1961 - Glenn Culler and Burton Fried,3680
+CuPit-2,1997 - NA,3681
+cuscus,2019 - Mariana Marasoiu and Detlef Nauck and Alan F. Blackwell,3682
+CypherText,1970 - NA,3683
+D4,2001 - NA,3684
+DAG,1989 - NA,3685
+DAP-Algol,1985 - NA,3686
+DartCVL,1995 - NA,3687
+DATA-TEXT,1967 - NA,3688
+DATAN,1966 - NA,3689
+DEACON,1962 - NA,3690
+DeBuMa,1988 - NA,3691
+DEM,1996 - NA,3692
+DESCRIPTRAN,1963 - NA,3693
+DETAB/65,1964 - NA,3694
+DETAB-X,1960 - NA,3695
+DETAP,1965 - NA,3696
+Deva,1993 - NA,3697
+DFL,1983 - NA,3698
+DIAMAG,1966 - NA,3699
+DIGRAF,1977 - NA,3700
+Diplans,1988 - NA,3701
+Distributed Processes,1978 - NA,3702
+DITRAN,1967 - NA,3703
+DITROFF/FFORTID,1985 - NA,3704
+DITROFF,1982 - NA,3705
+DMAP,1975 - NA,3706
+DOE Macsyma,1984 - NA,3707
+DOLPHIN,1970 - NA,3708
+DOWL,1993 - NA,3709
+DPRL,1990 - NA,3710
+DRL,1997 - NA,3711
+DROL,2000 - NA,3712
+DSL/90,1965 - NA,3713
+DYSTAL,1965 - NA,3714
+EAS-E,1983 - NA,3715
+EASL,1966 - NA,3716
+EASY ENGLISH,1968 - NA,3717
+Eclectic CSP,2000 - NA,3718
+ECT,1971 - NA,3719
+Edinburgh LCF,1979 - NA,3720
+EDSAC Initial Orders,1948 - David Wheeler and Maurice Wilkes and Stanley Gill,3721
+EDSIM,1977 - NA,3722
+EDUCE*,1990 - NA,3723
+EGS4,1985 - NA,3724
+EL1,1970 - NA,3725
+Ellie,1990 - NA,3726
+ELMOL,1970 - NA,3727
+EPILOG,1981 - NA,3728
+EQLog,1986 - NA,3729
+EQUATE,1991 - NA,3730
+ERROL,1983 - NA,3731
+Etude,1979 - NA,3732
+FAC,1986 - NA,3733
+FAD,1987 - NA,3734
+FCPU,1970 - NA,3735
+Fickle,2000 - NA,3736
+FLENG++,1989 - NA,3737
+flexbuffers,2014 - NA,3738
+Flora,1995 - NA,3739
+foogol,1985 - NA,3740
+FORAL LP,1978 - NA,3741
+FORAL,1975 - NA,3742
+FORALL,1980 - NA,3743
+Fork95,1995 - NA,3744
+FORMS/3,1990 - NA,3745
+Fortran 8x,1989 - NA,3746
+FORTRAN CEP,1963 - NA,3747
+Fortran D,1991 - NA,3748
+FORTRAN II,1958 - NA,3749
+Fortran M,1992 - NA,3750
+FP2,1986 - NA,3751
+FRAN,1997 - NA,3752
+g-2,1992 - NA,3753
+Gargoyle,1964 - NA,3754
+GASP II,1967 - NA,3755
+GAT,1959 - NA,3756
+GaussFit,1986 - NA,3757
+GCP,1985 - NA,3758
+GDPL,1984 - NA,3759
+Gedanken,1969 - NA,3760
+Generic Haskell,2000 - NA,3761
+GENTRAN 90,1990 - NA,3762
+GENTRAN,1984 - NA,3763
+GCC GIMPLE,2003 - NA,3764
+gitignore,2005 - Linus Torvalds,3765
+GKS,1983 - NA,3766
+GLIDE,1977 - NA,3767
+GLU,1995 - NA,3768
+Glue-Nail,1991 - NA,3769
+GPDS,1970 - NA,3770
+GPGS,1977 - NA,3771
+GPSS/360,1967 - NA,3772
+GPSS FORTRAN,1976 - NA,3773
+GQL,1980 - NA,3774
+GRAD Assistant,1965 - NA,3775
+GraphLog,1988 - NA,3776
+GRAPHOS,1972 - NA,3777
+Graqula,1993 - NA,3778
+GROUPLOG,2000 - NA,3779
+GSBL,1988 - NA,3780
+GVL,1990 - NA,3781
+GXL,2000 - NA,3782
+Gypsy,1976 - NA,3783
+Hank,1996 - NA,3784
+Haskell#,1991 - NA,3785
+HASL,1982 - NA,3786
+HERAKLIT,1987 - NA,3787
+Hermes,1990 - NA,3788
+HiQ,1998 - NA,3789
+HMSL,1980 - NA,3790
+HOL,1985 - NA,3791
+HOLCF,1994 - NA,3792
+honu,2012 - NA,3793
+HP-PASCAL,1984 - NA,3794
+HPRL,1982 - NA,3795
+HSL,1991 - NA,3796
+HSML,1998 - NA,3797
+HTEL,1999 - NA,3798
+HYPAC,1970 - NA,3799
+Hyperflow,1993 - NA,3800
+Hyperlisp,1971 - NA,3801
+Hyperlog,1996 - NA,3802
+HYTRAN,1963 - NA,3803
+IAM,1968 - NA,3804
+IB-Templog,1987 - NA,3805
+IBM Logo,1983 - NA,3806
+ICETRAN,1965 - NA,3807
+ICOT,1995 - NA,3808
+IMP72,1972 - NA,3809
+Industrial Modeling and Programming Language,2019 - NA,3810
+INMAGIC,1983 - NA,3811
+Inscan,1968 - NA,3812
+INTERCELLAS,1977 - NA,3813
+InterCONS,1995 - NA,3814
+Interlisp-VAX,1981 - NA,3815
+IPL-V,1957 - NA,3816
+IQF,1975 - NA,3817
+Isabelle-91,1991 - NA,3818
+Isabelle/HOL,1997 - NA,3819
+ISIS,1995 - NA,3820
+ISPL,1971 - NA,3821
+IVTRAN,1966 - NA,3822
+JACAL,2008 - NA,3823
+jBC,1989 - NA,3824
+JFugue,2002 - NA,3825
+JMSL,1986 - NA,3826
+JOSS II,1965 - NA,3827
+JSyn,2010 - NA,3828
+Juno,1985 - NA,3829
+KAIL,1976 - NA,3830
+Kaleidoquery,1998 - NA,3831
+Kaleidoscope'90,1990 - NA,3832
+Kaleidoscope'91,1991 - NA,3833
+KEE,1984 - NA,3834
+KEK-NODAL,1985 - NA,3835
+kew,2004 - NA,3836
+KeyKit,1995 - NA,3837
+Kiev,2002 - NA,3838
+King Kong,1991 - NA,3839
+KL-ONE,1977 - NA,3840
+KLIPA,1960 - NA,3841
+KRL-0,1977 - NA,3842
+KRS,1987 - NA,3843
+KRYPTON,1983 - NA,3844
+Kvikkalkul,2003 - NA,3845
+Kylix,2000 - NA,3846
+LABTRAN,1972 - NA,3847
+Larch,1985 - NA,3848
+LAURE,1989 - NA,3849
+LCF,1972 - NA,3850
+LCL,1991 - NA,3851
+LDL1,1987 - NA,3852
+LEGOL,1974 - NA,3853
+Leogo,1997 - NA,3854
+Leopard,2007 - NA,3855
+LGDF,1986 - NA,3856
+Libra,2020 - NA,3857
+Lincoln Reckoner,1965 - NA,3858
+Lingua Graphica,1992 - NA,3859
+LiSEB,1994 - NA,3860
+LISP A,1968 - NA,3861
+LOCS,1965 - NA,3862
+Logicon,1986 - NA,3863
+LOGIST,1980 - NA,3864
+Logres,1990 - NA,3865
+LogScheme,1990 - NA,3866
+Lola-2,1994 - Niklaus Wirth,3867
+LOTIS,1969 - NA,3868
+LOTOS,1989 - NA,3869
+LPL,1973 - NA,3870
+LRLTRAN,1968 - NA,3871
+Lucinda,1991 - NA,3872
+M-LISP,1991 - NA,3873
+MacAims,1968 - NA,3874
+MACE,1989 - NA,3875
+Machiavelli,1989 - NA,3876
+Macro SPITBOL,1971 - NA,3877
+Magma2,1984 - NA,3878
+magritte,2019 - Jeanine Adkisson,3879
+MALUS,1970 - NA,3880
+ManuScript,2009 - NA,3881
+MAP,1960 - NA,3882
+Marlais,1995 - NA,3883
+Mary/2,1984 - NA,3884
+MASIM,1985 - NA,3885
+Mathsy,1980 - NA,3886
+MATRIX PASCAL,1983 - NA,3887
+MCOBOL,1980 - NA,3888
+MDBS-QRS,1981 - NA,3889
+MEDIC,1980 - NA,3890
+Megalog,1991 - NA,3891
+Mercury Programming System,1960 - NA,3892
+Meroon,1991 - NA,3893
+Meta-Assembler,1977 - NA,3894
+META/LISP,1970 - NA,3895
+MetaML,1997 - NA,3896
+METAPI,1967 - NA,3897
+METASIM,1973 - NA,3898
+METATEM,1989 - NA,3899
+Micro-flowcharts,1959 - NA,3900
+MICRODARE,1979 - NA,3901
+microTAL,1981 - NA,3902
+MiKe,2022 - NA,3903
+Mini-ML,1986 - NA,3904
+MINION,1989 - NA,3905
+MINIVITAL,1974 - NA,3906
+MINOPT,1998 - NA,3907
+MIRAGER,1971 - NA,3908
+Miranim,1985 - NA,3909
+MIRFAC,1962 - NA,3910
+Mizar,1973 - NA,3911
+MLISP2,1972 - NA,3912
+mmsearch,2001 - NA,3913
+MOBL,1960 - NA,3914
+MODCAP,1978 - NA,3915
+MODLISP,1980 - NA,3916
+MODSIM III,1996 - NA,3917
+Modula-P,1992 - NA,3918
+Modula/R,1983 - NA,3919
+Modular Prolog,1992 - NA,3920
+Molog,1987 - NA,3921
+MORPHISM,1965 - NA,3922
+MOUSE4,1978 - NA,3923
+Moxie,1984 - NA,3924
+MPGS,1972 - NA,3925
+MRDB,1976 - NA,3926
+MS2,1967 - NA,3927
+MSG.84,1985 - NA,3928
+muFP,1984 - NA,3929
+Mul-T,1989 - NA,3930
+Multigame,1994 - NA,3931
+MUMS,1976 - NA,3932
+MUNIN,1989 - NA,3933
+MuSimp,1978 - NA,3934
+MVL,1993 - NA,3935
+NAPSS,1965 - NA,3936
+NARPL,1989 - NA,3937
+Nassi-Shneiderman charts,1972 - NA,3938
+NDL,2007 - NA,3939
+Ness,1989 - NA,3940
+Netform,1974 - NA,3941
+Network Control Language,1978 - NA,3942
+NeuronC,1992 - NA,3943
+NFQL,1989 - NA,3944
+NIKL,1986 - NA,3945
+NOAH,1982 - NA,3946
+Noodle,1993 - NA,3947
+NOP-2,2001 - NA,3948
+NPL,1963 - NA,3949
+Numerica,1997 - NA,3950
+Oaklisp,1986 - NA,3951
+OBJ2,1984 - NA,3952
+Objectcharts,1992 - NA,3953
+ObjectWorld,1993 - NA,3954
+ObjVProlog,1989 - NA,3955
+OBSCURE,1985 - NA,3956
+Occam 2,1987 - NA,3957
+Octopus,1993 - NA,3958
+O'Haskell,2002 - NA,3959
+OLGA,1985 - NA,3960
+OLI,1997 - NA,3961
+OMNIMARK,1980 - NA,3962
+OMNITAB 80,1980 - NA,3963
+OOPAL,2002 - NA,3964
+OpenMusic,2019 - NA,3965
+OPS-3,1965 - NA,3966
+OPS,1970 - NA,3967
+OREGANO,1969 - NA,3968
+Orlog,1992 - NA,3969
+OSIRIS,1970 - NA,3970
+OSL/2,1970 - NA,3971
+Ottawa Euclid,1984 - NA,3972
+Otter,1988 - NA,3973
+OWL DL,2007 - NA,3974
+P-Prolog,1986 - NA,3975
+P-TAC,1989 - NA,3976
+P3L,1998 - NA,3977
+PACOL,1974 - NA,3978
+PADL-1,1978 - NA,3979
+PaiLisp,1986 - NA,3980
+Palingol,1996 - NA,3981
+PANCODE,1982 - NA,3982
+PANON-1,1963 - NA,3983
+PANON-1B,1965 - NA,3984
+Parallel ELLPACK,1983 - NA,3985
+Parallel Pascal,1984 - NA,3986
+ParaLog_e,1997 - NA,3987
+ParMod,1987 - NA,3988
+Pascal Plus,1979 - NA,3989
+Pascal-SC,1982 - NA,3990
+PASION,1986 - NA,3991
+PASRO,1985 - NA,3992
+Path Pascal,1978 - NA,3993
+PCN,1992 - NA,3994
+PCOL,1986 - NA,3995
+pC++,1991 - NA,3996
+Partial Differential Equation Language,1968 - NA,3997
+PDL/Ada,1981 - NA,3998
+PDL,1973 - NA,3999
+Pebble,1984 - NA,4000
+PEI,1994 - NA,4001
+PEP,1984 - NA,4002
+PFORT,1975 - NA,4003
+Pfortran,1992 - NA,4004
+pGOLOG,2000 - NA,4005
+PHYSICTRAN,1971 - NA,4006
+Pi Calculus,1991 - NA,4007
+PICTOL,1975 - NA,4008
+PICTUREBALM,1980 - NA,4009
+PiLib,2002 - NA,4010
+PL/EXUS,1973 - NA,4011
+PLANIT,1967 - NA,4012
+PLANNER-73,1973 - NA,4013
+Playground,1989 - NA,4014
+Pocket Smalltalk,1999 - NA,4015
+POGOL,1973 - NA,4016
+POLAC,1975 - NA,4017
+Polylith,1983 - NA,4018
+PolyP,1997 - NA,4019
+PolyTOIL,1994 - NA,4020
+POPSY,1986 - NA,4021
+PORT-ALG,1973 - NA,4022
+PRAXIS,1980 - NA,4023
+PRESTO,1987 - NA,4024
+Principle of sufficient reason,1975 - NA,4025
+PRISM,1983 - NA,4026
+Prisma Schema Language,2019 - NA,4027
+PROCOL,1991 - NA,4028
+PROGRES,1991 - NA,4029
+Prolog-D-Linda,1990 - NA,4030
+Prolog-ELF,1985 - NA,4031
+Prolog III,1984 - NA,4032
+Prolog/KR,1984 - NA,4033
+Prolog-Linda,1989 - NA,4034
+PROPLAN,1977 - NA,4035
+PROTOS-L,1989 - NA,4036
+PROW,1969 - NA,4037
+pSather,1991 - NA,4038
+PSG,1969 - NA,4039
+PSL,1979 - NA,4040
+PT,1983 - NA,4041
+PUMPKIN,1974 - NA,4042
+Q-GERT,1979 - NA,4043
+QA4,1967 - NA,4044
+QLISP,1988 - NA,4045
+Qunity,2022 - NA,4046
+Quty,1984 - NA,4047
+rbasic,1985 - Mike Welch,4048
+REC/SM,1980 - NA,4049
+RECOL,1963 - NA,4050
+REF-ARF,1970 - NA,4051
+RefLisp,1988 - NA,4052
+REGENT,1971 - NA,4053
+Relationlog,2001 - NA,4054
+RELFUN,1986 - NA,4055
+RF-Maple,1984 - NA,4056
+RHET,1990 - NA,4057
+RIGAL,1987 - NA,4058
+ROL,1996 - NA,4059
+ROL2,1999 - NA,4060
+S-Snobol,1978 - NA,4061
+SHOE,2000 - NA,4062
+SIL,1990 - Niels Houbak,4063
+sina,1989 - NA,4064
+SSL,1994 - NA,4065
+Static Typescript,2019 - NA,4066
+SURGE,1958 - NA,4067
+taktentus,2015 - NA,4068
+VoxML,1998 - NA,4069
+Very Tiny Language,1976 - Garry Shannon and Frank McCoy,4070
+wizml,1997 - NA,4071
+Wolontis-Bell Interpreter,1955 - NA,4072
+xl,1977 - NA,4073
+XQL,1999 - Jonathan Robie,4074

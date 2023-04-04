@@ -1,0 +1,313 @@
+---
+title: "Tidy data: Wrangling for statistical analysis in R"
+author: "R-Ladies Freiburg // Kyla McConnell"
+date: "2023-04-04"
+output: html_document
+---
+
+# Welcome
+
+... to our new series, "Introduction to Statistics with R"! 
+
+Join at any time, each Meetup is separate and self-contained. 
+
+
+Today: Data wrangling & tidy data 
+
+```{r}
+knitr::include_graphics("img/tidyverse_celestial.png")
+```
+
+The tidyverse collection of packages:
+```{r}
+library(tidyverse)
+```
+If you have never used tidyverse, use install.packages("tidyverse")
+
+You may also want to update to tidyverse 2.0.0 (but better after the tutorial, since you will have to restart R)! 
+
+
+Today's data: 
+
+https://github.com/rfordatascience/tidytuesday/blob/master/data/2023/2023-01-17/readme.md
+
+Contains various information about artists by edition of Gardner or Janson’s art history textbook from 1926 until 2020. Data includes demographic information, space occupied in the textbook, as well as presence in the MoMA and Whitney museums.
+```{r}
+artists <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-01-17/artists.csv') %>%
+  drop_na()
+```
+
+# Tidy data
+
+What is tidy data and why is it important?
+
+Images by Allison Horst!
+```{r}
+knitr::include_graphics("img/tidydata_1.jpg")
+```
+
+```{r}
+knitr::include_graphics("img/tidydata_2.jpg")
+```
+
+```{r}
+knitr::include_graphics("img/tidydata_3.jpg")
+```
+
+
+# Wrangling
+
+What is wrangling and when do we need it?
+
+## The pipe %>%
+
+- One of the most noticeable features of the tidyverse: the pipe %>% (keyboard shortcut: Ctr/Cmd + Shift + M) 
+
+- Takes the item before it and feeds it to the following command as the first argument
+  - All tidyverse (and some non-tidyverse) functions take the dataframe as the first function
+  - Can be used to string commands together to do multiple wrangling commands, or more complex multipart wrangling functions
+  
+```{r}
+colnames(artists)
+
+artists %>% 
+  colnames()
+```
+
+## rename()
+```{r}
+artists %>% 
+  rename(space_ratio = space_ratio_per_page_total)
+```
+
+Rewrite df to save changes:
+```{r}
+artists <- artists %>% 
+  rename(space_ratio = space_ratio_per_page_total)
+```
+
+## select()
+
+Pulls out a column:
+```{r}
+artists %>% 
+  select(artist_name)
+```
+
+Or multiple columns:
+```{r}
+artists %>% 
+  select(artist_name, artist_gender)
+```
+
+Can also use additional functions:
+starts_with(), ends_with()
+```{r}
+artists %>% 
+  select(starts_with("artist"))
+```
+
+## arrange()
+
+Order the dataset based on the values in a given column:
+```{r}
+artists %>% 
+  select(artist_name, artist_gender, year) %>% 
+  arrange(year)
+```
+
+Or in a descending order with the additional wrapper desc():
+```{r}
+artists %>% 
+  select(artist_name, artist_gender, year, space_ratio) %>% 
+  arrange(desc(space_ratio))
+```
+
+## mutate()
+
+```{r}
+knitr::include_graphics("img/dplyr_mutate.png")
+```
+
+Change the values in a column, row by row:
+```{r}
+artists %>% 
+  mutate(space_ratio = space_ratio + 3)
+```
+
+Can also be used for strings:
+```{r}
+artists %>% 
+  mutate(artist_name = str_to_upper(artist_name))
+```
+
+Wrapping in () allows you to see a preview, even though you overwrite a df
+```{r}
+(artists <- artists %>% 
+  mutate(space_ratio = round(space_ratio, 2)))
+```
+
+## case_when()
+
+```{r}
+knitr::include_graphics("img/dplyr_case_when.png")
+```
+
+
+Change values in a column based on some logic or condition:
+
+Note that case_when() is included in a mutate() command
+```{r}
+artists %>% 
+  mutate(more_than_one_page = case_when(
+    space_ratio > 1 ~ "YES",
+    space_ratio <= 1 ~ "NO",
+    .default = "NO")
+  ) 
+```
+
+Can also use values in multiple other columns: 
+```{r}
+artists %>% 
+  select(moma_count_to_year, whitney_count_to_year)
+
+artists %>% 
+  mutate(exhibition = case_when(
+    moma_count_to_year > 0 ~ "YES",
+    whitney_count_to_year > 0 ~ "YES",
+    .default = "NO")
+  ) 
+```
+
+## filter()
+
+```{r}
+knitr::include_graphics("img/dplyr_filter.png")
+```
+
+Select rows that fit a certain logic or condition: 
+```{r}
+artists %>% 
+  filter(year > 2000)
+```
+
+```{r}
+(artists_2020 <- artists %>% 
+  filter(year == 2020) )
+```
+
+```{r}
+artists %>% 
+  filter(artist_name == "Georgia O'Keeffe")
+```
+
+```{r}
+artists %>% 
+  filter(artist_gender == "N/A")
+```
+
+```{r}
+artists <- artists %>% 
+  filter(artist_gender != "N/A")
+```
+
+## distinct()
+
+Find all distinct entries in a column:
+```{r}
+artists %>% 
+  distinct(artist_gender)
+```
+
+Or distinct combinations:
+
+Useful here because we have multiple rows per artist
+```{r}
+artists %>% 
+  distinct(artist_name, artist_gender, artist_nationality)
+```
+
+## separate()
+
+Make two columns from one, using a separator:
+```{r}
+artists %>% 
+  separate(
+    artist_name, 
+    sep = " ", 
+    into = c("First", "Last"))
+```
+See also: unite()
+
+## pivot_wider()
+
+Turns the df into a wider format, often used for summary tables:
+```{r}
+artists_summary %>% 
+  pivot_wider(
+    names_from = artist_gender,
+    values_from = n
+  )
+```
+
+You can fill in NAs, i.e. where one of the combinations was not found
+```{r}
+(artists_wide <- artists_summary %>% 
+  pivot_wider(
+    names_from = artist_gender,
+    values_from = n, 
+    values_fill = 0
+  ))
+```
+
+
+## pivot_longer()
+
+Pivot_longer() is the inverse, which takes data into long form again.
+
+Often, long form data is tidy, whereas wide format summary tables are not.
+```{r}
+artists_wide %>% 
+  pivot_longer(
+    cols = c(Female, Male)
+  )
+```
+
+```{r}
+artists_wide %>% 
+  pivot_longer(
+    cols = c(Female, Male), 
+    names_to = "Gender",
+    values_to = "Count"
+  )
+```
+
+
+# Test your knowledge
+
+Which of the following datasets are TIDY and why?
+
+Remember, in tidy data:
+- Each column must represent one and only one variable -- so together the column names show all your possible modeling variables
+- The rows must each be a single observation
+- Each cell is a single measurement -- there are no cells that contain two pieces of information
+
+(A)
+This data set shows the colors used by Bob Ross in each season of his hit painting show. 
+
+For each season, all color names are listed along with how many times (i.e. in how many paintings) he uses that color in the given season. 
+```{r}
+(bob_ross <- read_csv("data/bob_ross_tidyex.csv"))
+```
+
+(B)
+```{r}
+(cats_uk <- read_csv("data/cats_uk_tidyex.csv"))
+```
+
+(C) 
+This dataset shows popular programming languages, their ranking in a survey, and their origin (when they first appear and who created them)
+```{r}
+(languages <- read_csv("data/languages_tidyex.csv"))
+```
+
