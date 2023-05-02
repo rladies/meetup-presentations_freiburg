@@ -1,0 +1,252 @@
+---
+title: "Exploratory data analysis"
+author: "R-Ladies Freiburg // Julia Müller"
+date: "2023-05-02"
+output: html_document
+---
+
+Exploratory data analysis (EDA)
+- explore data to see main trends
+- visualise important characteristics and relationships
+- more of a mindset than a fixed set of steps
+- uses descriptive statistics and graphs
+
+Data
+- from Tidy Tuesday project
+- demographic representation of artists through editions of popular art history textbooks in the US
+
+```{r}
+library(tidyverse)
+library(viridis)
+
+artists <- read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-01-17/artists.csv') %>% 
+  drop_na() %>% 
+  filter(artist_race != "N/A")
+
+head(artists)
+```
+
+Convert to factors when applicable, and summarise the two exhibition columns:
+```{r}
+artists <- artists %>% 
+  mutate(across(c(artist_nationality, artist_gender, artist_race, artist_ethnicity, book, artist_unique_id, artist_race_nwi), as_factor),
+         total_exhibitions = moma_count_to_year + whitney_count_to_year) 
+
+summary(artists)
+```
+
+
+# Descriptive statistics
+
+## Summaries
+
+Median space ratio per page:
+```{r}
+artists %>% 
+  summarise(median(space_ratio_per_page_total))
+```
+
+median = "halfway" point of the data: 50% lies above this point, 50% lies below
+
+
+Average space ratio per page:
+```{r}
+artists %>% 
+  summarise(mean(space_ratio_per_page_total))
+```
+
+What's the difference between the mean and the median?
+- Extreme values (very high/low values) can influence the mean, but they don't influence the median
+- On the other hand: the mean incorporates information from *all* data points
+
+Standard deviation:
+```{r}
+artists %>% 
+  summarise(sd(space_ratio_per_page_total))
+```
+The standard deviation expresses the "spread" of the data, i.e. how closely the data points are to the mean
+
+
+All three:
+```{r}
+artists %>% 
+  summarise(median(space_ratio_per_page_total), mean(space_ratio_per_page_total), sd(space_ratio_per_page_total))
+```
+
+With custom names:
+```{r}
+artists %>% 
+  summarise("median space ratio" = median(space_ratio_per_page_total), 
+            "mean space ratio" = mean(space_ratio_per_page_total), 
+            "standard deviation" = sd(space_ratio_per_page_total))
+```
+
+Showing the minimum and maximum values (or range):
+```{r}
+artists %>% 
+  summarise(min(space_ratio_per_page_total),
+            max(space_ratio_per_page_total))
+```
+
+
+### Try it
+What's higher - the average number of exhibitions in MOMA or Whitney? Also take a look at the relevant standard deviations.
+```{r}
+
+```
+
+
+## Grouped summaries
+
+We can calculate descriptive statistics separately for each level of a category:
+```{r}
+artists %>% 
+  group_by(artist_gender) %>% 
+  summarise(mean(space_ratio_per_page_total),
+            sd(space_ratio_per_page_total))
+```
+
+```{r}
+artists %>% 
+  group_by(artist_gender) %>% 
+  summarise(max(space_ratio_per_page_total))
+```
+
+Which person got the most pages?
+```{r}
+artists %>% 
+  filter(space_ratio_per_page_total == max(space_ratio_per_page_total))
+```
+
+Which woman got the most coverage?
+```{r}
+artists %>% 
+  filter(artist_gender == "Female") %>% 
+  filter(space_ratio_per_page_total == max(space_ratio_per_page_total))
+```
+
+Number of exhibitions by nationality:
+```{r}
+artists %>% 
+  distinct(artist_unique_id, .keep_all = TRUE) %>% 
+  group_by(artist_nationality) %>% 
+  summarise("number of exhibitions" = sum(total_exhibitions)) %>% 
+  arrange(desc(`number of exhibitions`))
+```
+
+
+## Counts 
+How many artists of which races are included in the textbooks?
+```{r}
+artists %>% 
+  distinct(artist_unique_id, .keep_all = TRUE) %>% # to only keep unique artists, but also retain the information in all other columns
+  count(artist_race)
+```
+
+
+How could you see the average pages and average exhibitions by the artist's nationality? We can combine this with `arrange()` to sort by most/least covered or exhibited nationalities.
+```{r}
+artists %>% 
+  group_by(artist_nationality) %>% 
+  summarise("average space ratio" = mean(space_ratio_per_page_total), 
+            "average MOMA" = mean(moma_count_to_year), 
+            "average Whitney" = mean(whitney_count_to_year)) %>% 
+  arrange(desc(`average MOMA`)) # the quotation marks are necessary because the column name has a space
+```
+
+
+### Try it
+Repeat the analysis - but with the artist's race instead of nationality. Then try grouping by both race and gender.
+```{r}
+
+```
+
+```{r}
+artists %>% 
+  group_by(artist_race, artist_gender) %>% 
+  summarise("average space ratio" = mean(space_ratio_per_page_total)) %>% 
+  arrange(desc(`average space ratio`))
+```
+
+Also count how many artists of which race and gender are written about in the textbooks.
+```{r}
+artists %>% 
+  distinct(artist_unique_id, .keep_all = TRUE) %>% 
+  count(artist_race, artist_gender) %>% 
+  arrange(desc(n))
+```
+
+
+# Graphs
+
+## Space ratio by race and gender
+```{r}
+ggplot(artists) +
+  aes(x = reorder(artist_race, -space_ratio_per_page_total), y = space_ratio_per_page_total, colour = artist_gender) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(x = "artist's race",
+       y = "space ratio per page",
+       colour = "artist's gender",
+       title = "Space given to artists in textbooks (1926 - 2020)") +
+  scale_color_viridis(discrete = TRUE, option = "C")
+```
+
+## Space ratio by year and race
+```{r}
+ggplot(artists) +
+  aes(x = year, y = space_ratio_per_page_total, colour = artist_race) +
+  geom_jitter() +
+  geom_smooth(method = "lm") +
+  theme_minimal() +
+  labs(y = "space ratio per page",
+       colour = "artist's race",
+       title = "Development of space given to artists by race") +
+  theme(legend.position = "top") +
+  scale_colour_viridis(discrete = TRUE, option = "B")
+```
+
+## Number of mentions by race and gender
+```{r}
+ggplot(artists) +
+  aes(y = artist_race, fill = artist_gender) +
+  geom_bar(position = "dodge") +
+  theme_minimal() +
+  theme(legend.position = "top") +
+  labs(title = "Mentions in art textbooks by the artist's race and gender",
+       fill = "") +
+  scale_fill_viridis(discrete = TRUE, option = "G")
+```
+
+## Distinct artists by race and gender
+```{r}
+artists %>% 
+  distinct(artist_unique_id, .keep_all = TRUE) %>% 
+  ggplot() +
+  aes(y = artist_race, fill = artist_gender) +
+  geom_bar(position = "dodge") +
+  theme_minimal() +
+  theme(legend.position = "top") +
+  labs(title = "Unique artists mentioned in textbooks by race and gender",
+       fill = "") +
+  scale_fill_viridis(discrete = TRUE, option = "G")
+```
+
+## Number of exhibitions
+```{r}
+artists %>% 
+  group_by(artist_race, artist_gender) %>% 
+  add_count(wt = total_exhibitions, name = "num_exhibitions") %>% 
+  ungroup() %>% 
+  distinct(artist_race, artist_gender, num_exhibitions) %>% 
+  ggplot() +
+  aes(x = reorder(artist_race, -num_exhibitions), y = num_exhibitions, fill = artist_gender) +
+  geom_col(position = "dodge") +
+  theme_minimal() +
+  labs(x = "artist's race",
+       y = "exhibitions (MOMA and Whitney combined)",
+       fill = "",
+       title = "Number of exhibitions by artist's gender and race") +
+  theme(legend.position = "top")
+```
+
