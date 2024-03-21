@@ -1,0 +1,258 @@
+---
+title: "Quarto Overview"
+author: "Julia Müller"
+format: 
+  html:
+    toc: true
+---
+
+
+# Introduction
+
+## What is Quarto?
+- document that effortlessly combine R code, output (such as plots or tables) and text, as well as pictures and references
+- output options: html, Word (.docx), Powerpoint (.ppt), .pdf
+  - the focus today will be on Word documents
+- saves a lot of the hassle of typical word processors because formatting is consistently handled
+- helps make research more reproducible: easily handle modifications, additional data or analyses
+- helps avoid manual copy-pasting through inline code
+- supports reference management (Zotero integration)
+- also works in Visual Studio Code and with Python and Julia!
+
+## Setup
+- Quarto needs to be downloaded and installed first at: <www.quarto.org/get-started>
+- Note: It *can't* be installed with `install.packages()`
+- Once installed, Quarto documents and presentations will be available in RStudio (File -> New File -> Quarto document/presentation)
+
+## Comparing Quarto documents to R scripts
+- in R scripts, everything we write is assumed to be code
+  - if that's not the case, we need to use # to indicate a comment
+- in Quarto documents, everything we write is assumed to be text, not code
+  - code needs to be in a code chunk such as this one:
+```{r}
+2 + 8
+# comments within code chunks are possible
+```
+  - code output is shown directly underneath the chunk
+  - they can be added by clicking on the C in the green box at the top
+  - make sure not to delete backticks/have two lines of backticks, etc.
+- code chunks can be run by clicking on the green play button
+  - lines of code can be run as usual with Ctrl + Enter
+
+- R scripts don't automatically set the working directory 
+- Quarto documents set the working directory to the directory they're saved in
+  -> this makes reading in and exporting data or other files easier and avoids lengthy file paths
+  -> projects can be shared with collaborators as self-contained folders which work immediately on another PC
+
+## Rendering Quarto files
+- when we click on Render (at the top), the Quarto document will be exported to Word (or .pdf, .html, .ppt, depending on what the output format is)
+- during rendering, it goes through line by line
+  - it observes formatting (such as italics/bold, headers, etc.) in text
+  - it runs the code chunks and puts their output into the exported document
+
+Alternatively, you can render Quarto files from the Terminal
+- first, navigate to the subfolder the Quarto document is in using cd
+- then, run quarto render filename.qmd
+- note that this overwrites the previously rendered file
+
+
+# Text options
+
+### Headers
+Use # to define headers, and ## or ### (and so on) to create subheadings
+These will translate into formatting, with font sizes decreasing, in the Word document
+
+-> These are also useful in RStudio - you can see the outline on the right (click on Outline, top right) and jump between sections
+
+
+### Bold and italics
+- Use one set of asterisk around text to *create italics*
+- two asterisks to **make text bold**
+- three asterisks for ***bold and italics***
+
+### Lists
+Use one asterisk at the beginning of a line for an unordered list item
+...and numbers followed by a full stop for ordered list
+In both cases, use two tabs (or four spaces) followed by + for the next level
+Make sure to have an empty line before the first list item.
+For example:
+
+Grocery list
+
+* fruit
+  + bananas
+  + oranges
+* veggies
+  + cucumbers
+* milk
+* cookies
+
+
+To do list
+
+1. read in the file
+1. check data types
+1. convert to factor
+
+
+### Links
+Links can be simply copy-pasted and will work as-is, but if you want some other text to act as a link, use:
+[Click here!](http://quarto.org)
+
+### Line breaks and empty lines
+For a line break, add two spaces at the end of the line before you hit Enter.  
+For an empty line, use <br> with the lines before and after empty - simply adding more line breaks in the Rmd file won't do it!
+
+### Misc
+superscript^2^
+~~strikethrough~~
+
+### Page breaks
+Page breaks can be added using:
+{{< pagebreak >}}
+
+
+# YAML
+
+The YAML header is the first section of Quarto document - it's at the top of the document, framed by three hyphens ---
+By default, this will contain the title you entered when creating a new document, your name, and the output format - but we can change this and add a lot more options here!
+
+### Table of contents
+In the YAML:
+- add a colon and a line break after `docx`
+- add `toc: true`
+- the depth of the table of contents (`toc-depth` - this is optional, the default is 3).
+- sections can be numbered using `number-sections: true`
+  - this will number the sections in both the text body and the table of contents!
+
+
+## Code & output options
+All code needs to be in a code chunk
+- code chunks can be labelled for better navigation
+- chunk names can be several words, but need to be unique
+```{r example}
+
+```
+
+How the output and the code itself shows up in the knitted document can also be modified. In the code chunk, write:
+`#| echo: false` for output, but not code, to be visible
+`#| include = false` hides both output and code
+`#| warning = false` to suppress warning messages (also works for errors and messages)
+`#| eval = false` to not run code in this chunk
+
+## Global options
+You can also set global options in the YAML for all code chunks with `execute`. For example, with these next lines, code and output are visible in the document, but warnings and messages are suppressed
+execute:
+  echo: true
+  warning: false
+  message: false
+
+
+## Inline code
+Inline code is also possible, i.e., in the text, write `r `. Whatever code is included in the backticks will be run and the output will be shown in the text. This is useful for printing measures such as the mean or elements of a model summary without having to copy-paste numbers (especially if these numbers might still change). 
+
+
+# Graphics
+
+### External pictures/figures
+To show a picture that is saved in the same place as your Quarto document, use:
+![Figure caption](figure.png){width=50%}
+
+You can specify characteristics such as the width, alignment, alt text... separated by a space.
+![Figure caption](figures/figure.png){#fig-example fig-align="left" width=50%}
+
+This figure is identified with #fig-example and can be referenced in the text as @fig-example.
+
+
+### Graphs created in R
+
+When we show graphs made in R, we can use options in the code chunk that displays (not necessarily that creates) the graph.
+```{r}
+#| label: fig-ggplot1
+#| fig-cap: A graph made with ggplot in R
+#| fig-width: 10cm
+#| fig-align: right
+ggplot() +
+  aes() +
+  geom()
+```
+Using the label, we can cross-reference @fig-ggplot1 in the text.
+
+
+# Tables
+Similar to graphs, we can label and caption tables. The label should include the tbl prefix. 
+```{r}
+#| label: tbl-someTable
+#| tbl-cap: This is a table showing some data
+data %>% 
+  summarise(mean(variable),
+            sd(variable)) %>% 
+  kableExtra::kbl(format = "markdown")
+```
+We can then use this label to crossreference @tbl-someTable.
+
+The {kableExtra} package is helpful for formatting tables: https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html
+
+
+# References
+In an academic article, you'll need to have references (usually, the author and year a text that you're referring to/quoting from) in the body of the text, plus a bibliography section at the end of the text. You can insert these into Markdown.
+
+It's easiest if you use reference management software such as Zotero or Citavi. Those programs can export the citations you'll need into a .bib file. Put that in the same folder as your Quarto document.
+
+In the YAML, add:
+`bibliography: my_references.bib`
+`link-citations: true`
+The first line links to your references file, so make sure to type the correct name. The second line enables in-line citations.
+
+In the .bib file, information on each source is summarised, and each source is assigned a reference ID, preceded by a curly bracket {. The ID is what you need to refer to the item in Markdown, like so:
+@referenceID
+- Use square brackets if the reference should be in brackets:
+  [@referenceID]
+- For several references:
+  @ref1, @ref2
+  [@ref1; @ref2]
+- For page numbers:
+  @ref1[25]
+  [@ref1{23}]
+
+Quarto will automatically add the references at the bottom of the document, so add a # References heading at the end
+
+By default, Quarto uses the Chicago format, but this can be altered by adding a .csl (citation style language) in the YAML: `csl: my_style.csl`
+Download .csl files from, e.g., https://www.zotero.org/styles
+
+
+More info on Zotero integration:
+https://quarto.org/docs/visual-editor/vscode/#zotero-citations
+
+
+# Custom reference documents
+
+We can customise the design of the Word document by using a reference document:
+- create a new Quarto document with some sample text, subheadings, etc.
+- render it to a Word document
+- open this document and change the font and styles for the text elements
+- in the YAML, specify this document as the reference document with reference-doc: custom-reference-doc.docx
+-> now, the current Quarto document will be formatted the same as the reference document
+
+
+# Journal templates
+
+Quarto provides templates for a couple of different journals: https://quarto.org/docs/journals/
+In the Terminal, run, e.g., quarto use template quarto-journals/elsevier
+
+...and more are available through extensions: https://quarto.org/docs/extensions/listing-journals.html
+For example, for the Arxiv template, execute in the Terminal: quarto use template mikemahoney218/quarto-arxiv
+
+We can add author information in the YAML, for example:
+
+```
+author:
+  - name: Julia Müller
+    affiliations:
+      - name: University of Freiburg
+        department: English department
+    email: julia.mueller@anglistik.uni-freiburg.de
+    attributes:
+      corresponding: true
+```
+

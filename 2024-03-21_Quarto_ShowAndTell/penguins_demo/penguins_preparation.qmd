@@ -1,0 +1,44 @@
+---
+title: "Penguin data - wrangling"
+format: html
+---
+
+## Loading packages and reading in data
+```{r}
+library(tidyverse)
+
+penguins_raw <- read_csv("data/penguins_raw.csv")
+penguins_raw
+```
+
+## To-do list
+- remove spaces in column names
+- convert contents of sex column to lower case
+- simplify species column
+- convert variables to factors
+- narrow down to important columns
+- export to .rds
+
+
+## Wrangling code
+```{r}
+penguins <- penguins_raw %>% 
+  janitor::clean_names() %>%
+  separate(col = date_egg,
+           into = c("year", "month", "day")) %>% 
+  mutate(sex = str_to_lower(sex),
+         species = recode(species,
+                          "Adelie Penguin (Pygoscelis adeliae)" = "Adelie",
+                          "Gentoo penguin (Pygoscelis papua)" = "Gentoo",
+                          "Chinstrap penguin (Pygoscelis antarctica)" = "Chinstrap"
+                          ),
+         across(c(species, island, sex), as_factor)
+         ) %>% 
+  select(species, island, year, culmen_length_mm:sex) %>% 
+  drop_na() %>% 
+  rename("bill_length_mm" = culmen_length_mm,
+         "bill_depth_mm" = culmen_depth_mm)
+
+write_rds(penguins, "data/penguins.rds")
+```
+

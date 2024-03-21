@@ -1,0 +1,281 @@
+---
+title: "Analysing penguin data"
+subtitle: "...to show what Quarto documents can do"
+format:
+  docx:
+    papersize: a4 # default is US letter
+    toc: true # table of contents
+    number-sections: true # number headings and subheadings
+    reference-doc: custom-reference-doc.docx # formatting will be taken from reference document
+    fig-height: 3.5 # figure height is 3.5 inches
+    fig-width: 6 # figure width is 6 inches
+    fig-align: "left" # figures aligned to the left
+    fig-dpi: 500
+execute:
+  echo: false # code isn't shown in the document (but is run)
+  warning: false # warnings not shown
+  message: false # messages not shown
+bibliography: penguins.bib # bibliography file with references
+link-citations: true # link in-text references to bibliography
+csl: apa-single-spaced.csl # citation style
+---
+
+
+```{r}
+library(lme4) # mixed-effects models
+library(lmerTest) # p-values for mixed-effects models
+
+library(broom) # tidy model output
+library(broom.mixed) # tidy model output for mixed-effects models
+
+library(ggeffects) # extracting and visualising model predictions
+
+library(tidyverse) # data wrangling and tidying
+
+my_colours <- c("#344A9A", "#ffe863", "#00a082") # defining custom colours for graphs
+
+theme_set(theme_minimal()) # setting the theme for plots to theme_minimal() for the session
+
+penguins <- read_rds("data/penguins.rds")
+```
+
+{{< pagebreak >}}
+
+
+# Introduction
+
+## The data set
+
+As everyone always says, penguins are very cute, so let's work with penguin data today.  
+
+![Penguin species drawing by Allison Horst](img/penguin_species.png){#fig-penguins width=10cm fig-align="left"}
+
+Note that the palmerpenguins dataset is meant as an alternative to the commonly used iris data and contains data on three species - see @fig-penguins.
+
+More information on this data set is available on [Allison Horst's Github page.](https://allisonhorst.github.io/palmerpenguins/)  
+
+<br>
+
+## Data source
+
+Data were collected and made available by Dr. Kristen Gorman and the Palmer Station, Antarctica LTER, a member of the Long Term Ecological Research Network.
+
+This data can also be used via the {palmerpenguins} package [@Horst.2020] and was originally introduced in @Gorman.2014.
+
+<br>
+
+<br>
+
+# Descriptive statistics
+
+We've removed missing values here, which means that the data has `r nrow(penguins)` rows[^1].
+
+<br>
+
+## Overall statistics
+
+![Explaining bill dimensions](img/culmen_depth.png){#fig-bill height=5cm fig-align="left"}
+
+Some descriptive statistics:
+
+The data was collected between `r min(penguins$year)` and `r max(penguins$year)`.
+
+* bill lengths and depths
+  + the average bill length is `r round(mean(penguins$bill_length_mm), digits = 2)` mm 
+  + the average bill depth is `r round(mean(penguins$bill_depth_mm), digits = 2)` mm
+* body mass
+  + the average weight is `r round(mean(penguins$body_mass_g), digits = 2)` g
+
+```{r}
+penguins_bill_island <- penguins %>% 
+  group_by(island) %>% 
+  summarise(m = mean(bill_length_mm)) %>% 
+  mutate(across(where(is.numeric), \(x) round(x, digits = 2)))
+```
+
+<br>
+
+Penguins on the island `r penguins_bill_island %>% slice_min(order_by = m, n = 1) %>% select(island)` have the smallest average bill length: `r penguins_bill_island %>% slice_min(order_by = m, n = 1) %>% select(m)` mm (cf. @tbl-billIslands).
+
+```{r}
+#| label: tbl-billIslands
+#| tbl-cap: Bill lengths (in mm) by island
+penguins_bill_island %>% 
+  rename("average bill length" = m) %>% 
+  kableExtra::kbl(format = "markdown")
+```
+
+<br>
+
+
+<br>
+
+## Separate per species
+
+```{r}
+penguins_bill_species <- penguins %>% 
+  group_by(species) %>% 
+  summarise("avg" = mean(bill_length_mm),
+            "var" = var(bill_length_mm),
+            "sd" = sd(bill_length_mm)) %>% 
+    mutate(across(where(is.numeric), \(x) round(x, digits = 2)))
+```
+
+@tbl-billSpecies shows bill lengths for each of the three species in the data. We can see that the average bill length for Chinstrap penguins is `r penguins_bill_species %>% filter(species == "Chinstrap") %>% select(avg) - penguins_bill_species %>% filter(species == "Adelie") %>% select(avg)` mm longer than that for Adelie penguins.
+
+```{r}
+#| label: tbl-billSpecies
+#| tbl-cap: Bill lengths (in mm) by species
+penguins_bill_species %>% 
+  rename("average bill length" = avg,
+            "variance" = var,
+            "std. deviation" = sd) %>% 
+  kableExtra::kbl(format = "markdown")
+```
+
+<br>
+
+<br>
+
+# Graphs
+
+**Hypotheses:**
+
+1. Flipper length and body mass are *positively* associated.
+1. This is true for ***all*** three species in the data.
+
+<br>
+
+The following graphs are slightly simplified versions from the [vignette for the {palmerpenguins} package.](https://allisonhorst.github.io/palmerpenguins/articles/examples.html)
+
+<br>
+
+## Weight and flipper length: Entire data
+```{r}
+#| label: fig-entire
+#| fig-cap: Penguin flipper length and body mass
+mass_flipper <- ggplot(data = penguins,
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(size = 3,
+             alpha = 0.8) +
+  geom_smooth(method = "lm", colour = my_colours[2]) +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)")
+
+mass_flipper
+```
+
+Refer to @fig-bill for an explanation of the measurements.
+
+<br>
+
+## Weight and flipper length: Separated by species
+```{r}
+mass_flipper_species <- ggplot(data = penguins,
+                       aes(x = flipper_length_mm,
+                           y = body_mass_g)) +
+  geom_point(aes(color = species,
+                 shape = species),
+             size = 3,
+             alpha = 0.8) +
+  geom_smooth(aes(colour = species),
+              method = "lm") +
+  scale_color_manual(values = my_colours) +
+  labs(title = "Penguin size, Palmer Station LTER",
+       subtitle = "Flipper length and body mass for Adelie, Chinstrap and Gentoo Penguins",
+       x = "Flipper length (mm)",
+       y = "Body mass (g)",
+       color = "Penguin species",
+       shape = "Penguin species")
+```
+
+```{r}
+#| label: fig-species
+#| fig-cap: Penguin flipper length and body mass, separately by species
+mass_flipper_species
+```
+
+@fig-entire does not separate the data by species, while @fig-species does.
+
+<br>
+
+<br>
+
+# Regression modeling
+
+## Model output
+We've constructed a mixed-effects model that predicts bill length by bill depth, body mass, and their interaction, with island as a random intercept.
+
+```{r}
+#| eval: false
+# code chunk will not be executed
+
+# running the model once in RStudio
+penguins_mdl <- lmer(bill_length_mm ~ bill_depth_mm * body_mass_g +
+                       (1|island), 
+                   data = penguins)
+
+# ...and saving it to the models subfolder
+save(penguins_mdl, file = "models/penguins_mdl.rds")
+```
+
+```{r}
+# This chunk will be run during rendering
+# Loading the model object:
+load("models/penguins_mdl.rds")
+
+penguins_mdl_tidy <- tidy(penguins_mdl) %>% 
+  filter(effect == "fixed") %>% 
+  select(-c(effect, group, df)) %>% 
+  mutate(across(where(is.numeric), \(x) round(x, digits = 4)), # round numeric variables to 4 decimals
+         p.value = as.character(p.value), # this rounding can cause p-values to show up as 0.0000
+         p.value = if_else(p.value == 0.0000, "< 0.0001", p.value) # ...so we're replacing those with "< 0.0001"
+         ) %>% 
+  rename( # renaming the columns
+    "standard error" = std.error,
+    "t-value" = statistic, # in Poisson and logistic regressions, z-value - otherwise t-value
+    "p-value" = p.value
+  )
+```
+
+```{r}
+#| label: tbl-penguinsMdl
+#| tbl-cap: Model output - Predicting penguin bill lengths
+penguins_mdl_tidy %>% 
+  mutate(term = fct_recode(term, # rename the factor levels (= the intercept and slopes)
+                          "Intercept" = "(Intercept)",
+                          "Bill depth (in mm)" = "bill_depth_mm",
+                          "Body mass (in g)" = "body_mass_g",
+                          "Bill depth : Body mass" = "bill_depth_mm:body_mass_g"
+                          )) %>% 
+  kableExtra::kbl(format = "markdown")
+```
+
+The model output is shown in @tbl-penguinsMdl. Only the slope for body mass is significant at p < 0.05 (&beta; = `r penguins_mdl_tidy %>% filter(term == "body_mass_g") %>% select(estimate)`, SE = `r penguins_mdl_tidy %>% filter(term == "body_mass_g") %>% select('standard error')`).
+
+<br>
+
+## Model predictions
+
+The model predictions are visualised in @fig-MdlPred. They show that as body mass increases, so does the predicted bill length.
+
+```{r}
+#| label: fig-MdlPred
+#| fig-cap: Model predictions for bill lengths for different body masses
+plot(ggeffect(penguins_mdl, term = "body_mass_g")) +
+  labs(title = "Model predictions",
+       x = "Body mass (in g)",
+       y = "Predicted bill length (in mm)")
+```
+
+[^1]: Note that this removes any rows with missing values!
+
+
+{{< pagebreak >}}
+
+
+# Bibliography
+
